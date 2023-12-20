@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 
-class MypageScreen extends StatelessWidget {
-  const MypageScreen({super.key});
+class MyinfoScreen extends StatelessWidget {
+  const MyinfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
-import 'package:unknown_note_flutter/pages/home/diary/diary_screen.dart';
-import 'package:unknown_note_flutter/pages/home/essay/essay_screen.dart';
-import 'package:unknown_note_flutter/pages/home/mypage/mypage_screen.dart';
+import 'package:unknown_note_flutter/screens/diary/diary_screen.dart';
+import 'package:unknown_note_flutter/screens/essay/essay_screen.dart';
+import 'package:unknown_note_flutter/screens/myinfo/myinfo_screen.dart';
 import 'package:unknown_note_flutter/pages/home/widgets/home_navigaton_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               children: const [
                 EssayScreen(),
                 DiaryScreen(),
-                MypageScreen(),
+                MyinfoScreen(),
               ],
             ),
             Padding(
