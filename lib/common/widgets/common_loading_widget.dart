@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class LoadingWidget extends StatefulWidget {
+class CommonLoadingWidget extends StatefulWidget {
   final Function()? whenBuild;
 
-  const LoadingWidget({
+  const CommonLoadingWidget({
     super.key,
     this.whenBuild,
   });
 
   @override
-  State<LoadingWidget> createState() => _LoadingWidgetState();
+  State<CommonLoadingWidget> createState() => _CommonLoadingWidgetState();
 }
 
-class _LoadingWidgetState extends State<LoadingWidget> {
+class _CommonLoadingWidgetState extends State<CommonLoadingWidget> {
   @override
   void initState() {
     super.initState();

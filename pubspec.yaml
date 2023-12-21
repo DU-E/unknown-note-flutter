@@ -44,6 +44,7 @@ dependencies:
   dio: ^5.4.0
   json_annotation: ^4.8.1
   font_awesome_flutter: ^10.6.0
+  flutter_sliding_up_panel: ^2.1.1
 
 dev_dependencies:
   flutter_test:

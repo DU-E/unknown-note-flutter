@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
 import 'package:unknown_note_flutter/pages/home/widgets/home_navigation_button.dart';
@@ -27,9 +26,7 @@ class HomeNavigationBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               HomeNavigationButton(screen: EHomeScreen.essay),
-              Gaps.h10,
               HomeNavigationButton(screen: EHomeScreen.diary),
-              Gaps.h10,
               HomeNavigationButton(screen: EHomeScreen.myInfo),
             ],
           ),
