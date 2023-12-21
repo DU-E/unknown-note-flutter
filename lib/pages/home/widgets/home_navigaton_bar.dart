@@ -11,11 +11,14 @@ class HomeNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
+      borderRadius: BorderRadius.circular(
+        Sizes.size10,
+      ),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.8),
+            color: Theme.of(context).primaryColor.withOpacity(0.6),
             borderRadius: BorderRadius.circular(
               Sizes.size10,
             ),

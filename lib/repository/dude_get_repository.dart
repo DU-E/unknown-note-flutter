@@ -13,8 +13,10 @@ class DudeGetRepository {
     for (int i = 0; i < 10; i++) {
       res.add(EssayModel(
         id: page * 10 + i,
-        author: '#$i',
+        author: '@$i',
+        title: '$i\'s ${page * 10 + i}th essay',
         body: '${page * 10 + i} ${category.title} essay',
+        likes: 10000,
         tags: [category.title, '$page', '$i'],
       ));
     }

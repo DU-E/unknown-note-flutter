@@ -40,27 +40,31 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         _controller.index = state.idx;
       },
       child: Scaffold(
-        body: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            TabBarView(
-              controller: _controller,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                EssayScreen(),
-                DiaryScreen(),
-                MyinfoScreen(),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: Sizes.size20,
-                right: Sizes.size20,
-                bottom: MediaQuery.of(context).padding.bottom,
+        body: SafeArea(
+          top: true,
+          bottom: false,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              TabBarView(
+                controller: _controller,
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
+                  EssayScreen(),
+                  DiaryScreen(),
+                  MyinfoScreen(),
+                ],
               ),
-              child: const HomeNavigationBar(),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.only(
+                  left: Sizes.size20,
+                  right: Sizes.size20,
+                  bottom: MediaQuery.of(context).padding.bottom,
+                ),
+                child: const HomeNavigationBar(),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_state.dart';
 import 'package:unknown_note_flutter/common/widgets/loading_widget.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
+import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
 import 'package:unknown_note_flutter/screens/essay/widgets/essay_listitem_widget.dart';
 
@@ -35,6 +36,12 @@ class _EssayScreenState extends State<EssayScreen> {
     return Scaffold(
       body: BlocBuilder<EssayListBloc, EssayListState>(
         builder: (context, state) => ListView.separated(
+          padding: EdgeInsets.only(
+            bottom: Sizes.size96 + MediaQuery.of(context).padding.bottom,
+            top: Sizes.size20,
+            left: Sizes.size20,
+            right: Sizes.size20,
+          ),
           itemBuilder: (context, index) {
             if (index < state.list.length) {
               return EssayListItemWidget(
@@ -44,7 +51,7 @@ class _EssayScreenState extends State<EssayScreen> {
               return LoadingWidget(whenBuild: _loadMore);
             }
           },
-          separatorBuilder: (context, index) => Gaps.v10,
+          separatorBuilder: (context, index) => Gaps.v20,
           itemCount: state.list.length + 1,
         ),
       ),
