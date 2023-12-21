@@ -3,7 +3,7 @@ import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-import 'package:unknown_note_flutter/screens/essay/widgets/essay_tag_widget.dart';
+import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_tag_widget.dart';
 
 class EssayListItemWidget extends StatelessWidget {
   final EssayModel essay;

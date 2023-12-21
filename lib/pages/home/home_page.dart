@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/common/widgets/common_slide_up_panel.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
-import 'package:unknown_note_flutter/screens/diary/diary_screen.dart';
-import 'package:unknown_note_flutter/screens/essay/essay_screen.dart';
-import 'package:unknown_note_flutter/screens/essay/widgets/essay_slide_widget.dart';
-import 'package:unknown_note_flutter/screens/myinfo/myinfo_screen.dart';
+import 'package:unknown_note_flutter/pages/home/screens/diary/diary_screen.dart';
+import 'package:unknown_note_flutter/pages/home/screens/essay/essay_screen.dart';
+import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_slide_widget.dart';
+import 'package:unknown_note_flutter/pages/home/screens/myinfo/myinfo_screen.dart';
 import 'package:unknown_note_flutter/pages/home/widgets/home_navigaton_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -48,6 +49,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           alignment: Alignment.bottomCenter,
           children: [
             Scaffold(
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(0),
+                child: AppBar(
+                  systemOverlayStyle: SystemUiOverlayStyle.light,
+                  backgroundColor:
+                      Theme.of(context).primaryColor.withOpacity(0.6),
+                ),
+              ),
               body: SafeArea(
                 top: true,
                 bottom: false,
@@ -66,7 +75,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               padding: EdgeInsets.only(
                 left: Sizes.size20,
                 right: Sizes.size20,
-                bottom: MediaQuery.of(context).padding.bottom,
+                bottom: MediaQuery.of(context).padding.bottom + Sizes.size10,
               ),
               child: const HomeNavigationBar(),
             ),
