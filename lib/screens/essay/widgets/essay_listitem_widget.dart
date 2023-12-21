@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
@@ -51,7 +50,7 @@ class EssayListItemWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     const Icon(
-                      FontAwesomeIcons.solidHeart,
+                      Icons.favorite_rounded,
                       size: Sizes.size16,
                       color: Colors.white,
                     ),

@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         _controller.index = state.idx;
       },
       child: CommonSlideUpPanel(
+        minimumHeight: 400,
         slideBody: const EssaySlideWidget(),
         childBuilder: (controller) => Stack(
           alignment: Alignment.bottomCenter,

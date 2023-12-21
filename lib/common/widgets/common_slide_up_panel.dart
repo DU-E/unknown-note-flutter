@@ -7,11 +7,13 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 class CommonSlideUpPanel extends StatefulWidget {
   final Function(SlidingUpPanelController controller) childBuilder;
   final Widget slideBody;
+  final double minimumHeight;
 
   const CommonSlideUpPanel({
     super.key,
     required this.childBuilder,
     required this.slideBody,
+    this.minimumHeight = 300,
   });
 
   @override
@@ -55,7 +57,8 @@ class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
         ),
         SlidingUpPanelWidget(
           panelController: _slidingController,
-          controlHeight: 300,
+          controlHeight: widget.minimumHeight,
+          anchor: 0,
           panelStatus: SlidingUpPanelStatus.hidden,
           enableOnTap: false,
           child: _CommonSlideUpPanelBody(
@@ -118,7 +121,10 @@ class _CommonSlideUpPanelBody extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: child,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: child,
+                ),
               ),
             ],
           ),
