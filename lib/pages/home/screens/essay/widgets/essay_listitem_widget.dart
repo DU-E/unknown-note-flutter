@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
+import 'package:unknown_note_flutter/common/widgets/common_button.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_tag_widget.dart';
+import 'package:unknown_note_flutter/common/widgets/common_tagitem_widget.dart';
 
 class EssayListItemWidget extends StatelessWidget {
   final EssayModel essay;
@@ -15,19 +17,13 @@ class EssayListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.3),
-            blurRadius: Sizes.size3,
-            spreadRadius: Sizes.size1,
-          ),
-        ],
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(Sizes.size5),
-      ),
-      padding: const EdgeInsets.all(Sizes.size10),
+    return CommonButton(
+      onTap: () {
+        context.push(
+          '/essay/${essay.id}',
+          extra: essay,
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -80,11 +76,11 @@ class EssayListItemWidget extends StatelessWidget {
             runSpacing: Sizes.size4,
             children: [
               for (var tag in essay.tags ?? [])
-                EssayTagWidget(
+                CommonTagItemWidget(
                   tag: tag,
                 ),
             ],
-          )
+          ),
         ],
       ),
     );

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
-class EssayTagWidget extends StatelessWidget {
+class CommonTagItemWidget extends StatelessWidget {
   final String tag;
 
-  const EssayTagWidget({
+  const CommonTagItemWidget({
     super.key,
     required this.tag,
   });

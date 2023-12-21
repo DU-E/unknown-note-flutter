@@ -16,7 +16,7 @@ class EssayAppBar extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           width: double.infinity,
-          height: Sizes.size52,
+          height: Sizes.size56,
           color: Theme.of(context).primaryColor.withOpacity(0.6),
           child: BlocBuilder<EssayListBloc, EssayListState>(
             builder: (context, state) => Center(

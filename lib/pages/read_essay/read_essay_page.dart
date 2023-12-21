@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:unknown_note_flutter/common/widgets/app_font.dart';
+import 'package:unknown_note_flutter/common/widgets/common_tagitem_widget.dart';
+import 'package:unknown_note_flutter/constants/gaps.dart';
+import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/models/essay/essay_model.dart';
+
+class ReadEssayPage extends StatelessWidget {
+  final EssayModel essay;
+
+  const ReadEssayPage({
+    super.key,
+    required this.essay,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: AppFont(
+          essay.title ?? '',
+          size: Sizes.size20,
+        ),
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
+        foregroundColor: Colors.white,
+        centerTitle: false,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.size20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const AppFont('Author'),
+                  Gaps.h5,
+                  CommonTagItemWidget(tag: essay.author ?? "Anonymous"),
+                ],
+              ),
+              Gaps.v3,
+              Row(
+                children: [
+                  const AppFont('Tags'),
+                  Gaps.h5,
+                  Wrap(
+                    spacing: Sizes.size4,
+                    runSpacing: Sizes.size4,
+                    children: [
+                      for (var tag in essay.tags ?? [])
+                        CommonTagItemWidget(
+                          tag: tag,
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+              Gaps.v20,
+              Container(
+                width: double.infinity,
+                height: Sizes.size1,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(Sizes.size5),
+                ),
+              ),
+              Gaps.v20,
+              AppFont(essay.body ?? ''),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
