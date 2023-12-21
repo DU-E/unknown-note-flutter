@@ -1,11 +1,13 @@
+import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
+
 abstract class EssayListEvent {}
 
-class EssayListLoadEvent extends EssayListEvent {
-  final String category;
-  final int page;
+class EssayListChangeCategory extends EssayListEvent {
+  final EEssayCategory category;
 
-  EssayListLoadEvent({
+  EssayListChangeCategory({
     required this.category,
-    this.page = 1,
   });
 }
+
+class EssayListLoadMore extends EssayListEvent {}

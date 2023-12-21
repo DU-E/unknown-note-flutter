@@ -3,41 +3,57 @@ import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
+import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
 
 class EssayListBloc extends Bloc<EssayListEvent, EssayListState> {
-  EssayListBloc() : super(EssayListState.init()) {
-    on<EssayListLoadEvent>(_essayListLoadEventHandler);
+  final DudeGetRepository dudeGetRepository;
+
+  EssayListBloc({
+    required this.dudeGetRepository,
+  }) : super(EssayListState.init()) {
+    on<EssayListChangeCategory>(_essayListChangeCategoryHandler);
+    on<EssayListLoadMore>(_essayListLoadMoreHandler);
   }
 
-  Future<void> _essayListLoadEventHandler(
-    EssayListLoadEvent event,
+  Future<void> _essayListChangeCategoryHandler(
+    EssayListChangeCategory event,
     Emitter<EssayListState> emit,
   ) async {
-    emit(state.copyWithStatus(
+    emit(state.copyWith(
+      status: ELoadingStatus.init,
       category: event.category,
-      status: ELoadingStatus.loading,
+      list: [],
+      page: 0,
     ));
+  }
 
-    Future.delayed(const Duration(seconds: 1));
+  Future<void> _essayListLoadMoreHandler(
+    EssayListLoadMore event,
+    Emitter<EssayListState> emit,
+  ) async {
+    emit(state.copyWith(status: ELoadingStatus.loading));
 
-    // TODO; connect api
-    List<EssayModel> res = [];
-    for (int i = 0; i < 10; i++) {
-      res.add(EssayModel(
-        id: event.page * 10 + i,
-        author: '#$i',
-        body: '${event.page * 10 + i} ${event.category} essay',
-        tags: [event.category, '${event.page}', '$i'],
+    try {
+      var res = await dudeGetRepository.getEssayList(
+        category: state.category,
+        page: state.page + 1,
+      );
+
+      List<EssayModel> newList = [];
+      newList
+        ..addAll(state.list)
+        ..addAll(res);
+
+      emit(state.copyWith(
+        status: ELoadingStatus.loaded,
+        list: newList,
+        page: state.page + 1,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        message: e.toString(),
       ));
     }
-
-    emit(state.appendList(
-      category: event.category,
-      list: res,
-    ));
-    emit(state.copyWithStatus(
-      category: event.category,
-      status: ELoadingStatus.loaded,
-    ));
   }
 }
