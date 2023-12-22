@@ -26,14 +26,22 @@ class WriteEssayBloc extends HydratedBloc<WriteEssayEvent, WriteEssayState> {
     WriteEssaySetTitle event,
     Emitter<WriteEssayState> emit,
   ) async {
-    emit(state..essay.copyWith(title: event.title));
+    emit(state.copyWith(
+      essay: state.essay.copyWith(
+        title: event.title,
+      ),
+    ));
   }
 
   Future<void> _writeEssaySetBodyHandler(
     WriteEssaySetBody event,
     Emitter<WriteEssayState> emit,
   ) async {
-    emit(state..essay.copyWith(body: event.body));
+    emit(state.copyWith(
+      essay: state.essay.copyWith(
+        body: event.body,
+      ),
+    ));
   }
 
   Future<void> _writeEssayUploadHandler(

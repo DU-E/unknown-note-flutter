@@ -6,13 +6,13 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 
 class CommonSlideUpPanel extends StatefulWidget {
   final Function(SlidingUpPanelController controller) childBuilder;
-  final Widget slideBody;
+  final Function(SlidingUpPanelController controller) slideBuilder;
   final double minimumHeight;
 
   const CommonSlideUpPanel({
     super.key,
     required this.childBuilder,
-    required this.slideBody,
+    required this.slideBuilder,
     this.minimumHeight = 300,
   });
 
@@ -30,12 +30,18 @@ class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
     _slidingController = SlidingUpPanelController(
       value: SlidingUpPanelStatus.hidden,
     );
+    _slidingController.addListener(_onStateChange);
   }
 
   @override
   void dispose() {
     super.dispose();
+    _slidingController.removeListener(_onStateChange);
     _slidingController.dispose();
+  }
+
+  void _onStateChange() {
+    setState(() {});
   }
 
   @override
@@ -62,7 +68,7 @@ class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
           panelStatus: SlidingUpPanelStatus.hidden,
           enableOnTap: false,
           child: _CommonSlideUpPanelBody(
-            child: widget.slideBody,
+            child: widget.slideBuilder(_slidingController),
           ),
           dragDown: (details) {
             dragStartPos = details.globalPosition.dy;

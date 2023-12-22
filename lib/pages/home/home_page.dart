@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
       child: CommonSlideUpPanel(
         minimumHeight: 400,
-        slideBody: const EssaySlideWidget(),
+        slideBuilder: (controller) => const EssaySlideWidget(),
         childBuilder: (controller) => Stack(
           alignment: Alignment.bottomCenter,
           children: [
