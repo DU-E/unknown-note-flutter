@@ -69,7 +69,7 @@ class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
           },
           dragEnd: (details) {
             if ((details.primaryVelocity ?? 0) > 10 && dragStartPos > 600 ||
-                (details.primaryVelocity ?? 0) > 1000) {
+                (details.primaryVelocity ?? 0) > 2000) {
               _slidingController.hide();
             }
           },
