@@ -8,14 +8,16 @@ class CommonTextForm extends StatefulWidget {
   final String? initText;
   final Function(String value)? getValue;
   final bool singleLine;
-  final bool isDynamicSize;
+  final bool expanded;
+  final bool dynamicSize;
 
   const CommonTextForm({
     super.key,
     this.initText,
     this.getValue,
     this.singleLine = true,
-    this.isDynamicSize = false,
+    this.expanded = false,
+    this.dynamicSize = false,
   });
 
   @override
@@ -62,13 +64,17 @@ class _CommonTextFormState extends State<CommonTextForm> {
         autocorrect: false,
         onTapOutside: (_) => _unfocus(),
         onChanged: widget.getValue,
-        decoration: const InputDecoration(border: InputBorder.none),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.zero,
+        ),
         cursorRadius: const Radius.circular(Sizes.size5),
         keyboardType: widget.singleLine ? null : TextInputType.multiline,
         maxLines: widget.singleLine ? 1 : null,
         style: TextStyle(
-          fontSize: widget.isDynamicSize ? state.getZoom() : Sizes.size14,
+          fontSize: widget.dynamicSize ? state.getZoom() : Sizes.size14,
         ),
+        expands: widget.expanded,
       ),
     );
   }
