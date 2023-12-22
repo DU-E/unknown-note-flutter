@@ -18,6 +18,8 @@ class DudeGetRepository {
         body: '${page * 10 + i} ${category.title} essay',
         likes: 10000,
         tags: [category.title, '$page', '$i'],
+        date: DateTime(2023, 12, 21, 13, 09)
+            .add(Duration(minutes: page * 10 + i)),
       ));
     }
 

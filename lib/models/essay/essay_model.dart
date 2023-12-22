@@ -11,6 +11,7 @@ class EssayModel extends Equatable {
   final String? body;
   final int? likes;
   final List<String>? tags;
+  final DateTime? date;
 
   const EssayModel({
     this.id,
@@ -19,6 +20,7 @@ class EssayModel extends Equatable {
     this.body,
     this.likes,
     this.tags,
+    this.date,
   });
 
   EssayModel copyWith({
@@ -28,6 +30,7 @@ class EssayModel extends Equatable {
     String? body,
     int? likes,
     List<String>? tags,
+    DateTime? date,
   }) =>
       EssayModel(
         id: id ?? this.id,
@@ -36,6 +39,7 @@ class EssayModel extends Equatable {
         body: body ?? this.body,
         likes: likes ?? this.likes,
         tags: tags ?? this.tags,
+        date: date ?? this.date,
       );
 
   factory EssayModel.fromJson(Map<String, dynamic> json) =>
@@ -51,5 +55,6 @@ class EssayModel extends Equatable {
         body,
         likes,
         tags,
+        date,
       ];
 }

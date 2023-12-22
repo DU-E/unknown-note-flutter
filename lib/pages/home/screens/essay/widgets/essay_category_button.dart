@@ -7,6 +7,7 @@ import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 
 class EssayCategoryButton extends StatelessWidget {
   final EEssayCategory category;
@@ -21,7 +22,8 @@ class EssayCategoryButton extends StatelessWidget {
     return BlocBuilder<EssayListBloc, EssayListState>(
       builder: (context, state) => ElevatedButton(
         onPressed: () {
-          if (state.category != category) {
+          if (state.category != category &&
+              state.status != ELoadingStatus.loading) {
             context.read<EssayListBloc>().add(EssayListChangeCategory(
                   category: category,
                 ));

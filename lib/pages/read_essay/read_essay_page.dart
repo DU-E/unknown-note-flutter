@@ -8,6 +8,7 @@ import 'package:unknown_note_flutter/common/widgets/common_tagitem_widget.dart';
 import 'package:unknown_note_flutter/common/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 
 class ReadEssayPage extends StatelessWidget {
@@ -29,6 +30,17 @@ class ReadEssayPage extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
         foregroundColor: Colors.white,
         centerTitle: false,
+        actions: [
+          IconButton(
+            onPressed: () {
+              // TODO: implement like bloc
+            },
+            icon: const Icon(
+              Icons.favorite_border_rounded,
+              // Icons.favorite_rounded,
+            ),
+          ),
+        ],
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -60,6 +72,16 @@ class ReadEssayPage extends StatelessWidget {
                               tag: tag,
                             ),
                         ],
+                      ),
+                    ],
+                  ),
+                  Gaps.v3,
+                  Row(
+                    children: [
+                      const AppFont('Write at'),
+                      Gaps.h5,
+                      CommonTagItemWidget(
+                        tag: essay.date?.toString() ?? Strings.nullStr,
                       ),
                     ],
                   ),
