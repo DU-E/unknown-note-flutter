@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/pages/home/home_page.dart';
 import 'package:unknown_note_flutter/pages/read_essay/read_essay_page.dart';
+import 'package:unknown_note_flutter/pages/write_essay/write_essay_page.dart';
 
 class AppRoutes extends StatefulWidget {
   const AppRoutes({super.key});
@@ -28,6 +31,13 @@ class _AppRoutesState extends State<AppRoutes> {
           path: '/essay/:id',
           builder: (context, state) => ReadEssayPage(
             essay: state.extra as EssayModel,
+          ),
+        ),
+        GoRoute(
+          path: '/write/essay',
+          builder: (context, state) => BlocProvider(
+            create: (context) => WriteEssayBloc(),
+            child: const WriteEssayPage(),
           ),
         ),
       ],

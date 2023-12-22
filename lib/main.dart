@@ -11,6 +11,7 @@ import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory

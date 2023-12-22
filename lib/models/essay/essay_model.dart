@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'essay_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class EssayModel extends Equatable {
   final int? id;
   final String? author;

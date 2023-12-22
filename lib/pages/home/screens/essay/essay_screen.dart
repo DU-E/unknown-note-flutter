@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_state.dart';
@@ -44,7 +45,7 @@ class _EssayScreenState extends State<EssayScreen> {
   }
 
   void _onTapAdd() {
-    print('add tap');
+    context.push('/write/essay');
   }
 
   @override
