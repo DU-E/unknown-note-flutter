@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               padding: EdgeInsets.only(
                 left: Sizes.size20,
                 right: Sizes.size20,
-                bottom: MediaQuery.of(context).padding.bottom + Sizes.size10,
+                bottom: MediaQuery.of(context).padding.bottom + Sizes.size18,
               ),
               child: const HomeNavigationBar(),
             ),

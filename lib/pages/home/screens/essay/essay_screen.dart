@@ -81,7 +81,7 @@ class _EssayScreenState extends State<EssayScreen> {
             padding: EdgeInsets.only(
               left: Sizes.size28,
               right: Sizes.size28,
-              bottom: MediaQuery.of(context).padding.bottom + Sizes.size16,
+              bottom: MediaQuery.of(context).padding.bottom + Sizes.size20,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

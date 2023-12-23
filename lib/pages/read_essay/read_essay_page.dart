@@ -103,7 +103,7 @@ class ReadEssayPage extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(
                 right: Sizes.size20,
-                bottom: MediaQuery.of(context).padding.bottom + Sizes.size10,
+                bottom: MediaQuery.of(context).padding.bottom + Sizes.size20,
               ),
               child: const CommonZoomController(),
             ),
