@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
+import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/pages/home/home_page.dart';
+import 'package:unknown_note_flutter/pages/read_diary/read_diary_page.dart';
 import 'package:unknown_note_flutter/pages/read_essay/read_essay_page.dart';
+import 'package:unknown_note_flutter/pages/write_diary/write_diary_page.dart';
 import 'package:unknown_note_flutter/pages/write_essay/write_essay_page.dart';
 
 class AppRoutes extends StatefulWidget {
@@ -38,6 +42,19 @@ class _AppRoutesState extends State<AppRoutes> {
           builder: (context, state) => BlocProvider(
             create: (context) => WriteEssayBloc(),
             child: const WriteEssayPage(),
+          ),
+        ),
+        GoRoute(
+          path: '/diary/:id',
+          builder: (context, state) => ReadDiaryPage(
+            diary: state.extra as DiaryModel,
+          ),
+        ),
+        GoRoute(
+          path: '/write/diary',
+          builder: (context, state) => BlocProvider(
+            create: (context) => WriteDiaryBloc(),
+            child: const WriteDiaryPage(),
           ),
         ),
       ],

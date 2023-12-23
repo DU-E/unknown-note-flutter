@@ -1,15 +1,15 @@
-abstract class WriteEssayEvent {}
+abstract class WriteDiaryEvent {}
 
-class WriteEssaySetTitle extends WriteEssayEvent {
+class WriteDiarySetTitle extends WriteDiaryEvent {
   final String title;
 
-  WriteEssaySetTitle({required this.title});
+  WriteDiarySetTitle({required this.title});
 }
 
-class WriteEssaySetBody extends WriteEssayEvent {
+class WriteDiarySetBody extends WriteDiaryEvent {
   final String body;
 
-  WriteEssaySetBody({required this.body});
+  WriteDiarySetBody({required this.body});
 }
 
-class WriteEssayUpload extends WriteEssayEvent {}
+class WriteDiaryUpload extends WriteDiaryEvent {}

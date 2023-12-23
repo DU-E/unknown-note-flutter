@@ -1,47 +1,47 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
-import 'package:unknown_note_flutter/models/essay/essay_model.dart';
+import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 
 part 'write_diary_state.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class WriteEssayState extends Equatable {
+class WriteDiaryState extends Equatable {
   final EUploadStatus status;
-  final EssayModel essay;
+  final DiaryModel diary;
   final String? message;
 
-  const WriteEssayState({
+  const WriteDiaryState({
     required this.status,
-    required this.essay,
+    required this.diary,
     this.message,
   });
 
-  const WriteEssayState.init()
+  const WriteDiaryState.init()
       : status = EUploadStatus.init,
-        essay = const EssayModel(),
+        diary = const DiaryModel(),
         message = null;
 
-  WriteEssayState copyWith({
+  WriteDiaryState copyWith({
     EUploadStatus? status,
-    EssayModel? essay,
+    DiaryModel? diary,
     String? message,
   }) =>
-      WriteEssayState(
+      WriteDiaryState(
         status: status ?? this.status,
-        essay: essay ?? this.essay,
+        diary: diary ?? this.diary,
         message: message ?? this.message,
       );
 
-  factory WriteEssayState.fromJson(Map<String, dynamic> json) =>
-      _$WriteEssayStateFromJson(json);
+  factory WriteDiaryState.fromJson(Map<String, dynamic> json) =>
+      _$WriteDiaryStateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WriteEssayStateToJson(this);
+  Map<String, dynamic> toJson() => _$WriteDiaryStateToJson(this);
 
   @override
   List<Object?> get props => [
         status,
-        essay,
+        diary,
         message,
       ];
 }

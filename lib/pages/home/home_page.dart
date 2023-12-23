@@ -6,6 +6,7 @@ import 'package:unknown_note_flutter/common/widgets/common_slide_up_panel.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
 import 'package:unknown_note_flutter/pages/home/screens/diary/diary_screen.dart';
+import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_slide_widget.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/essay_screen.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_slide_widget.dart';
 import 'package:unknown_note_flutter/pages/home/screens/myinfo/myinfo_screen.dart';
@@ -44,7 +45,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
       child: CommonSlideUpPanel(
         minimumHeight: 400,
-        slideBuilder: (controller) => const EssaySlideWidget(),
+        slideBuilder: (controller) => BlocBuilder<HomeScreenCubit, EHomeScreen>(
+          builder: (context, state) {
+            if (state == EHomeScreen.essay) return const EssaySlideWidget();
+            return const DiarySlideWidget();
+          },
+        ),
         childBuilder: (controller) => Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -65,7 +71,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     EssayScreen(slidingController: controller),
-                    const DiaryScreen(),
+                    DiaryScreen(slidingController: controller),
                     const MyinfoScreen(),
                   ],
                 ),

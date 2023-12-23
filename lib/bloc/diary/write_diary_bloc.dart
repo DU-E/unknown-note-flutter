@@ -1,52 +1,52 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:unknown_note_flutter/bloc/essay/write_essay_event.dart';
-import 'package:unknown_note_flutter/bloc/essay/write_essay_state.dart';
+import 'package:unknown_note_flutter/bloc/diary/write_diary_event.dart';
+import 'package:unknown_note_flutter/bloc/diary/write_diary_state.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
-import 'package:unknown_note_flutter/models/essay/essay_model.dart';
+import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 
-class WriteEssayBloc extends HydratedBloc<WriteEssayEvent, WriteEssayState> {
+class WriteDiaryBloc extends HydratedBloc<WriteDiaryEvent, WriteDiaryState> {
   // TODO; upload repository
 
-  WriteEssayBloc() : super(const WriteEssayState.init()) {
-    on<WriteEssaySetTitle>(_writeEssaySetTitleHandler);
-    on<WriteEssaySetBody>(_writeEssaySetBodyHandler);
-    on<WriteEssayUpload>(_writeEssayUploadHandler);
+  WriteDiaryBloc() : super(const WriteDiaryState.init()) {
+    on<WriteDiarySetTitle>(_writeDiarySetTitleHandler);
+    on<WriteDiarySetBody>(_writeDiarySetBodyHandler);
+    on<WriteDiaryUpload>(_writeDiaryUploadHandler);
   }
 
   @override
-  WriteEssayState? fromJson(Map<String, dynamic> json) =>
-      WriteEssayState.fromJson(json).copyWith(
+  WriteDiaryState? fromJson(Map<String, dynamic> json) =>
+      WriteDiaryState.fromJson(json).copyWith(
         status: EUploadStatus.init,
       );
 
   @override
-  Map<String, dynamic>? toJson(WriteEssayState state) => state.toJson();
+  Map<String, dynamic>? toJson(WriteDiaryState state) => state.toJson();
 
-  Future<void> _writeEssaySetTitleHandler(
-    WriteEssaySetTitle event,
-    Emitter<WriteEssayState> emit,
+  Future<void> _writeDiarySetTitleHandler(
+    WriteDiarySetTitle event,
+    Emitter<WriteDiaryState> emit,
   ) async {
     emit(state.copyWith(
-      essay: state.essay.copyWith(
+      diary: state.diary.copyWith(
         title: event.title,
       ),
     ));
   }
 
-  Future<void> _writeEssaySetBodyHandler(
-    WriteEssaySetBody event,
-    Emitter<WriteEssayState> emit,
+  Future<void> _writeDiarySetBodyHandler(
+    WriteDiarySetBody event,
+    Emitter<WriteDiaryState> emit,
   ) async {
     emit(state.copyWith(
-      essay: state.essay.copyWith(
+      diary: state.diary.copyWith(
         body: event.body,
       ),
     ));
   }
 
-  Future<void> _writeEssayUploadHandler(
-    WriteEssayUpload event,
-    Emitter<WriteEssayState> emit,
+  Future<void> _writeDiaryUploadHandler(
+    WriteDiaryUpload event,
+    Emitter<WriteDiaryState> emit,
   ) async {
     emit(state.copyWith(status: EUploadStatus.tagging));
     await Future.delayed(const Duration(seconds: 1));
@@ -56,7 +56,7 @@ class WriteEssayBloc extends HydratedBloc<WriteEssayEvent, WriteEssayState> {
 
     emit(state.copyWith(
       status: EUploadStatus.success,
-      essay: const EssayModel(),
+      diary: const DiaryModel(),
     ));
   }
 }
