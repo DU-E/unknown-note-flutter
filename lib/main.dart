@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,11 +8,16 @@ import 'package:unknown_note_flutter/bloc/diary/diary_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
+import 'package:unknown_note_flutter/firebase_options.dart';
 import 'package:unknown_note_flutter/pages/app_routes.dart';
 import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
