@@ -12,6 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
     required this.authenticationRepository,
   }) : super(AuthInitState()) {
     on<AuthGoogleSigninEvent>(_authGoogleSigninEventHandler);
+    on<AuthKakaoSigninEvent>(_authKakaoSigninEventHandler);
     on<AuthSignoutEvent>(_authSignoutEventHandler);
   }
 
@@ -38,6 +39,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
     }
   }
 
+  Future<void> _authKakaoSigninEventHandler(
+    AuthKakaoSigninEvent evnet,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      emit(AuthLoadingState());
+      // oauth2 with kakao
+      var res = await authenticationRepository.signinWithKakao();
+      print(res);
+      // TODO: server api
+      emit(AuthUnAuthState(
+        method: EAuthMethod.kakao,
+        oauth2: res,
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+      emit(AuthErrorState(
+        message: e.toString(),
+      ));
+    } finally {
+      notifyListeners();
+    }
+  }
+
   Future<void> _authSignoutEventHandler(
     AuthSignoutEvent evnet,
     Emitter<AuthState> emit,
@@ -50,6 +75,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
         if ((state as AuthUnAuthState).method == EAuthMethod.google) {
           await authenticationRepository.signoutWithGoogle();
         }
+        // method == kakao
+        if ((state as AuthUnAuthState).method == EAuthMethod.kakao) {}
       }
 
       // case AuthAuthState
@@ -58,9 +85,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
         if ((state as AuthUnAuthState).method == EAuthMethod.google) {
           await authenticationRepository.signoutWithGoogle();
         }
+        // method == kakao
+        if ((state as AuthUnAuthState).method == EAuthMethod.kakao) {}
       }
 
       print('signout');
+      emit(AuthUnknownState());
     } catch (e) {
       emit(AuthErrorState(
         message: e.toString(),

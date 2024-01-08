@@ -27,6 +27,13 @@ class SigninPage extends StatelessWidget {
                 context.read<AuthBloc>().add(AuthGoogleSigninEvent());
               },
             ),
+            Gaps.v10,
+            SigninButton(
+              method: EAuthMethod.kakao,
+              onTap: () {
+                context.read<AuthBloc>().add(AuthKakaoSigninEvent());
+              },
+            ),
             Gaps.v20,
             CommonButton(
               onTap: () {

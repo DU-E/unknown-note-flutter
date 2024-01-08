@@ -47,3 +47,4 @@ app.*.map.json
 android/app/google-services.json
 android/app/unknown_note.jks
 ios/Runner/GoogleService-Info.plist
+lib/constants/secret.dart
