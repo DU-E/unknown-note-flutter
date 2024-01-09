@@ -13,6 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
   }) : super(AuthInitState()) {
     on<AuthGoogleSigninEvent>(_authGoogleSigninEventHandler);
     on<AuthKakaoSigninEvent>(_authKakaoSigninEventHandler);
+    on<AuthNaverSigninEvent>(_authNaverSigninEventHandler);
     on<AuthSignoutEvent>(_authSignoutEventHandler);
   }
 
@@ -47,10 +48,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
       emit(AuthLoadingState());
       // oauth2 with kakao
       var res = await authenticationRepository.signinWithKakao();
-      print(res);
       // TODO: server api
       emit(AuthUnAuthState(
         method: EAuthMethod.kakao,
+        oauth2: res,
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+      emit(AuthErrorState(
+        message: e.toString(),
+      ));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> _authNaverSigninEventHandler(
+    AuthNaverSigninEvent evnet,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      emit(AuthLoadingState());
+      // oauth2 with naver
+      var res = await authenticationRepository.signinWithNaver();
+      // TODO: server api
+      emit(AuthUnAuthState(
+        method: EAuthMethod.naver,
         oauth2: res,
       ));
     } catch (e) {
@@ -77,6 +100,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
         }
         // method == kakao
         if ((state as AuthUnAuthState).method == EAuthMethod.kakao) {}
+        // method == naver
+        if ((state as AuthUnAuthState).method == EAuthMethod.kakao) {
+          await authenticationRepository.signoutWithNaver();
+        }
       }
 
       // case AuthAuthState
@@ -87,11 +114,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
         }
         // method == kakao
         if ((state as AuthUnAuthState).method == EAuthMethod.kakao) {}
+        // method == naver
+        if ((state as AuthUnAuthState).method == EAuthMethod.kakao) {
+          await authenticationRepository.signoutWithNaver();
+        }
       }
 
-      print('signout');
       emit(AuthUnknownState());
     } catch (e) {
+      print('error + ${e.toString()}');
       emit(AuthErrorState(
         message: e.toString(),
       ));

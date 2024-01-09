@@ -8,6 +8,7 @@ import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/pages/home/home_page.dart';
+import 'package:unknown_note_flutter/pages/profile/profile_page.dart';
 import 'package:unknown_note_flutter/pages/read_diary/read_diary_page.dart';
 import 'package:unknown_note_flutter/pages/read_essay/read_essay_page.dart';
 import 'package:unknown_note_flutter/pages/signin/signin_page.dart';
@@ -73,6 +74,10 @@ class _AppRoutesState extends State<AppRoutes> {
             create: (context) => WriteDiaryBloc(),
             child: const WriteDiaryPage(),
           ),
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const ProfilePage(),
         ),
       ],
     );

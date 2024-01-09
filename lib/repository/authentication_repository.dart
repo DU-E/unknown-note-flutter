@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:unknown_note_flutter/models/oauth2/oauth2_model.dart';
@@ -66,5 +67,25 @@ class AuthenticationRepository {
         // id: googleAuth.idToken!,
       );
     }
+  }
+
+  Future<OAuth2Model> signinWithNaver() async {
+    NaverLoginResult result = await FlutterNaverLogin.logIn();
+
+    if (result.status == NaverLoginStatus.error) {
+      throw Exception('Failed to get AccessToken');
+    }
+    if (result.status == NaverLoginStatus.cancelledByUser) {
+      throw Exception('Naver Sign-In was canceled');
+    }
+
+    NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
+
+    return OAuth2Model(token: accessToken.accessToken);
+  }
+
+  Future<void> signoutWithNaver() async {
+    await FlutterNaverLogin.logOut();
+    return;
   }
 }

@@ -40,6 +40,14 @@
 				<string>kakaoeccedf6ac1290a0d5fb00b216b866014</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>io.github.wjlee611.unknownNoteFlutter</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -69,5 +77,41 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>naversearchapp</string>
+		<string>naversearchthirdlogin</string>
+	</array>
+	<key>naverServiceAppUrlScheme</key>
+	<string>io.github.wjlee611.unknownNoteFlutter</string>
+	<key>naverConsumerKey</key>
+	<string>ZVofPcfFu1iPIjdd99Is</string>
+	<key>naverConsumerSecret</key>
+	<string>EhsLBkKtQD</string>
+	<key>naverServiceAppName</key>
+	<string>익명 노트</string>
+	<!-- http allows configurations -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>naver.com</key>
+			<dict>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>naver.net</key>
+			<dict>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

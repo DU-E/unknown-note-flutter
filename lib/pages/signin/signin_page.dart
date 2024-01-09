@@ -34,6 +34,13 @@ class SigninPage extends StatelessWidget {
                 context.read<AuthBloc>().add(AuthKakaoSigninEvent());
               },
             ),
+            Gaps.v10,
+            SigninButton(
+              method: EAuthMethod.naver,
+              onTap: () {
+                context.read<AuthBloc>().add(AuthNaverSigninEvent());
+              },
+            ),
             Gaps.v20,
             CommonButton(
               onTap: () {
