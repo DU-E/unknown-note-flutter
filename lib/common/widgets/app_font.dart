@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:unknown_note_flutter/constants/fonts.dart';
 
 class AppFont extends StatelessWidget {
   final String text;
@@ -7,6 +7,7 @@ class AppFont extends StatelessWidget {
   final FontWeight? weight;
   final Color? color;
   final List<Shadow>? shadows;
+  final String? fontFamily;
 
   const AppFont(
     this.text, {
@@ -15,17 +16,19 @@ class AppFont extends StatelessWidget {
     this.weight,
     this.color,
     this.shadows,
+    this.fontFamily = FontFamily.pretendard,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.gowunDodum(
+      style: TextStyle(
         fontSize: size,
         fontWeight: weight,
         color: color,
         shadows: shadows,
+        fontFamily: fontFamily,
       ),
     );
   }
