@@ -52,7 +52,10 @@ class HomeNavigationButton extends StatelessWidget {
             ),
             Gaps.v5,
             Icon(screen.icon),
-            AppFont(screen.title),
+            AppFont(
+              screen.title,
+              size: Sizes.size12,
+            ),
           ],
         ),
       ),

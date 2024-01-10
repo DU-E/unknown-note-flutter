@@ -15,4 +15,9 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+    <!-- For Naver OAuth -->
+    <string name="client_id">ZVofPcfFu1iPIjdd99Is</string>
+    <string name="client_secret">EhsLBkKtQD</string>
+    <string name="client_name">익명 노트</string>
+    <!-- END For Naver OAuth -->
 </resources>

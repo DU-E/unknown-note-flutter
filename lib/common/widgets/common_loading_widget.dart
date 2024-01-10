@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class CommonLoadingWidget extends StatefulWidget {
   final Function()? whenBuild;
+  final Color? color;
 
   const CommonLoadingWidget({
     super.key,
     this.whenBuild,
+    this.color,
   });
 
   @override
@@ -26,7 +28,7 @@ class _CommonLoadingWidgetState extends State<CommonLoadingWidget> {
   Widget build(BuildContext context) {
     return Center(
       child: CircularProgressIndicator(
-        color: Theme.of(context).primaryColor,
+        color: widget.color ?? Theme.of(context).primaryColor,
       ),
     );
   }

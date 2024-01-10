@@ -50,9 +50,9 @@ class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
       alignment: Alignment.bottomCenter,
       children: [
         GestureDetector(
-          onTapDown: (details) {
-            _slidingController.hide();
-          },
+          // onTapDown: (details) {
+          //   _slidingController.hide();
+          // },
           onVerticalDragDown: (_) {
             _slidingController.hide();
           },

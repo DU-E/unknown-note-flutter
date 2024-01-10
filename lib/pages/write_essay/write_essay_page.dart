@@ -72,7 +72,7 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
           appBar: AppBar(
             title: const AppFont(
               '수필 작성',
-              size: Sizes.size20,
+              size: Sizes.size16,
             ),
             backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
             foregroundColor: Colors.white,
@@ -112,22 +112,21 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
                 ),
             ],
           ),
-          bottomNavigationBar: SizedBox(
-            child: CommonButton(
-              onTap: (_isUploading(state)) ? null : _onUpload,
-              color: Theme.of(context).primaryColor.withOpacity(0.7),
-              shadowColor: Colors.transparent,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom + Sizes.size10,
-                  top: Sizes.size10,
-                ),
-                child: const AppFont(
-                  '저장',
-                  color: Colors.white,
-                  size: Sizes.size16,
-                  weight: FontWeight.w700,
-                ),
+          bottomNavigationBar: CommonButton(
+            onTap: (_isUploading(state)) ? null : _onUpload,
+            color: Theme.of(context).primaryColor.withOpacity(0.7),
+            shadowColor: Colors.transparent,
+            borderRadius: 0,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom + Sizes.size14,
+                top: Sizes.size14,
+              ),
+              child: const AppFont(
+                '저장',
+                color: Colors.white,
+                size: Sizes.size16,
+                weight: FontWeight.w700,
               ),
             ),
           ),
@@ -153,7 +152,7 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
           ),
           const CommonHorizontalSpliter(),
           Container(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withOpacity(0.05),
             padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
             child: SingleChildScrollView(
               child: CommonTextForm(
@@ -172,7 +171,7 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
           const CommonHorizontalSpliter(),
           Expanded(
             child: Container(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withOpacity(0.05),
               padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
               child: CommonTextForm(
                 initText: _body,
