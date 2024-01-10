@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_bloc.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_event.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
@@ -57,6 +58,7 @@ class SigninPage extends StatelessWidget {
               ),
             ),
             child: BlocBuilder<AuthBloc, AuthState>(
+              bloc: AuthBlocSingleton.bloc,
               builder: (context, state) {
                 if (state is AuthLoadingState) {
                   return const Center(
@@ -78,21 +80,21 @@ class SigninPage extends StatelessWidget {
                       SigninButton(
                         method: EAuthMethod.google,
                         onTap: () {
-                          context.read<AuthBloc>().add(AuthGoogleSigninEvent());
+                          AuthBlocSingleton.bloc.add(AuthGoogleSigninEvent());
                         },
                       ),
                       Gaps.v10,
                       SigninButton(
                         method: EAuthMethod.kakao,
                         onTap: () {
-                          context.read<AuthBloc>().add(AuthKakaoSigninEvent());
+                          AuthBlocSingleton.bloc.add(AuthKakaoSigninEvent());
                         },
                       ),
                       Gaps.v10,
                       SigninButton(
                         method: EAuthMethod.naver,
                         onTap: () {
-                          context.read<AuthBloc>().add(AuthNaverSigninEvent());
+                          AuthBlocSingleton.bloc.add(AuthNaverSigninEvent());
                         },
                       ),
                     ],

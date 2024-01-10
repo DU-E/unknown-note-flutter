@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:unknown_note_flutter/bloc/authentication/auth_bloc.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
@@ -14,6 +14,7 @@ import 'package:unknown_note_flutter/pages/read_essay/read_essay_page.dart';
 import 'package:unknown_note_flutter/pages/signin/signin_page.dart';
 import 'package:unknown_note_flutter/pages/write_diary/write_diary_page.dart';
 import 'package:unknown_note_flutter/pages/write_essay/write_essay_page.dart';
+import 'package:unknown_note_flutter/repository/authentication_repository.dart';
 
 class AppRoutes extends StatefulWidget {
   const AppRoutes({super.key});
@@ -28,11 +29,18 @@ class _AppRoutesState extends State<AppRoutes> {
   @override
   void initState() {
     super.initState();
+
+    // Initialize AuthBloc
+    AuthBlocSingleton.initializer(
+      repository: context.read<AuthenticationRepository>(),
+    );
+
+    // Set routerConfig
     _routerConfig = GoRouter(
       initialLocation: '/signin',
-      refreshListenable: context.read<AuthBloc>(),
+      refreshListenable: AuthBlocSingleton.bloc,
       redirect: (context, state) {
-        final authState = context.read<AuthBloc>().state;
+        final authState = AuthBlocSingleton.bloc.state;
 
         if (authState is AuthUnknownState) return '/signin';
         if (authState is AuthUnAuthState) return '/profile';

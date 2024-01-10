@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:unknown_note_flutter/bloc/authentication/auth_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
@@ -50,12 +49,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => AuthBloc(
-              authenticationRepository:
-                  context.read<AuthenticationRepository>(),
-            ),
-          ),
           BlocProvider(
             create: (context) => SettingBloc(),
           ),
