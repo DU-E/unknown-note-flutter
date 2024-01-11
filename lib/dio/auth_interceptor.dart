@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_event.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 
 class AuthInterceptor extends Interceptor {
@@ -54,6 +56,12 @@ class AuthInterceptor extends Interceptor {
     debugPrint(
       '[ERR] code: ${err.response?.statusCode}',
     );
+
+    // Logout
+    // TODO: change condition: jwt auth error
+    if (true) {
+      AuthBlocSingleton.bloc.add(AuthSignoutEvent());
+    }
 
     // Pro tip
     // refresh token이 제공되는 경우 여기서 토큰 재발급을 할 수 있음.

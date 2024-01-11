@@ -5,6 +5,7 @@ import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/common/widgets/common_slide_up_panel.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
+import 'package:unknown_note_flutter/pages/home/screens/calendar/calendar_page.dart';
 import 'package:unknown_note_flutter/pages/home/screens/diary/diary_screen.dart';
 import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_slide_widget.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/essay_screen.dart';
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = TabController(
-      length: 3,
+      length: 4,
       vsync: this,
     );
   }
@@ -70,6 +71,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   controller: _controller,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
+                    const CalendarPage(),
                     EssayScreen(slidingController: controller),
                     DiaryScreen(slidingController: controller),
                     const MyinfoScreen(),

@@ -25,6 +25,7 @@ class HomeNavigationBar extends StatelessWidget {
           child: const Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              HomeNavigationButton(screen: EHomeScreen.calendar),
               HomeNavigationButton(screen: EHomeScreen.essay),
               HomeNavigationButton(screen: EHomeScreen.diary),
               HomeNavigationButton(screen: EHomeScreen.myInfo),

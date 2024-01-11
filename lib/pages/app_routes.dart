@@ -37,7 +37,7 @@ class _AppRoutesState extends State<AppRoutes> {
 
     // Set routerConfig
     _routerConfig = GoRouter(
-      initialLocation: '/signin',
+      initialLocation: '/home',
       refreshListenable: AuthBlocSingleton.bloc,
       redirect: (context, state) {
         final authState = AuthBlocSingleton.bloc.state;
