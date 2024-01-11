@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
+import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
@@ -57,7 +58,14 @@ class _AppRoutesState extends State<AppRoutes> {
         ),
         GoRoute(
           path: '/home',
-          builder: (context, state) => const HomePage(),
+          builder: (context, state) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => CalendarStateCubit(),
+              ),
+            ],
+            child: const HomePage(),
+          ),
         ),
         GoRoute(
           path: '/essay/:id',
