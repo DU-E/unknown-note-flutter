@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
@@ -101,6 +103,17 @@ class _AppRoutesState extends State<AppRoutes> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        SfGlobalLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ko'),
+        Locale('en'),
+      ],
+      locale: const Locale('ko'),
     );
   }
 }

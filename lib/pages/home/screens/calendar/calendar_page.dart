@@ -32,6 +32,13 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: Sizes.size20),
+          child: AppFont(
+            '감정 달력',
+            size: Sizes.size20,
+          ),
+        ),
         Container(
           height: MediaQuery.of(context).size.width + 20,
           padding: const EdgeInsets.all(Sizes.size20),
@@ -41,6 +48,7 @@ class _CalendarPageState extends State<CalendarPage> {
             monthViewSettings: const MonthViewSettings(
               showAgenda: false,
             ),
+            // loadMoreWidgetBuilder: (context, loadMoreAppointments) {},
             monthCellBuilder: (context, details) => SizedBox(
               height: details.bounds.height,
               child: Center(
