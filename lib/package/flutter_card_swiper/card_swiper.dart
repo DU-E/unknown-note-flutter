@@ -160,8 +160,8 @@ class CardSwiper extends StatefulWidget {
           'maxAngle must be between 0 and 360',
         ),
         assert(
-          threshold >= 1 && threshold <= 100,
-          'threshold must be between 1 and 100',
+          threshold >= 1 && threshold <= 200,
+          'threshold must be between 1 and 200',
         ),
         assert(
           direction != CardSwiperDirection.none,
@@ -305,7 +305,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
             await widget.onTapDisabled?.call();
           }
         },
-        onPanStart: (tapInfo) {
+        onHorizontalDragStart: (tapInfo) {
           if (!widget.isDisabled) {
             final renderBox = context.findRenderObject()! as RenderBox;
             final position = renderBox.globalToLocal(tapInfo.globalPosition);
@@ -313,7 +313,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
             if (position.dy < renderBox.size.height / 2) _tappedOnTop = true;
           }
         },
-        onPanUpdate: (tapInfo) {
+        onHorizontalDragUpdate: (tapInfo) {
           if (!widget.isDisabled) {
             setState(
               () => _cardAnimation.update(
@@ -324,7 +324,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
             );
           }
         },
-        onPanEnd: (tapInfo) {
+        onHorizontalDragEnd: (tapInfo) {
           if (_canSwipe) {
             _tappedOnTop = false;
             _onEndAnimation();

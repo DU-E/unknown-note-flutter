@@ -36,6 +36,7 @@ class CardAnimation {
   late Animation<double> _topAnimation;
   late Animation<double> _scaleAnimation;
   late Animation<Offset> _differenceAnimation;
+  late Animation<double> _angleAnimation;
 
   double get _maxAngleInRadian => maxAngle * (math.pi / 180);
 
@@ -44,6 +45,7 @@ class CardAnimation {
     top = _topAnimation.value;
     scale = _scaleAnimation.value;
     difference = _differenceAnimation.value;
+    angle = _angleAnimation.value;
   }
 
   void reset() {
@@ -155,7 +157,7 @@ class CardAnimation {
 
     _leftAnimation = Tween<double>(
       begin: left,
-      end: isToRight ? screenWidth : -screenWidth,
+      end: isToRight ? screenWidth * 1.5 : -screenWidth * 1.5,
     ).animate(animationController);
     _topAnimation = Tween<double>(
       begin: top,
@@ -168,6 +170,10 @@ class CardAnimation {
     _differenceAnimation = Tween<Offset>(
       begin: difference,
       end: initialOffset,
+    ).animate(animationController);
+    _angleAnimation = Tween<double>(
+      begin: angle,
+      end: 0,
     ).animate(animationController);
     animationController.forward();
   }
@@ -210,6 +216,10 @@ class CardAnimation {
     _differenceAnimation = Tween<Offset>(
       begin: difference,
       end: Offset.zero,
+    ).animate(animationController);
+    _angleAnimation = Tween<double>(
+      begin: angle,
+      end: 0,
     ).animate(animationController);
     animationController.forward();
   }

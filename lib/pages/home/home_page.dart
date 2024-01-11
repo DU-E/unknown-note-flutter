@@ -71,9 +71,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   controller: _controller,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    const CalendarPage(),
+                    const CalendarScreen(),
+                    const DiaryScreen(),
                     EssayScreen(slidingController: controller),
-                    DiaryScreen(slidingController: controller),
                     const MyinfoScreen(),
                   ],
                 ),

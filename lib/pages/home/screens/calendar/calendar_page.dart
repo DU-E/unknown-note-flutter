@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
@@ -8,16 +7,15 @@ import 'package:unknown_note_flutter/common/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/pages/home/screens/calendar/widgets/calendar_title.dart';
 
-class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
+class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
 
   @override
-  State<CalendarPage> createState() => _CalendarPageState();
+  State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _CalendarPageState extends State<CalendarPage> {
+class _CalendarScreenState extends State<CalendarScreen> {
   late final CalendarController _controller;
-  DateTime? headerDate;
 
   @override
   void initState() {
