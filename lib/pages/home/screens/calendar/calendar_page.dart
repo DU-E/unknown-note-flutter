@@ -72,6 +72,14 @@ class _CalendarPageState extends State<CalendarPage> {
             view: CalendarView.month,
             monthViewSettings: const MonthViewSettings(
               showAgenda: false,
+              showTrailingAndLeadingDates: false,
+            ),
+            selectionDecoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).primaryColor,
+                width: Sizes.size2,
+              ),
+              shape: BoxShape.circle,
             ),
             headerHeight: 0,
             onSelectionChanged: (calendarSelectionDetails) {
@@ -80,11 +88,8 @@ class _CalendarPageState extends State<CalendarPage> {
                   .onChangeSelectedDate(calendarSelectionDetails.date);
             },
             // loadMoreWidgetBuilder: (context, loadMoreAppointments) {},
-            monthCellBuilder: (context, details) => SizedBox(
-              height: details.bounds.height,
-              child: Center(
-                child: AppFont(details.date.day.toString()),
-              ),
+            monthCellBuilder: (context, details) => Center(
+              child: AppFont(details.date.day.toString()),
             ),
           ),
         ),
