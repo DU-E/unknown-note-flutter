@@ -137,6 +137,18 @@ flutter:
           weight: 800
         - asset: assets/fonts/Pretendard-Black.otf
           weight: 900
+    - family: NanumMyeongjo
+      fonts:
+        - asset: assets/fonts/NanumMyeongjo-Regular.ttf
+    - family: Cafe24Dongdong
+      fonts:
+        - asset: assets/fonts/Cafe24Dongdong.ttf
+    - family: PoorStory
+      fonts:
+        - asset: assets/fonts/PoorStory-Regular.ttf
+    - family: CuteFont
+      fonts:
+        - asset: assets/fonts/CuteFont-Regular.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

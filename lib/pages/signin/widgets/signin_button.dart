@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/common/widgets/common_button.dart';
-import 'package:unknown_note_flutter/constants/fonts.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_auth_method.dart';
+import 'package:unknown_note_flutter/enums/enum_font.dart';
 
 class SigninButton extends StatelessWidget {
   final EAuthMethod method;
@@ -75,7 +75,7 @@ class SigninButton extends StatelessWidget {
           AppFont(
             'Sign in with ${method.key}',
             color: _fontColor(),
-            fontFamily: FontFamily.roboto,
+            font: EFont.roboto,
           ),
         ],
       ),

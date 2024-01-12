@@ -6,10 +6,10 @@ import 'package:unknown_note_flutter/bloc/authentication/auth_event.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/common/widgets/common_loading_widget.dart';
-import 'package:unknown_note_flutter/constants/fonts.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_auth_method.dart';
+import 'package:unknown_note_flutter/enums/enum_font.dart';
 import 'package:unknown_note_flutter/pages/signin/widgets/signin_button.dart';
 
 class SigninPage extends StatelessWidget {
@@ -33,14 +33,14 @@ class SigninPage extends StatelessWidget {
                 children: [
                   AppFont(
                     '익명 일기',
-                    fontFamily: FontFamily.roboto,
+                    font: EFont.roboto,
                     size: Sizes.size40,
                     weight: FontWeight.w700,
                     color: Colors.white,
                   ),
                   AppFont(
                     'Sign in',
-                    fontFamily: FontFamily.roboto,
+                    font: EFont.roboto,
                     size: Sizes.size20,
                     color: Colors.white,
                   ),
