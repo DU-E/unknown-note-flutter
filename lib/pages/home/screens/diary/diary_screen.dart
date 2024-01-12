@@ -16,18 +16,25 @@ class DiaryScreen extends StatefulWidget {
   State<DiaryScreen> createState() => _DiaryScreenState();
 }
 
-class _DiaryScreenState extends State<DiaryScreen> {
-  late CardSwiperController _controller;
+class _DiaryScreenState extends State<DiaryScreen>
+    with SingleTickerProviderStateMixin {
+  late final CardSwiperController _controller;
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _controller = CardSwiperController();
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -38,11 +45,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
   void _onSettingTap() {
     DraggableMenu.open(
       context,
-      const CommonDraggable(
-        initHeight: 350,
-        child: Padding(
-          padding: EdgeInsets.all(Sizes.size20),
-          child: CommonFontController(),
+      CommonDraggable(
+        initHeight: 400,
+        child: DiarySlideWidget(
+          tabController: _tabController,
         ),
       ),
     );

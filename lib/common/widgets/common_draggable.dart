@@ -23,7 +23,7 @@ class CommonDraggable extends StatelessWidget {
         ),
         DraggableMenuLevel.ratio(ratio: 1),
       ],
-      child: child,
+      child: SizedBox(child: child),
     );
   }
 }
@@ -44,7 +44,11 @@ class _CustomUi extends CustomDraggableMenu {
     return Material(
       color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.all(Sizes.size10),
+        padding: EdgeInsets.only(
+          left: Sizes.size10,
+          right: Sizes.size10,
+          bottom: MediaQuery.of(context).padding.bottom + Sizes.size10,
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Sizes.size20),
           child: BackdropFilter(

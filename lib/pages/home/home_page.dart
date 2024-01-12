@@ -48,8 +48,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         minimumHeight: 400,
         slideBuilder: (controller) => BlocBuilder<HomeScreenCubit, EHomeScreen>(
           builder: (context, state) {
-            if (state == EHomeScreen.essay) return const EssaySlideWidget();
-            return const DiarySlideWidget();
+            return const EssaySlideWidget();
           },
         ),
         childBuilder: (controller) => Stack(
