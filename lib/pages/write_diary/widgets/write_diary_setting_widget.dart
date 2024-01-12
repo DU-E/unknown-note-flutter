@@ -6,12 +6,12 @@ import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
 class WriteDiarySettingWidget extends StatefulWidget {
-  final bool isHide;
+  // final bool isHide;
   final Function() onDelete;
 
   const WriteDiarySettingWidget({
     super.key,
-    required this.isHide,
+    // required this.isHide,
     required this.onDelete,
   });
 
@@ -26,9 +26,9 @@ class _WriteDiarySettingWidgetState extends State<WriteDiarySettingWidget> {
   @override
   void didUpdateWidget(covariant WriteDiarySettingWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isHide) {
-      isConfirm = false;
-    }
+    // if (widget.isHide) {
+    //   isConfirm = false;
+    // }
   }
 
   void _onTabDelete() {

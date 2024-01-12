@@ -63,7 +63,7 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
   Widget build(BuildContext context) {
     return CommonSlideUpPanel(
       slideBuilder: (controller) => WriteEssaySettingWidget(
-        isHide: controller.status == SlidingUpPanelStatus.hidden,
+        // isHide: controller.,
         onDelete: _onDelete,
       ),
       childBuilder: (controller) =>
@@ -79,7 +79,7 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
             centerTitle: true,
             actions: [
               IconButton(
-                onPressed: _isUploading(state) ? null : controller.collapse,
+                onPressed: _isUploading(state) ? null : null,
                 icon: const Icon(Icons.settings_rounded),
               ),
               IconButton(

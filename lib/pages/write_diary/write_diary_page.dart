@@ -63,7 +63,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
   Widget build(BuildContext context) {
     return CommonSlideUpPanel(
       slideBuilder: (controller) => WriteDiarySettingWidget(
-        isHide: controller.status == SlidingUpPanelStatus.hidden,
+        // isHide: controller.status == SlidingUpPanelStatus.hidden,
         onDelete: _onDelete,
       ),
       childBuilder: (controller) =>
@@ -79,7 +79,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
             centerTitle: true,
             actions: [
               IconButton(
-                onPressed: _isUploading(state) ? null : controller.collapse,
+                onPressed: _isUploading(state) ? null : null,
                 icon: const Icon(Icons.settings_rounded),
               ),
               IconButton(

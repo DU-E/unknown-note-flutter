@@ -56,6 +56,7 @@ dependencies:
   syncfusion_flutter_calendar: ^24.1.45
   syncfusion_localizations: ^24.1.45
   intl: ^0.18.1
+  draggable_menu: ^4.4.1
 
 dev_dependencies:
   flutter_test:

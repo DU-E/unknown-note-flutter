@@ -1,12 +1,12 @@
 import 'dart:ui';
 
+import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
 class CommonSlideUpPanel extends StatefulWidget {
-  final Function(SlidingUpPanelController controller) childBuilder;
-  final Function(SlidingUpPanelController controller) slideBuilder;
+  final Function(DraggableMenuController controller) childBuilder;
+  final Function(DraggableMenuController controller) slideBuilder;
   final double minimumHeight;
 
   const CommonSlideUpPanel({
@@ -21,15 +21,13 @@ class CommonSlideUpPanel extends StatefulWidget {
 }
 
 class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
-  late SlidingUpPanelController _slidingController;
+  late DraggableMenuController _slidingController;
   double dragStartPos = 0;
 
   @override
   void initState() {
     super.initState();
-    _slidingController = SlidingUpPanelController(
-      value: SlidingUpPanelStatus.hidden,
-    );
+    _slidingController = DraggableMenuController();
     _slidingController.addListener(_onStateChange);
   }
 
@@ -41,7 +39,7 @@ class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
   }
 
   void _onStateChange() {
-    setState(() {});
+    print('listened');
   }
 
   @override
@@ -53,32 +51,7 @@ class _CommonSlideUpPanelState extends State<CommonSlideUpPanel> {
           // onTapDown: (details) {
           //   _slidingController.hide();
           // },
-          onVerticalDragDown: (_) {
-            _slidingController.hide();
-          },
-          onHorizontalDragDown: (_) {
-            _slidingController.hide();
-          },
           child: widget.childBuilder(_slidingController),
-        ),
-        SlidingUpPanelWidget(
-          panelController: _slidingController,
-          controlHeight: widget.minimumHeight,
-          anchor: 0,
-          panelStatus: SlidingUpPanelStatus.hidden,
-          enableOnTap: false,
-          child: _CommonSlideUpPanelBody(
-            child: widget.slideBuilder(_slidingController),
-          ),
-          dragDown: (details) {
-            dragStartPos = details.globalPosition.dy;
-          },
-          dragEnd: (details) {
-            if ((details.primaryVelocity ?? 0) > 10 && dragStartPos > 600 ||
-                (details.primaryVelocity ?? 0) > 2000) {
-              _slidingController.hide();
-            }
-          },
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
@@ -40,6 +41,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
           .read<CalendarStateCubit>()
           .onChangeHeadDate(_controller.displayDate);
     }
+  }
+
+  void _onAddTap() {
+    print(_controller.selectedDate);
+    context.push('/write/diary');
   }
 
   @override
@@ -93,9 +99,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         CommonIconButton(
           icon: Icons.add,
-          onTap: () {
-            print(_controller.selectedDate);
-          },
+          onTap: _onAddTap,
         ),
       ],
     );

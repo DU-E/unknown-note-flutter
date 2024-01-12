@@ -1,3 +1,4 @@
+import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
@@ -5,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_state.dart';
+import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/common/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/common/widgets/common_loading_widget.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
@@ -12,9 +14,10 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_appbar.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_listitem_widget.dart';
+import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_slide_widget.dart';
 
 class EssayScreen extends StatefulWidget {
-  final SlidingUpPanelController slidingController;
+  final DraggableMenuController slidingController;
 
   const EssayScreen({
     super.key,
@@ -41,7 +44,13 @@ class _EssayScreenState extends State<EssayScreen> {
   }
 
   void _onTapCategory() {
-    widget.slidingController.collapse();
+    DraggableMenu.open(
+      context,
+      DraggableMenu(
+        customUi: Container(color: Colors.red),
+        child: const SizedBox(),
+      ),
+    );
   }
 
   void _onTapAdd() {
