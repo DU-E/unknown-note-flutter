@@ -2,6 +2,7 @@ import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/common/widgets/common_draggable.dart';
+import 'package:unknown_note_flutter/common/widgets/common_font_controller.dart';
 import 'package:unknown_note_flutter/common/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/package/flutter_card_swiper/card_swiper.dart';
@@ -39,7 +40,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
       context,
       const CommonDraggable(
         initHeight: 350,
-        child: DiarySlideWidget(),
+        child: Padding(
+          padding: EdgeInsets.all(Sizes.size20),
+          child: CommonFontController(),
+        ),
       ),
     );
   }
