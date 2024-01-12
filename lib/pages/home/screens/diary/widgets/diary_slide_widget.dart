@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/common/widgets/app_font.dart';
 import 'package:unknown_note_flutter/common/widgets/common_font_controller.dart';
+import 'package:unknown_note_flutter/common/widgets/common_horizontal_spliter.dart';
 import 'package:unknown_note_flutter/common/widgets/common_radio_button.dart';
 import 'package:unknown_note_flutter/common/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
@@ -8,25 +9,43 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_slide_widget.dart';
 
 class DiarySlideWidget extends StatefulWidget {
-  final TabController tabController;
-
-  const DiarySlideWidget({
-    super.key,
-    required this.tabController,
-  });
+  const DiarySlideWidget({super.key});
 
   @override
   State<DiarySlideWidget> createState() => _DiarySlideWidgetState();
 }
 
-class _DiarySlideWidgetState extends State<DiarySlideWidget> {
+class _DiarySlideWidgetState extends State<DiarySlideWidget>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 350,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOut,
+      height: _tabController.index == 0 ? 230 : 380,
+      clipBehavior: Clip.hardEdge,
+      decoration: const BoxDecoration(),
       child: TabBarView(
-        controller: widget.tabController,
+        controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
+        clipBehavior: Clip.hardEdge,
         children: [
           _tabMain(),
           _tabSub(
@@ -41,36 +60,44 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget> {
   }
 
   Widget _tabSub(Widget child) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: Sizes.size5,
-            left: Sizes.size10,
-          ),
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                widget.tabController.index = 0;
-              });
-            },
-            child: const Icon(
-              Icons.keyboard_arrow_left_rounded,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Gaps.v10,
+          child,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: Sizes.size32),
+            child: CommonHorizontalSpliter(
               color: Colors.white,
-              size: Sizes.size40,
             ),
           ),
-        ),
-        child,
-      ],
+          Padding(
+            padding: const EdgeInsets.only(
+              top: Sizes.size10,
+              left: Sizes.size20,
+              right: Sizes.size20,
+            ),
+            child: CommonRadioButton(
+              icon: Icons.check_rounded,
+              onTap: () {
+                setState(() {
+                  _tabController.index = 0;
+                });
+              },
+              title: '완료',
+              color: Colors.green.withOpacity(0.5),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _tabMain() {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: Sizes.size10,
+        vertical: Sizes.size20,
         horizontal: Sizes.size20,
       ),
       child: Column(
@@ -98,7 +125,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget> {
             icon: Icons.emoji_emotions_rounded,
             onTap: () {
               setState(() {
-                widget.tabController.index = 1;
+                _tabController.index = 1;
               });
             },
           ),
@@ -107,7 +134,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget> {
             icon: Icons.font_download_rounded,
             onTap: () {
               setState(() {
-                widget.tabController.index = 2;
+                _tabController.index = 2;
               });
             },
           ),
@@ -116,10 +143,21 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: Sizes.size10),
-                child: AppFont(
-                  '글자 크기',
-                  color: Colors.white,
-                  weight: FontWeight.w700,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.format_size_rounded,
+                      color: Colors.white,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: Sizes.size10),
+                      child: AppFont(
+                        '글자 크기',
+                        color: Colors.white,
+                        weight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               CommonZoomController(),

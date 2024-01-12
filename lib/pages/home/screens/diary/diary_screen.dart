@@ -2,7 +2,6 @@ import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/common/widgets/common_draggable.dart';
-import 'package:unknown_note_flutter/common/widgets/common_font_controller.dart';
 import 'package:unknown_note_flutter/common/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/package/flutter_card_swiper/card_swiper.dart';
@@ -16,25 +15,18 @@ class DiaryScreen extends StatefulWidget {
   State<DiaryScreen> createState() => _DiaryScreenState();
 }
 
-class _DiaryScreenState extends State<DiaryScreen>
-    with SingleTickerProviderStateMixin {
+class _DiaryScreenState extends State<DiaryScreen> {
   late final CardSwiperController _controller;
-  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _controller = CardSwiperController();
-    _tabController = TabController(
-      length: 3,
-      vsync: this,
-    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -45,11 +37,8 @@ class _DiaryScreenState extends State<DiaryScreen>
   void _onSettingTap() {
     DraggableMenu.open(
       context,
-      CommonDraggable(
-        initHeight: 400,
-        child: DiarySlideWidget(
-          tabController: _tabController,
-        ),
+      const CommonDraggable(
+        child: DiarySlideWidget(),
       ),
     );
   }

@@ -9,6 +9,7 @@ class CommonRadioButton extends StatelessWidget {
   final EFont? font;
   final IconData? icon;
   final bool isSelected;
+  final Color? color;
   final Function()? onTap;
 
   const CommonRadioButton({
@@ -17,6 +18,7 @@ class CommonRadioButton extends StatelessWidget {
     this.font,
     this.icon,
     this.isSelected = false,
+    this.color,
     this.onTap,
   });
 
@@ -28,7 +30,10 @@ class CommonRadioButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           vertical: Sizes.size3,
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: color ??
+            (isSelected
+                ? Theme.of(context).primaryColor.withOpacity(0.4)
+                : Colors.transparent),
         shadowColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         foregroundColor: Colors.white,

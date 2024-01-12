@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
 class CommonHorizontalSpliter extends StatelessWidget {
-  const CommonHorizontalSpliter({super.key});
+  final Color? color;
+
+  const CommonHorizontalSpliter({
+    super.key,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +15,7 @@ class CommonHorizontalSpliter extends StatelessWidget {
       width: double.infinity,
       height: Sizes.size1,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.6),
+        color: color ?? Theme.of(context).primaryColor.withOpacity(0.6),
         borderRadius: BorderRadius.circular(Sizes.size5),
       ),
     );
