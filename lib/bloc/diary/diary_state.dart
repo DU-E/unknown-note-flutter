@@ -1,46 +1,41 @@
 import 'package:equatable/equatable.dart';
-import 'package:unknown_note_flutter/enums/enum_diary_category.dart';
+import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 
-class DiaryListState extends Equatable {
+class DiaryState extends Equatable {
   final ELoadingStatus status;
-  final EDiaryCategory category;
-  final String? mood;
-  final List<DiaryModel> list;
+  final EEmotion emotion;
+  final DiaryModel? diary;
   final int page;
   final String? message;
 
-  const DiaryListState({
+  const DiaryState({
     required this.status,
-    required this.category,
-    this.mood,
-    required this.list,
+    required this.emotion,
+    this.diary,
     required this.page,
     this.message,
   });
 
-  DiaryListState.init()
+  const DiaryState.init()
       : status = ELoadingStatus.init,
-        category = EDiaryCategory.recomm,
-        mood = null,
-        list = [],
+        emotion = EEmotion.normal,
+        diary = null,
         page = 0,
         message = null;
 
-  DiaryListState copyWith({
+  DiaryState copyWith({
     ELoadingStatus? status,
-    EDiaryCategory? category,
-    String? mood,
-    List<DiaryModel>? list,
+    EEmotion? emotion,
+    DiaryModel? diary,
     int? page,
     String? message,
   }) =>
-      DiaryListState(
+      DiaryState(
         status: status ?? this.status,
-        category: category ?? this.category,
-        mood: mood ?? this.mood,
-        list: list ?? this.list,
+        emotion: emotion ?? this.emotion,
+        diary: diary ?? diary,
         page: page ?? this.page,
         message: message ?? this.message,
       );
@@ -48,9 +43,8 @@ class DiaryListState extends Equatable {
   @override
   List<Object?> get props => [
         status,
-        category,
-        mood,
-        list,
+        emotion,
+        diary,
         page,
         message,
       ];

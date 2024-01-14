@@ -1,10 +1,16 @@
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
 import 'package:unknown_note_flutter/common/widgets/common_draggable.dart';
 import 'package:unknown_note_flutter/common/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/package/flutter_card_swiper/card_swiper.dart';
+import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_card.dart';
 import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_skeleton.dart';
 import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_slide_widget.dart';
 
@@ -22,6 +28,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   void initState() {
     super.initState();
     _controller = CardSwiperController();
+    context.read<DiaryBloc>().add(DiaryGet());
   }
 
   @override
@@ -58,11 +65,21 @@ class _DiaryScreenState extends State<DiaryScreen> {
             left: Sizes.size20,
             right: Sizes.size20,
           ),
-          cardBuilder: (context, index, _, __) => DiarySkeleton(
-            seed: index,
+          cardBuilder: (context, index, _, __) =>
+              BlocBuilder<DiaryBloc, DiaryState>(
+            builder: (context, state) {
+              if (index != 0 ||
+                  state.status == ELoadingStatus.init ||
+                  state.status == ELoadingStatus.loading) {
+                return DiarySkeleton(seed: state.page);
+              }
+              return DiaryCard(diray: state.diary!);
+            },
           ),
           onSwipe: (previousIndex, currentIndex, direction) {
-            return true;
+            _controller.undo();
+            context.read<DiaryBloc>().add(DiaryGet());
+            return false;
           },
         ),
         SafeArea(
