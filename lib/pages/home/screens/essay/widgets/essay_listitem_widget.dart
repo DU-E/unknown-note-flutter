@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:unknown_note_flutter/common/widgets/app_font.dart';
-import 'package:unknown_note_flutter/common/widgets/common_button.dart';
+import 'package:unknown_note_flutter/widgets/app_font.dart';
+import 'package:unknown_note_flutter/widgets/common_button.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-import 'package:unknown_note_flutter/common/widgets/common_tagitem_widget.dart';
+import 'package:unknown_note_flutter/widgets/common_tagitem_widget.dart';
 
 class EssayListItemWidget extends StatelessWidget {
   final EssayModel essay;

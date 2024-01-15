@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:unknown_note_flutter/common/widgets/app_font.dart';
-import 'package:unknown_note_flutter/common/widgets/common_font_controller.dart';
-import 'package:unknown_note_flutter/common/widgets/common_horizontal_spliter.dart';
-import 'package:unknown_note_flutter/common/widgets/common_radio_button.dart';
-import 'package:unknown_note_flutter/common/widgets/common_zoom_controller.dart';
+import 'package:unknown_note_flutter/widgets/app_font.dart';
+import 'package:unknown_note_flutter/widgets/common_font_controller.dart';
+import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
+import 'package:unknown_note_flutter/widgets/common_radio_button.dart';
+import 'package:unknown_note_flutter/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_slide_widget.dart';

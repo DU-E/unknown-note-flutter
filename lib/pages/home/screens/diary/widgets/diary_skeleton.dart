@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:unknown_note_flutter/common/widgets/common_shadow_container.dart';
+import 'package:unknown_note_flutter/widgets/common_shadow_container.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 

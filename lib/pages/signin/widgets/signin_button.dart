@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:unknown_note_flutter/common/widgets/app_font.dart';
-import 'package:unknown_note_flutter/common/widgets/common_button.dart';
+import 'package:unknown_note_flutter/widgets/app_font.dart';
+import 'package:unknown_note_flutter/widgets/common_button.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_auth_method.dart';

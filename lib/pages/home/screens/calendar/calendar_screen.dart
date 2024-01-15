@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
-import 'package:unknown_note_flutter/common/widgets/app_font.dart';
-import 'package:unknown_note_flutter/common/widgets/common_icon_button.dart';
+import 'package:unknown_note_flutter/widgets/app_font.dart';
+import 'package:unknown_note_flutter/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/pages/home/screens/calendar/widgets/calendar_title.dart';
 
