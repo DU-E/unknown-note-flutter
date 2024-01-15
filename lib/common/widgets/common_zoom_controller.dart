@@ -12,9 +12,8 @@ class CommonZoomController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Sizes.size3),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.3),
+        color: Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(Sizes.size40),
       ),
       child: Row(

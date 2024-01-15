@@ -6,7 +6,7 @@ import 'package:unknown_note_flutter/enums/enum_auth_method.dart';
 import 'package:unknown_note_flutter/repository/authentication_repository.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
-  AuthenticationRepository authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
 
   AuthBloc({
     required this.authenticationRepository,

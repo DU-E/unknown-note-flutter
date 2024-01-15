@@ -6,6 +6,7 @@ class SettingBloc extends HydratedBloc<SettingEvent, SettingState> {
   SettingBloc() : super(const SettingState.init()) {
     on<SettingZoomIn>(_settingZoomInHandler);
     on<SettingZoomOut>(_settingZoomOutHandler);
+    on<SettingFont>(_settingFontHandler);
   }
 
   @override
@@ -31,5 +32,12 @@ class SettingBloc extends HydratedBloc<SettingEvent, SettingState> {
     if ((state.zoom ?? 2) > 0) {
       emit(state.copyWith(zoom: (state.zoom ?? 2) - 1));
     }
+  }
+
+  Future<void> _settingFontHandler(
+    SettingFont event,
+    Emitter<SettingState> emit,
+  ) async {
+    emit(state.copyWith(font: event.font));
   }
 }

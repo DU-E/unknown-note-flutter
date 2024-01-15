@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,6 +53,10 @@ dependencies:
   kakao_flutter_sdk_user: ^1.8.0
   flutter_naver_login: ^1.8.0
   flutter_svg: ^2.0.9
+  syncfusion_flutter_calendar: ^24.1.45
+  syncfusion_localizations: ^24.1.45
+  intl: ^0.18.1
+  draggable_menu: ^4.4.1
 
 dev_dependencies:
   flutter_test:
@@ -131,6 +137,18 @@ flutter:
           weight: 800
         - asset: assets/fonts/Pretendard-Black.otf
           weight: 900
+    - family: NanumMyeongjo
+      fonts:
+        - asset: assets/fonts/NanumMyeongjo-Regular.ttf
+    - family: Cafe24Dongdong
+      fonts:
+        - asset: assets/fonts/Cafe24Dongdong.ttf
+    - family: PoorStory
+      fonts:
+        - asset: assets/fonts/PoorStory-Regular.ttf
+    - family: CuteFont
+      fonts:
+        - asset: assets/fonts/CuteFont-Regular.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

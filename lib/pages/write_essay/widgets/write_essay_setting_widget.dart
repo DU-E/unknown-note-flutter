@@ -6,12 +6,12 @@ import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
 class WriteEssaySettingWidget extends StatefulWidget {
-  final bool isHide;
+  // final bool isHide;
   final Function() onDelete;
 
   const WriteEssaySettingWidget({
     super.key,
-    required this.isHide,
+    // required this.isHide,
     required this.onDelete,
   });
 
@@ -26,9 +26,9 @@ class _WriteEssaySettingWidgetState extends State<WriteEssaySettingWidget> {
   @override
   void didUpdateWidget(covariant WriteEssaySettingWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isHide) {
-      isConfirm = false;
-    }
+    // if (widget.isHide) {
+    //   isConfirm = false;
+    // }
   }
 
   void _onTabDelete() {

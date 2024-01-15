@@ -25,6 +25,9 @@ class CommonIconButton extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(Sizes.size40),
           child: Ink(
+            padding: EdgeInsets.zero,
+            height: Sizes.size48,
+            width: Sizes.size48,
             decoration: ShapeDecoration(
               shape: const CircleBorder(),
               color: Theme.of(context).primaryColor.withOpacity(0.6),

@@ -23,8 +23,8 @@ class ReadDiaryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppFont(
-          diary.title ?? '',
+        title: const AppFont(
+          'Diary',
           size: Sizes.size20,
         ),
         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
@@ -51,14 +51,6 @@ class ReadDiaryPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const AppFont('Author'),
-                      Gaps.h5,
-                      CommonTagItemWidget(tag: diary.author ?? "Anonymous"),
-                    ],
-                  ),
-                  Gaps.v3,
                   Row(
                     children: [
                       const AppFont('Tags'),
@@ -90,7 +82,7 @@ class ReadDiaryPage extends StatelessWidget {
                   Gaps.v20,
                   BlocBuilder<SettingBloc, SettingState>(
                     builder: (context, state) => AppFont(
-                      diary.body ?? '',
+                      diary.content ?? '',
                       size: state.getZoom(),
                     ),
                   ),

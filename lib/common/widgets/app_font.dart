@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unknown_note_flutter/constants/fonts.dart';
+import 'package:unknown_note_flutter/enums/enum_font.dart';
 
 class AppFont extends StatelessWidget {
   final String text;
@@ -7,7 +7,7 @@ class AppFont extends StatelessWidget {
   final FontWeight? weight;
   final Color? color;
   final List<Shadow>? shadows;
-  final String? fontFamily;
+  final EFont font;
 
   const AppFont(
     this.text, {
@@ -16,7 +16,7 @@ class AppFont extends StatelessWidget {
     this.weight,
     this.color,
     this.shadows,
-    this.fontFamily = FontFamily.pretendard,
+    this.font = EFont.pretendard,
   });
 
   @override
@@ -28,7 +28,7 @@ class AppFont extends StatelessWidget {
         fontWeight: weight,
         color: color,
         shadows: shadows,
-        fontFamily: fontFamily,
+        fontFamily: font.fontFamily,
       ),
     );
   }

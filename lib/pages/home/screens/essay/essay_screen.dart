@@ -1,6 +1,6 @@
+import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
@@ -14,12 +14,7 @@ import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_appb
 import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_listitem_widget.dart';
 
 class EssayScreen extends StatefulWidget {
-  final SlidingUpPanelController slidingController;
-
-  const EssayScreen({
-    super.key,
-    required this.slidingController,
-  });
+  const EssayScreen({super.key});
 
   @override
   State<EssayScreen> createState() => _EssayScreenState();
@@ -41,7 +36,13 @@ class _EssayScreenState extends State<EssayScreen> {
   }
 
   void _onTapCategory() {
-    widget.slidingController.collapse();
+    DraggableMenu.open(
+      context,
+      DraggableMenu(
+        customUi: Container(color: Colors.red),
+        child: const SizedBox(),
+      ),
+    );
   }
 
   void _onTapAdd() {

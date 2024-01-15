@@ -1,12 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:unknown_note_flutter/bloc/authentication/auth_bloc.dart';
-import 'package:unknown_note_flutter/bloc/diary/diary_list_bloc.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
@@ -26,9 +24,7 @@ void main() async {
   KakaoSdk.init(nativeAppKey: Secret.kakaoAppKey);
 
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getApplicationDocumentsDirectory(),
+    storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
   runApp(const MyApp());
@@ -51,12 +47,6 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => AuthBloc(
-              authenticationRepository:
-                  context.read<AuthenticationRepository>(),
-            ),
-          ),
-          BlocProvider(
             create: (context) => SettingBloc(),
           ),
           BlocProvider(
@@ -68,7 +58,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => DiaryListBloc(
+            create: (context) => DiaryBloc(
               dudeGetRepository: context.read<DudeGetRepository>(),
             ),
           ),

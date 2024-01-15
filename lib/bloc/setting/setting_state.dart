@@ -1,24 +1,31 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/enums/enum_font.dart';
 
 part 'setting_state.g.dart';
 
 @JsonSerializable()
 class SettingState extends Equatable {
   final int? zoom;
+  final EFont? font;
 
   const SettingState({
     this.zoom,
+    this.font,
   });
 
-  const SettingState.init() : zoom = 2;
+  const SettingState.init()
+      : zoom = 2,
+        font = EFont.pretendard;
 
   SettingState copyWith({
     int? zoom,
+    EFont? font,
   }) =>
       SettingState(
         zoom: zoom ?? this.zoom,
+        font: font ?? this.font,
       );
 
   factory SettingState.fromJson(Map<String, dynamic> json) =>
@@ -43,5 +50,8 @@ class SettingState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [zoom];
+  List<Object?> get props => [
+        zoom,
+        font,
+      ];
 }
