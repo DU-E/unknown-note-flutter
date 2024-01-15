@@ -7,18 +7,23 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 
 class DiaryCard extends StatelessWidget {
-  final DiaryModel diray;
+  final DiaryModel diary;
 
   const DiaryCard({
     super.key,
-    required this.diray,
+    required this.diary,
   });
 
   @override
   Widget build(BuildContext context) {
     return CommonShadowContainer(
       child: Padding(
-        padding: const EdgeInsets.all(Sizes.size20),
+        padding: const EdgeInsets.only(
+          left: Sizes.size20,
+          right: Sizes.size20,
+          bottom: Sizes.size20,
+          top: Sizes.size5,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -26,22 +31,17 @@ class DiaryCard extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  Container(
-                    width: Sizes.size64,
-                    height: Sizes.size64,
-                    decoration: const BoxDecoration(
-                      color: Colors.grey,
-                      shape: BoxShape.circle,
-                    ),
+                  AppFont(
+                    diary.emotion?.emoji ?? '',
+                    size: Sizes.size60,
                   ),
-                  Gaps.v10,
-                  AppFont(diray.date?.toString() ?? 'asd'),
-                  AppFont(diray.date?.toString() ?? 'asd'),
+                  AppFont(diary.date?.toString() ?? 'asd'),
+                  AppFont(diary.date?.toString() ?? 'asd'),
                   Gaps.v20,
                 ],
               ),
             ),
-            AppFont(diray.body ?? 'asd'),
+            AppFont(diary.content ?? 'asd'),
           ],
         ),
       ),

@@ -73,7 +73,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   state.status == ELoadingStatus.loading) {
                 return DiarySkeleton(seed: state.page);
               }
-              return DiaryCard(diray: state.diary!);
+              return DiaryCard(diary: state.diary!);
             },
           ),
           onSwipe: (previousIndex, currentIndex, direction) {

@@ -8,8 +8,7 @@ class WriteDiaryBloc extends HydratedBloc<WriteDiaryEvent, WriteDiaryState> {
   // TODO; upload repository
 
   WriteDiaryBloc() : super(const WriteDiaryState.init()) {
-    on<WriteDiarySetTitle>(_writeDiarySetTitleHandler);
-    on<WriteDiarySetBody>(_writeDiarySetBodyHandler);
+    on<WriteDiarySetContent>(_writeDiarySetContentHandler);
     on<WriteDiaryUpload>(_writeDiaryUploadHandler);
   }
 
@@ -22,24 +21,13 @@ class WriteDiaryBloc extends HydratedBloc<WriteDiaryEvent, WriteDiaryState> {
   @override
   Map<String, dynamic>? toJson(WriteDiaryState state) => state.toJson();
 
-  Future<void> _writeDiarySetTitleHandler(
-    WriteDiarySetTitle event,
+  Future<void> _writeDiarySetContentHandler(
+    WriteDiarySetContent event,
     Emitter<WriteDiaryState> emit,
   ) async {
     emit(state.copyWith(
       diary: state.diary.copyWith(
-        title: event.title,
-      ),
-    ));
-  }
-
-  Future<void> _writeDiarySetBodyHandler(
-    WriteDiarySetBody event,
-    Emitter<WriteDiaryState> emit,
-  ) async {
-    emit(state.copyWith(
-      diary: state.diary.copyWith(
-        body: event.body,
+        content: event.content,
       ),
     ));
   }

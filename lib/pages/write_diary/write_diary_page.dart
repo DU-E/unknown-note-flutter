@@ -20,14 +20,12 @@ class WriteDiaryPage extends StatefulWidget {
 }
 
 class _WriteDiaryPageState extends State<WriteDiaryPage> {
-  String? _title;
-  String? _body;
+  String? _content;
 
   @override
   void initState() {
     super.initState();
-    _title = context.read<WriteDiaryBloc>().state.diary.title;
-    _body = context.read<WriteDiaryBloc>().state.diary.body;
+    _content = context.read<WriteDiaryBloc>().state.diary.content;
   }
 
   bool _isUploading(WriteDiaryState state) {
@@ -36,17 +34,13 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
   }
 
   void _save() {
-    context.read<WriteDiaryBloc>().add(WriteDiarySetTitle(
-          title: _title ?? '',
-        ));
-    context.read<WriteDiaryBloc>().add(WriteDiarySetBody(
-          body: _body ?? '',
+    context.read<WriteDiaryBloc>().add(WriteDiarySetContent(
+          content: _content ?? '',
         ));
   }
 
   void _onDelete() {
-    _title = '';
-    _body = '';
+    _content = '';
     _save();
     setState(() {});
   }
@@ -137,24 +131,6 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppFont(
-            '제목',
-            color: Theme.of(context).primaryColor,
-          ),
-          const CommonHorizontalSpliter(),
-          Container(
-            color: Theme.of(context).primaryColor.withOpacity(0.05),
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
-            child: SingleChildScrollView(
-              child: CommonTextForm(
-                initText: _title,
-                getValue: (value) {
-                  _title = value;
-                },
-              ),
-            ),
-          ),
-          Gaps.v10,
-          AppFont(
             '내용',
             color: Theme.of(context).primaryColor,
           ),
@@ -164,9 +140,9 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
               color: Theme.of(context).primaryColor.withOpacity(0.05),
               padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
               child: CommonTextForm(
-                initText: _body,
+                initText: _content,
                 getValue: (value) {
-                  _body = value;
+                  _content = value;
                 },
                 singleLine: false,
                 expanded: true,

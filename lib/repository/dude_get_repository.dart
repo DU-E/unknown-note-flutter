@@ -37,10 +37,9 @@ class DudeGetRepository {
     // TODO; connect api
     var res = DiaryModel(
       id: page,
-      author: '@$page',
-      title: '$page\'s ${page}th diary',
-      body: '$page ${emotion.text} diary',
-      likes: 10000,
+      content: '$page ${emotion.text} diary',
+      isOpen: true,
+      emotion: EEmotion.normal,
       tags: [emotion.text, '$page'],
       date: DateTime(2023, 12, 21, 13, 09).add(Duration(minutes: page)),
     );

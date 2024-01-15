@@ -1,43 +1,40 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 
 part 'diary_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class DiaryModel extends Equatable {
   final int? id;
-  final String? author;
-  final String? title;
-  final String? body;
-  final int? likes;
+  final String? content;
+  final EEmotion? emotion;
+  final bool? isOpen;
   final List<String>? tags;
   final DateTime? date;
 
   const DiaryModel({
     this.id,
-    this.author,
-    this.title,
-    this.body,
-    this.likes,
+    this.content,
+    this.emotion,
+    this.isOpen,
     this.tags,
     this.date,
   });
 
   DiaryModel copyWith({
     int? id,
-    String? author,
-    String? title,
-    String? body,
-    int? likes,
+    String? content,
+    EEmotion? emotion,
+    bool? isOpen,
     List<String>? tags,
     DateTime? date,
   }) =>
       DiaryModel(
         id: id ?? this.id,
-        author: author ?? this.author,
-        title: title ?? this.title,
-        body: body ?? this.body,
-        likes: likes ?? this.likes,
+        content: content ?? this.content,
+        emotion: emotion ?? this.emotion,
+        isOpen: isOpen ?? this.isOpen,
         tags: tags ?? this.tags,
         date: date ?? this.date,
       );
@@ -50,10 +47,9 @@ class DiaryModel extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        author,
-        title,
-        body,
-        likes,
+        content,
+        emotion,
+        isOpen,
         tags,
         date,
       ];

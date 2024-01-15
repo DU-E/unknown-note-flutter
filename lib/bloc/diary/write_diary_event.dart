@@ -1,15 +1,9 @@
 abstract class WriteDiaryEvent {}
 
-class WriteDiarySetTitle extends WriteDiaryEvent {
-  final String title;
+class WriteDiarySetContent extends WriteDiaryEvent {
+  final String content;
 
-  WriteDiarySetTitle({required this.title});
-}
-
-class WriteDiarySetBody extends WriteDiaryEvent {
-  final String body;
-
-  WriteDiarySetBody({required this.body});
+  WriteDiarySetContent({required this.content});
 }
 
 class WriteDiaryUpload extends WriteDiaryEvent {}

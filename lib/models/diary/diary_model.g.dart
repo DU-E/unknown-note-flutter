@@ -8,10 +8,9 @@ part of 'diary_model.dart';
 
 DiaryModel _$DiaryModelFromJson(Map<String, dynamic> json) => DiaryModel(
       id: json['id'] as int?,
-      author: json['author'] as String?,
-      title: json['title'] as String?,
-      body: json['body'] as String?,
-      likes: json['likes'] as int?,
+      content: json['content'] as String?,
+      emotion: $enumDecodeNullable(_$EEmotionEnumMap, json['emotion']),
+      isOpen: json['isOpen'] as bool?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
@@ -20,10 +19,21 @@ DiaryModel _$DiaryModelFromJson(Map<String, dynamic> json) => DiaryModel(
 Map<String, dynamic> _$DiaryModelToJson(DiaryModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'author': instance.author,
-      'title': instance.title,
-      'body': instance.body,
-      'likes': instance.likes,
+      'content': instance.content,
+      'emotion': _$EEmotionEnumMap[instance.emotion],
+      'isOpen': instance.isOpen,
       'tags': instance.tags,
       'date': instance.date?.toIso8601String(),
     };
+
+const _$EEmotionEnumMap = {
+  EEmotion.normal: 'normal',
+  EEmotion.happy: 'happy',
+  EEmotion.love: 'love',
+  EEmotion.anticipation: 'anticipation',
+  EEmotion.thank: 'thank',
+  EEmotion.sad: 'sad',
+  EEmotion.rage: 'rage',
+  EEmotion.fear: 'fear',
+  EEmotion.regret: 'regret',
+};
