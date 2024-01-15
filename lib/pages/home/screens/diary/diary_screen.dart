@@ -28,7 +28,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
   void initState() {
     super.initState();
     _controller = CardSwiperController();
-    context.read<DiaryBloc>().add(DiaryGet());
   }
 
   @override
@@ -68,6 +67,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
           cardBuilder: (context, index, _, __) =>
               BlocBuilder<DiaryBloc, DiaryState>(
             builder: (context, state) {
+              if (state.status == ELoadingStatus.init) {
+                context.read<DiaryBloc>().add(DiaryGet());
+              }
               if (index != 0 ||
                   state.status == ELoadingStatus.init ||
                   state.status == ELoadingStatus.loading) {

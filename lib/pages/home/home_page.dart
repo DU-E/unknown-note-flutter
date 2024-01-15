@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
-import 'package:unknown_note_flutter/pages/home/screens/calendar/calendar_page.dart';
+import 'package:unknown_note_flutter/pages/home/screens/calendar/calendar_screen.dart';
 import 'package:unknown_note_flutter/pages/home/screens/diary/diary_screen.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/essay_screen.dart';
 import 'package:unknown_note_flutter/pages/home/screens/myinfo/myinfo_screen.dart';
@@ -48,9 +48,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: AppBar(
-                systemOverlayStyle: SystemUiOverlayStyle.light,
                 backgroundColor:
                     Theme.of(context).primaryColor.withOpacity(0.6),
+                foregroundColor: Colors.white,
               ),
             ),
             body: SafeArea(
