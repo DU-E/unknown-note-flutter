@@ -13,7 +13,7 @@ class MyInfoProfileWidget extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         Transform.translate(
-          offset: const Offset(0, -Sizes.size96),
+          offset: const Offset(0, -Sizes.size72),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -56,9 +56,11 @@ class MyInfoProfileWidget extends StatelessWidget {
         Container(
           color: Theme.of(context).primaryColor.withOpacity(0.6),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size32,
-              horizontal: Sizes.size52,
+            padding: const EdgeInsets.only(
+              top: Sizes.size32,
+              bottom: Sizes.size10,
+              left: Sizes.size52,
+              right: Sizes.size52,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

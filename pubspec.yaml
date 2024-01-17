@@ -57,6 +57,7 @@ dependencies:
   syncfusion_localizations: ^24.1.45
   intl: ^0.18.1
   draggable_menu: ^4.4.1
+  flutter_sticky_header: ^0.6.5
 
 dev_dependencies:
   flutter_test:
