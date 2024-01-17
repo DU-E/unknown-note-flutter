@@ -1,8 +1,11 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_listitem_widget.dart';
+import 'package:unknown_note_flutter/pages/home/screens/myinfo/widgets/myinfo_graph.dart';
+import 'package:unknown_note_flutter/pages/home/screens/myinfo/widgets/myinfo_heatmap.dart';
 import 'package:unknown_note_flutter/pages/home/screens/myinfo/widgets/myinfo_profile_widget.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
@@ -20,6 +23,7 @@ class _MyinfoScreenState extends State<MyinfoScreen>
   static const double _appbarHeight = Sizes.size52;
   late final ScrollController _scrollController;
   late final TabController _tabController;
+  late final PageController _pageController;
   final ValueNotifier<double> _titleBottomPadding = ValueNotifier(0);
 
   @override
@@ -31,13 +35,17 @@ class _MyinfoScreenState extends State<MyinfoScreen>
       length: 4,
       vsync: this,
     );
+    _tabController.addListener(_tabListener);
+    _pageController = PageController();
   }
 
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
+    _tabController.removeListener(_tabListener);
     _tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -56,6 +64,14 @@ class _MyinfoScreenState extends State<MyinfoScreen>
         _scrollController.offset) {
       _titleBottomPadding.value = _appbarHeight;
     }
+  }
+
+  void _tabListener() {
+    _pageController.animateToPage(
+      _tabController.index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
@@ -167,12 +183,26 @@ class _MyinfoScreenState extends State<MyinfoScreen>
               ),
             ),
             sliver: SliverToBoxAdapter(
-              child: Container(
-                height: 200,
-                color: Colors.white,
-                child: const Center(
-                  child: AppFont('graphs'),
-                ),
+              child: ExpandablePageView(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                animationCurve: Curves.easeOut,
+                children: const [
+                  MyInfoGraph(),
+                  MyInfoHeatmap(),
+                  SizedBox(
+                    height: 400,
+                    child: Center(
+                      child: AppFont('9감정 개수'),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 500,
+                    child: Center(
+                      child: AppFont('꽃말'),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
