@@ -13,93 +13,100 @@ class MyInfoGraph extends StatelessWidget {
       height: 300,
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: Sizes.size40,
-              bottom: Sizes.size20,
-            ),
-            child: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              child: Container(
-                padding: const EdgeInsets.all(Sizes.size20),
-                height: 150,
-                child: LineChart(
-                  LineChartData(
-                    gridData: const FlGridData(show: false),
-                    titlesData: const FlTitlesData(
-                      show: true,
-                      rightTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      topTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
+          SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.only(
+                bottom: Sizes.size12,
+                top: Sizes.size20,
+                right: Sizes.size52,
+              ),
+              height: 150,
+              child: LineChart(
+                LineChartData(
+                  gridData: const FlGridData(show: false),
+                  titlesData: const FlTitlesData(
+                    show: true,
+                    rightTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
                     ),
-                    borderData: FlBorderData(show: false),
-                    lineTouchData: const LineTouchData(enabled: false),
-                    maxX: 30,
-                    minX: 0,
-                    maxY: 1,
-                    minY: 0,
-                    lineBarsData: [
-                      LineChartBarData(
-                        spots: const [
-                          FlSpot(0, -1),
-                          FlSpot(2, -0.3),
-                          FlSpot(4, 0.3),
-                          FlSpot(6, 0.4),
-                          FlSpot(12, -0.1),
-                          FlSpot(13, 0.2),
-                          FlSpot(16, 0.9),
-                          FlSpot(22, -0.1),
-                          FlSpot(30, 1),
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                  ),
+                  borderData: FlBorderData(show: false),
+                  lineTouchData: const LineTouchData(enabled: false),
+                  maxX: 30,
+                  minX: 0,
+                  maxY: 1,
+                  minY: 0,
+                  lineBarsData: [
+                    LineChartBarData(
+                      // TODO; set data
+                      spots: const [
+                        FlSpot(0, -1),
+                        FlSpot(2, -0.3),
+                        FlSpot(4, 0.3),
+                        FlSpot(6, 0.4),
+                        FlSpot(12, -0.1),
+                        FlSpot(13, 0.2),
+                        FlSpot(16, 0.9),
+                        FlSpot(22, -0.1),
+                        FlSpot(30, 1),
+                      ],
+                      isStrokeJoinRound: true,
+                      isCurved: true,
+                      curveSmoothness: 0.2,
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).primaryColor.withOpacity(0.3),
+                          Theme.of(context).primaryColor,
                         ],
-                        isCurved: true,
-                        curveSmoothness: 0.2,
+                      ),
+                      barWidth: 3,
+                      isStrokeCapRound: true,
+                      dotData: FlDotData(
+                        show: true,
+                        getDotPainter: (p0, p1, p2, p3) => FlDotCirclePainter(
+                          radius: p3 == 8 ? Sizes.size4 : 0,
+                          color: Theme.of(context).primaryColor,
+                          strokeWidth: p3 == 8 ? Sizes.size2 : 0,
+                          strokeColor:
+                              Theme.of(context).primaryColor.withOpacity(0.6),
+                        ),
+                      ),
+                      belowBarData: BarAreaData(
+                        show: true,
                         gradient: LinearGradient(
                           colors: [
-                            Colors.grey,
                             Theme.of(context).primaryColor,
-                          ],
-                        ),
-                        barWidth: 3,
-                        isStrokeCapRound: true,
-                        dotData: const FlDotData(
-                          show: false,
-                        ),
-                        belowBarData: BarAreaData(
-                          show: true,
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.grey,
-                              Theme.of(context).primaryColor,
-                            ].map((color) => color.withOpacity(0.3)).toList(),
-                          ),
+                            Theme.of(context).primaryColor,
+                          ].map((color) => color.withOpacity(0.3)).toList(),
                         ),
                       ),
-                    ],
-                  ),
-                  curve: Curves.easeOut,
-                  duration: const Duration(milliseconds: 300),
+                    ),
+                  ],
                 ),
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
               ),
             ),
           ),
           Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.only(
-                left: Sizes.size20,
-                top: Sizes.size20,
+                right: Sizes.size10,
+                top: Sizes.size10,
               ),
               child: Container(
-                height: 220,
+                height: 260,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Sizes.size20),
                   gradient: LinearGradient(
@@ -134,46 +141,44 @@ class MyInfoGraph extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: Sizes.size20,
-                bottom: Sizes.size20,
-              ),
-              child: Container(
-                width: MediaQuery.of(context).size.width - Sizes.size80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Sizes.size20),
-                  gradient: LinearGradient(
-                    stops: const [0, 1],
-                    end: Alignment.centerLeft,
-                    begin: Alignment.centerRight,
-                    colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.8),
-                      Theme.of(context).primaryColor.withOpacity(0.5),
-                    ],
-                  ),
+            alignment: Alignment.bottomLeft,
+            child: Container(
+              width: MediaQuery.of(context).size.width - Sizes.size40,
+              height: Sizes.size20,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.horizontal(
+                  right: Radius.circular(Sizes.size20),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: Sizes.size2,
-                    horizontal: Sizes.size10,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppFont(
-                        'Last 30 Days',
-                        color: Colors.white,
-                        weight: FontWeight.w700,
-                      ),
-                      AppFont(
-                        'Today',
-                        color: Colors.white,
-                        weight: FontWeight.w700,
-                      ),
-                    ],
-                  ),
+                gradient: LinearGradient(
+                  stops: const [0, 1],
+                  end: Alignment.centerLeft,
+                  begin: Alignment.centerRight,
+                  colors: [
+                    Theme.of(context).primaryColor.withOpacity(0.8),
+                    Theme.of(context).primaryColor.withOpacity(0.6),
+                  ],
+                ),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Sizes.size10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppFont(
+                      'Last 30 Days',
+                      size: Sizes.size12,
+                      color: Colors.white,
+                      weight: FontWeight.w700,
+                    ),
+                    AppFont(
+                      'Today',
+                      size: Sizes.size12,
+                      color: Colors.white,
+                      weight: FontWeight.w700,
+                    ),
+                  ],
                 ),
               ),
             ),
