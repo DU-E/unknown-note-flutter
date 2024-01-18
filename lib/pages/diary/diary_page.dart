@@ -10,18 +10,18 @@ import 'package:unknown_note_flutter/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/package/flutter_card_swiper/card_swiper.dart';
-import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_card.dart';
-import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_skeleton.dart';
-import 'package:unknown_note_flutter/pages/home/screens/diary/widgets/diary_slide_widget.dart';
+import 'package:unknown_note_flutter/pages/diary/widgets/diary_card.dart';
+import 'package:unknown_note_flutter/pages/diary/widgets/diary_skeleton.dart';
+import 'package:unknown_note_flutter/pages/diary/widgets/diary_slide_widget.dart';
 
-class DiaryScreen extends StatefulWidget {
-  const DiaryScreen({super.key});
+class DiaryPage extends StatefulWidget {
+  const DiaryPage({super.key});
 
   @override
-  State<DiaryScreen> createState() => _DiaryScreenState();
+  State<DiaryPage> createState() => _DiaryPageState();
 }
 
-class _DiaryScreenState extends State<DiaryScreen> {
+class _DiaryPageState extends State<DiaryPage> {
   late final CardSwiperController _controller;
 
   @override

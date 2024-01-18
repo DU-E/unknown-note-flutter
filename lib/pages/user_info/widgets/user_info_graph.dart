@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 
-class MyInfoGraph extends StatelessWidget {
-  const MyInfoGraph({super.key});
+class UserInfoGraph extends StatelessWidget {
+  const UserInfoGraph({super.key});
 
   @override
   Widget build(BuildContext context) {

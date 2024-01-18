@@ -3,8 +3,8 @@ import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
-class MyInfoHeatmap extends StatelessWidget {
-  const MyInfoHeatmap({super.key});
+class UserInfoHeatmap extends StatelessWidget {
+  const UserInfoHeatmap({super.key});
 
   @override
   Widget build(BuildContext context) {

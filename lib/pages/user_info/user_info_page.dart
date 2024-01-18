@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_listitem_widget.dart';
-import 'package:unknown_note_flutter/pages/home/screens/myinfo/widgets/myinfo_graph.dart';
-import 'package:unknown_note_flutter/pages/home/screens/myinfo/widgets/myinfo_heatmap.dart';
-import 'package:unknown_note_flutter/pages/home/screens/myinfo/widgets/myinfo_profile_widget.dart';
+import 'package:unknown_note_flutter/pages/essay/widgets/essay_listitem_widget.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_graph.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_heatmap.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_profile_widget.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
 
-class MyinfoScreen extends StatefulWidget {
-  const MyinfoScreen({super.key});
+class UserInfoPage extends StatefulWidget {
+  const UserInfoPage({super.key});
 
   @override
-  State<MyinfoScreen> createState() => _MyinfoScreenState();
+  State<UserInfoPage> createState() => _UserInfoPageState();
 }
 
-class _MyinfoScreenState extends State<MyinfoScreen>
+class _UserInfoPageState extends State<UserInfoPage>
     with SingleTickerProviderStateMixin {
   static const double _expandedHeight = 250;
   static const double _appbarHeight = Sizes.size52;
@@ -141,7 +141,7 @@ class _MyinfoScreenState extends State<MyinfoScreen>
           const SliverToBoxAdapter(
             child: SizedBox(
               height: _expandedHeight,
-              child: MyInfoProfileWidget(),
+              child: UserInfoProfileWidget(),
             ),
           ),
           SliverStickyHeader(
@@ -188,8 +188,8 @@ class _MyinfoScreenState extends State<MyinfoScreen>
                 physics: const NeverScrollableScrollPhysics(),
                 animationCurve: Curves.easeOut,
                 children: const [
-                  MyInfoGraph(),
-                  MyInfoHeatmap(),
+                  UserInfoGraph(),
+                  UserInfoHeatmap(),
                   SizedBox(
                     height: 400,
                     child: Center(

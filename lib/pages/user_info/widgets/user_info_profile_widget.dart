@@ -4,8 +4,8 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'dart:math' as math;
 
-class MyInfoProfileWidget extends StatelessWidget {
-  const MyInfoProfileWidget({super.key});
+class UserInfoProfileWidget extends StatelessWidget {
+  const UserInfoProfileWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

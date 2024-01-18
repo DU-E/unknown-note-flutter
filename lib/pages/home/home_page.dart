@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
-import 'package:unknown_note_flutter/pages/home/screens/calendar/calendar_screen.dart';
-import 'package:unknown_note_flutter/pages/home/screens/diary/diary_screen.dart';
-import 'package:unknown_note_flutter/pages/home/screens/essay/essay_screen.dart';
-import 'package:unknown_note_flutter/pages/home/screens/myinfo/myinfo_screen.dart';
+import 'package:unknown_note_flutter/pages/calendar/calendar_page.dart';
+import 'package:unknown_note_flutter/pages/diary/diary_page.dart';
+import 'package:unknown_note_flutter/pages/essay/essay_page.dart';
+import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
 import 'package:unknown_note_flutter/pages/home/widgets/home_navigaton_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,10 +60,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 controller: _controller,
                 physics: const NeverScrollableScrollPhysics(),
                 children: const [
-                  CalendarScreen(),
-                  DiaryScreen(),
-                  EssayScreen(),
-                  MyinfoScreen(),
+                  CalendarPage(),
+                  DiaryPage(),
+                  EssayPage(),
+                  UserInfoPage(),
                 ],
               ),
             ),

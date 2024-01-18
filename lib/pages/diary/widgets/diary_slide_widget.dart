@@ -6,7 +6,7 @@ import 'package:unknown_note_flutter/widgets/common_radio_button.dart';
 import 'package:unknown_note_flutter/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
-import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_slide_widget.dart';
+import 'package:unknown_note_flutter/pages/essay/widgets/essay_slide_widget.dart';
 
 class DiarySlideWidget extends StatefulWidget {
   const DiarySlideWidget({super.key});

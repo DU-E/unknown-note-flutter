@@ -10,17 +10,17 @@ import 'package:unknown_note_flutter/widgets/common_loading_widget.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
-import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_appbar.dart';
-import 'package:unknown_note_flutter/pages/home/screens/essay/widgets/essay_listitem_widget.dart';
+import 'package:unknown_note_flutter/pages/essay/widgets/essay_appbar.dart';
+import 'package:unknown_note_flutter/pages/essay/widgets/essay_listitem_widget.dart';
 
-class EssayScreen extends StatefulWidget {
-  const EssayScreen({super.key});
+class EssayPage extends StatefulWidget {
+  const EssayPage({super.key});
 
   @override
-  State<EssayScreen> createState() => _EssayScreenState();
+  State<EssayPage> createState() => _EssayPageState();
 }
 
-class _EssayScreenState extends State<EssayScreen> {
+class _EssayPageState extends State<EssayPage> {
   @override
   void initState() {
     super.initState();
