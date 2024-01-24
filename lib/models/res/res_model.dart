@@ -13,7 +13,7 @@ class ResModel<T> with _$ResModel<T> {
 
   factory ResModel.fromJson(
     Map<String, dynamic> json,
-    T Function(Object? json) fromJsonT,
+    T Function(dynamic json) fromJsonT,
   ) =>
       _$ResModelFromJson<T>(json, fromJsonT);
 }

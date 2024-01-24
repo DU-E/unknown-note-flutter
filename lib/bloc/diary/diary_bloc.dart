@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
+import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 
 class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
@@ -48,13 +50,19 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
 
       emit(state.copyWith(
         status: ELoadingStatus.loaded,
-        diary: res,
+        diary: res.data,
         page: state.page + 1,
+      ));
+    } on DioException catch (e) {
+      var error = e.error as ResModel<void>;
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        message: '[${error.code}] ${error.message as String}',
       ));
     } catch (e) {
       emit(state.copyWith(
         status: ELoadingStatus.error,
-        message: e.toString(),
+        message: '[5001] ${e.toString()}',
       ));
     }
   }

@@ -91,7 +91,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
     Emitter<AuthState> emit,
   ) async {
     try {
-      emit(AuthLoadingState());
       // case AuthUnAuthState
       if (state is AuthUnAuthState) {
         // method == google

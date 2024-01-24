@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_draggable.dart';
 import 'package:unknown_note_flutter/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
@@ -13,6 +15,7 @@ import 'package:unknown_note_flutter/package/flutter_card_swiper/card_swiper.dar
 import 'package:unknown_note_flutter/pages/diary/widgets/diary_card.dart';
 import 'package:unknown_note_flutter/pages/diary/widgets/diary_skeleton.dart';
 import 'package:unknown_note_flutter/pages/diary/widgets/diary_slide_widget.dart';
+import 'package:unknown_note_flutter/widgets/common_shadow_container.dart';
 
 class DiaryPage extends StatefulWidget {
   const DiaryPage({super.key});
@@ -74,6 +77,16 @@ class _DiaryPageState extends State<DiaryPage> {
                   state.status == ELoadingStatus.init ||
                   state.status == ELoadingStatus.loading) {
                 return DiarySkeleton(seed: state.page);
+              }
+              if (state.status == ELoadingStatus.error) {
+                return CommonShadowContainer(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(Sizes.size20),
+                      child: AppFont(state.message ?? Strings.unknownFail),
+                    ),
+                  ),
+                );
               }
               return DiaryCard(diary: state.diary!);
             },
