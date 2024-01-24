@@ -31,10 +31,13 @@ class DiaryCard extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  AppFont(
-                    diary.emotion?.emoji ?? '',
-                    size: Sizes.size60,
+                  Gaps.v10,
+                  Image.asset(
+                    'assets/images/emotions/${diary.emotion?.key ?? 'happy'}_img.png',
+                    width: Sizes.size72,
+                    height: Sizes.size72,
                   ),
+                  Gaps.v4,
                   AppFont(diary.time?.toString() ?? 'asd'),
                   AppFont(diary.time?.toString() ?? 'asd'),
                   Gaps.v20,
