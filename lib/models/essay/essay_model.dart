@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+// TODO: Change to freezed generator
 part 'essay_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_state.dart';
+import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
 import 'package:unknown_note_flutter/widgets/common_tagitem_widget.dart';
@@ -59,10 +60,9 @@ class ReadDiaryPage extends StatelessWidget {
                         spacing: Sizes.size4,
                         runSpacing: Sizes.size4,
                         children: [
-                          for (var tag in diary.tags ?? [])
-                            CommonTagItemWidget(
-                              tag: tag,
-                            ),
+                          CommonTagItemWidget(
+                            tag: diary.emotion?.key ?? EEmotion.happy.text,
+                          ),
                         ],
                       ),
                     ],
@@ -73,7 +73,7 @@ class ReadDiaryPage extends StatelessWidget {
                       const AppFont('Write at'),
                       Gaps.h5,
                       CommonTagItemWidget(
-                        tag: diary.date?.toString() ?? Strings.nullStr,
+                        tag: diary.time?.toString() ?? Strings.nullStr,
                       ),
                     ],
                   ),

@@ -40,8 +40,8 @@ class DudeGetRepository {
       content: '$page ${emotion.text} diary',
       isOpen: true,
       emotion: EEmotion.normal,
-      tags: [emotion.text, '$page'],
-      date: DateTime(2023, 12, 21, 13, 09).add(Duration(minutes: page)),
+      time: DateTime(2023, 12, 21, 13, 09).add(Duration(minutes: page)),
+      userId: page,
     );
 
     return res;

@@ -1,4 +1,5 @@
 enum EEmotion {
+  // TODO: normal 삭제
   normal('normal', '일반', '🙂'),
   happy('happy', '행복', '🤭'),
   love('love', '사랑', '🥰'),
