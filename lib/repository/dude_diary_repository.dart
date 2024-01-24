@@ -13,7 +13,7 @@ class DudeDiaryRepository {
       id: page,
       content: '$page ${emotion.text} diary',
       isOpen: true,
-      emotion: EEmotion.normal,
+      emotion: EEmotion.happy,
       time: DateTime(2023, 12, 21, 13, 09).add(Duration(minutes: page)),
       userId: page,
     );

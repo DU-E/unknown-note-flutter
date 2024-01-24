@@ -20,7 +20,7 @@ class DiaryState extends Equatable {
 
   const DiaryState.init()
       : status = ELoadingStatus.init,
-        emotion = EEmotion.normal,
+        emotion = EEmotion.happy,
         diary = null,
         page = 0,
         message = null;

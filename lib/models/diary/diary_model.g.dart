@@ -29,13 +29,12 @@ Map<String, dynamic> _$$DiaryModelImplToJson(_$DiaryModelImpl instance) =>
     };
 
 const _$EEmotionEnumMap = {
-  EEmotion.normal: 'normal',
   EEmotion.happy: 'happy',
   EEmotion.love: 'love',
-  EEmotion.anticipation: 'anticipation',
-  EEmotion.thank: 'thank',
+  EEmotion.expect: 'expect',
+  EEmotion.thanks: 'thanks',
   EEmotion.sad: 'sad',
-  EEmotion.rage: 'rage',
+  EEmotion.anger: 'anger',
   EEmotion.fear: 'fear',
   EEmotion.regret: 'regret',
 };
