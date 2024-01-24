@@ -3,13 +3,13 @@ import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
 
 class EssayListBloc extends Bloc<EssayListEvent, EssayListState> {
-  final DudeGetRepository dudeGetRepository;
+  final DudeEssayRepository dudeEssayRepository;
 
   EssayListBloc({
-    required this.dudeGetRepository,
+    required this.dudeEssayRepository,
   }) : super(EssayListState.init()) {
     on<EssayListChangeCategory>(_essayListChangeCategoryHandler);
     on<EssayListLoadMore>(_essayListLoadMoreHandler);
@@ -34,7 +34,7 @@ class EssayListBloc extends Bloc<EssayListEvent, EssayListState> {
     emit(state.copyWith(status: ELoadingStatus.loading));
 
     try {
-      var res = await dudeGetRepository.getEssayList(
+      var res = await dudeEssayRepository.getEssayList(
         category: state.category,
         page: state.page + 1,
       );

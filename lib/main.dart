@@ -12,7 +12,8 @@ import 'package:unknown_note_flutter/constants/secret.dart';
 import 'package:unknown_note_flutter/firebase_options.dart';
 import 'package:unknown_note_flutter/pages/app_routes.dart';
 import 'package:unknown_note_flutter/repository/authentication_repository.dart';
-import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +42,10 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthenticationRepository(),
         ),
         RepositoryProvider(
-          create: (context) => DudeGetRepository(),
+          create: (context) => DudeDiaryRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => DudeEssayRepository(),
         ),
       ],
       child: MultiBlocProvider(
@@ -54,12 +58,12 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => EssayListBloc(
-              dudeGetRepository: context.read<DudeGetRepository>(),
+              dudeEssayRepository: context.read<DudeEssayRepository>(),
             ),
           ),
           BlocProvider(
             create: (context) => DiaryBloc(
-              dudeGetRepository: context.read<DudeGetRepository>(),
+              dudeDiaryRepository: context.read<DudeDiaryRepository>(),
             ),
           ),
         ],

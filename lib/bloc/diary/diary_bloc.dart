@@ -2,13 +2,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
-import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 
 class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
-  final DudeGetRepository dudeGetRepository;
+  final DudeDiaryRepository dudeDiaryRepository;
 
   DiaryBloc({
-    required this.dudeGetRepository,
+    required this.dudeDiaryRepository,
   }) : super(const DiaryState.init()) {
     on<DiaryChangeEmotion>(_diaryChangeEmotionHandler);
     on<DiaryGet>(_diaryGetHandler);
@@ -41,7 +41,7 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
 
   Future<void> _getDiary(Emitter<DiaryState> emit) async {
     try {
-      var res = await dudeGetRepository.getDiary(
+      var res = await dudeDiaryRepository.getDiary(
         emotion: state.emotion,
         page: state.page + 1,
       );
