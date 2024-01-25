@@ -6,9 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
+import 'package:unknown_note_flutter/bloc/calendar/calendar_bloc.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
+import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 import 'package:unknown_note_flutter/utils/my_transition_page.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
@@ -69,6 +71,11 @@ class _AppRoutesState extends State<AppRoutes> {
               providers: [
                 BlocProvider(
                   create: (context) => CalendarStateCubit(),
+                ),
+                BlocProvider(
+                  create: (context) => CalendarBloc(
+                    dudeDiaryRepository: context.read<DudeDiaryRepository>(),
+                  ),
                 ),
               ],
               child: const HomePage(),
