@@ -5,6 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_state.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
+import 'package:unknown_note_flutter/pages/essay/widgets/essay_slide_widget.dart';
+import 'package:unknown_note_flutter/widgets/app_font.dart';
+import 'package:unknown_note_flutter/widgets/common_button.dart';
+import 'package:unknown_note_flutter/widgets/common_draggable.dart';
 import 'package:unknown_note_flutter/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/widgets/common_loading_widget.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
@@ -27,7 +33,7 @@ class _EssayPageState extends State<EssayPage> {
 
     final bloc = context.read<EssayListBloc>();
     if (bloc.state.list.isEmpty) {
-      bloc.add(EssayListChangeCategory(category: EEssayCategory.recomm));
+      bloc.add(EssayListChangeCategory(category: EEssayCategory.poem));
     }
   }
 
@@ -35,12 +41,11 @@ class _EssayPageState extends State<EssayPage> {
     context.read<EssayListBloc>().add(EssayListLoadMore());
   }
 
-  void _onTapCategory() {
+  void _onCategoryTap() {
     DraggableMenu.open(
       context,
-      DraggableMenu(
-        customUi: Container(color: Colors.red),
-        child: const SizedBox(),
+      const CommonDraggable(
+        child: EssaySlideWidget(),
       ),
     );
   }
@@ -68,6 +73,20 @@ class _EssayPageState extends State<EssayPage> {
                   essay: state.list[index],
                 );
               } else {
+                if (state.status == ELoadingStatus.error) {
+                  return Column(
+                    children: [
+                      AppFont(state.message ?? Strings.unknownFail),
+                      Gaps.v10,
+                      CommonButton(
+                        onTap: () {
+                          context.read<EssayListBloc>().add(EssayListRetry());
+                        },
+                        child: const AppFont('재시도'),
+                      ),
+                    ],
+                  );
+                }
                 return CommonLoadingWidget(whenBuild: _loadMore);
               }
             },
@@ -76,26 +95,28 @@ class _EssayPageState extends State<EssayPage> {
           ),
         ),
         const EssayAppBar(),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: Sizes.size28,
-              right: Sizes.size28,
-              bottom: MediaQuery.of(context).padding.bottom + Sizes.size20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CommonIconButton(
-                  icon: Icons.category_rounded,
-                  onTap: _onTapCategory,
-                ),
-                CommonIconButton(
-                  icon: Icons.add_rounded,
-                  onTap: _onTapAdd,
-                ),
-              ],
+        SafeArea(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: Sizes.size28,
+                right: Sizes.size28,
+                bottom: Sizes.size80,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CommonIconButton(
+                    icon: Icons.add_rounded,
+                    onTap: _onTapAdd,
+                  ),
+                  CommonIconButton(
+                    icon: Icons.category_rounded,
+                    onTap: _onCategoryTap,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

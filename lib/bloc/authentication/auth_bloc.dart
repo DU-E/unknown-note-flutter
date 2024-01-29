@@ -121,7 +121,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
 
       emit(AuthUnknownState());
     } catch (e) {
-      print('error + ${e.toString()}');
       emit(AuthErrorState(
         message: e.toString(),
       ));

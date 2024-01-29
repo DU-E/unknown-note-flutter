@@ -228,8 +228,8 @@ class _UserInfoPageState extends State<UserInfoPage>
               ),
             ),
             sliver: SliverList.builder(
-              itemBuilder: (context, index) => const Padding(
-                padding: EdgeInsets.only(
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.only(
                   top: Sizes.size20,
                   left: Sizes.size20,
                   right: Sizes.size20,

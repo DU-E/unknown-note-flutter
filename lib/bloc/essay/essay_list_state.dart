@@ -22,7 +22,7 @@ class EssayListState extends Equatable {
 
   EssayListState.init()
       : status = ELoadingStatus.init,
-        category = EEssayCategory.recomm,
+        category = EEssayCategory.poem,
         mood = null,
         list = [],
         page = 0,

@@ -17,9 +17,9 @@ class WriteEssayState extends Equatable {
     this.message,
   });
 
-  const WriteEssayState.init()
+  WriteEssayState.init()
       : status = EUploadStatus.init,
-        essay = const EssayModel(),
+        essay = EssayModel(),
         message = null;
 
   WriteEssayState copyWith({

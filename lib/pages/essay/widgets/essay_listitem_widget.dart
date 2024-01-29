@@ -5,7 +5,6 @@ import 'package:unknown_note_flutter/widgets/common_button.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-import 'package:unknown_note_flutter/widgets/common_tagitem_widget.dart';
 
 class EssayListItemWidget extends StatelessWidget {
   final EssayModel essay;
@@ -43,7 +42,7 @@ class EssayListItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppFont(
-                    essay.author ?? 'Anonymous',
+                    essay.nickname ?? 'Anonymous',
                     color: Theme.of(context).primaryColor,
                   ),
                   Container(
@@ -81,18 +80,7 @@ class EssayListItemWidget extends StatelessWidget {
                   weight: FontWeight.w700,
                   size: Sizes.size16,
                 ),
-              AppFont(essay.body ?? ''),
-              Gaps.v5,
-              Wrap(
-                spacing: Sizes.size4,
-                runSpacing: Sizes.size4,
-                children: [
-                  for (var tag in essay.tags ?? [])
-                    CommonTagItemWidget(
-                      tag: tag,
-                    ),
-                ],
-              ),
+              AppFont(essay.content ?? ''),
             ],
           ),
         ),

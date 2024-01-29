@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';

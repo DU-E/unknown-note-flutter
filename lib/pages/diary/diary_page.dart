@@ -99,30 +99,25 @@ class _DiaryPageState extends State<DiaryPage> {
         ),
         SafeArea(
           child: Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(
+                left: Sizes.size28,
+                right: Sizes.size28,
                 bottom: Sizes.size80,
-                right: Sizes.size32,
               ),
-              child: CommonIconButton(
-                icon: Icons.settings_rounded,
-                onTap: _onSettingTap,
-              ),
-            ),
-          ),
-        ),
-        SafeArea(
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                bottom: Sizes.size80,
-                left: Sizes.size32,
-              ),
-              child: CommonIconButton(
-                icon: Icons.add_rounded,
-                onTap: _onAddTap,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CommonIconButton(
+                    icon: Icons.add_rounded,
+                    onTap: _onAddTap,
+                  ),
+                  CommonIconButton(
+                    icon: Icons.settings_rounded,
+                    onTap: _onSettingTap,
+                  ),
+                ],
               ),
             ),
           ),

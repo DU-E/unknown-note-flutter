@@ -11,3 +11,5 @@ class EssayListChangeCategory extends EssayListEvent {
 }
 
 class EssayListLoadMore extends EssayListEvent {}
+
+class EssayListRetry extends EssayListEvent {}

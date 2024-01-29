@@ -7,6 +7,7 @@ import 'package:unknown_note_flutter/bloc/calendar/calendar_event.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
@@ -161,7 +162,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            AppFont(message ?? 'ddd'),
+                            AppFont(message ?? Strings.unknownFail),
                             Gaps.v20,
                             CommonButton(
                               onTap: () {

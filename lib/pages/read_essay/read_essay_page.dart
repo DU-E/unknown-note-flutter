@@ -55,24 +55,7 @@ class ReadEssayPage extends StatelessWidget {
                     children: [
                       const AppFont('Author'),
                       Gaps.h5,
-                      CommonTagItemWidget(tag: essay.author ?? "Anonymous"),
-                    ],
-                  ),
-                  Gaps.v3,
-                  Row(
-                    children: [
-                      const AppFont('Tags'),
-                      Gaps.h5,
-                      Wrap(
-                        spacing: Sizes.size4,
-                        runSpacing: Sizes.size4,
-                        children: [
-                          for (var tag in essay.tags ?? [])
-                            CommonTagItemWidget(
-                              tag: tag,
-                            ),
-                        ],
-                      ),
+                      CommonTagItemWidget(tag: essay.nickname ?? "Anonymous"),
                     ],
                   ),
                   Gaps.v3,
@@ -81,7 +64,7 @@ class ReadEssayPage extends StatelessWidget {
                       const AppFont('Write at'),
                       Gaps.h5,
                       CommonTagItemWidget(
-                        tag: essay.date?.toString() ?? Strings.nullStr,
+                        tag: essay.time?.toString() ?? Strings.nullStr,
                       ),
                     ],
                   ),
@@ -90,7 +73,7 @@ class ReadEssayPage extends StatelessWidget {
                   Gaps.v20,
                   BlocBuilder<SettingBloc, SettingState>(
                     builder: (context, state) => AppFont(
-                      essay.body ?? '',
+                      essay.content ?? '',
                       size: state.getZoom(),
                     ),
                   ),
