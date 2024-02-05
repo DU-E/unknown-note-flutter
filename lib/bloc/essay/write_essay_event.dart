@@ -6,10 +6,10 @@ class WriteEssaySetTitle extends WriteEssayEvent {
   WriteEssaySetTitle({required this.title});
 }
 
-class WriteEssaySetBody extends WriteEssayEvent {
-  final String body;
+class WriteEssaySetContent extends WriteEssayEvent {
+  final String content;
 
-  WriteEssaySetBody({required this.body});
+  WriteEssaySetContent({required this.content});
 }
 
 class WriteEssayUpload extends WriteEssayEvent {}

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
-import 'package:unknown_note_flutter/bloc/authentication/auth_event.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/models/res/res_model.dart';
 
 class UnAuthInterceptor extends Interceptor {
   @override
@@ -15,6 +15,9 @@ class UnAuthInterceptor extends Interceptor {
     // time-out 설정
     options.receiveTimeout = const Duration(seconds: 5);
 
+    // base url 설정
+    options.baseUrl = Strings.baseUrl;
+
     return handler.next(options);
   }
 
@@ -27,6 +30,20 @@ class UnAuthInterceptor extends Interceptor {
     debugPrint(
       '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}',
     );
+
+    // Error handling
+    var res = ResModel.fromJson(response.data, (json) => null);
+    if (res.code != 1000) {
+      handler.reject(
+        DioException.connectionError(
+          requestOptions: response.requestOptions,
+          reason: res.message ?? 'UNCAUGHT ERROR',
+          error: res,
+        ),
+      );
+      return;
+    }
+
     handler.next(response);
   }
 
@@ -43,15 +60,15 @@ class UnAuthInterceptor extends Interceptor {
       '[ERR] code: ${err.response?.statusCode}',
     );
 
-    // Logout
-    // TODO: change condition: jwt auth error
-    if (true) {
-      AuthBlocSingleton.bloc.add(AuthSignoutEvent());
-    }
-
-    // Pro tip
-    // refresh token이 제공되는 경우 여기서 토큰 재발급을 할 수 있음.
-    // https://blog.yjyoon.dev/flutter/2021/11/28/flutter-06/
-    handler.reject(err);
+    handler.reject(
+      DioException.connectionError(
+        requestOptions: err.requestOptions,
+        reason: err.message ?? 'UNCAUGHT ERROR',
+        error: ResModel(
+          code: 5000,
+          message: '통신에 실패했습니다.',
+        ),
+      ),
+    );
   }
 }

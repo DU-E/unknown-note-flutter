@@ -17,9 +17,9 @@ class WriteDiaryState extends Equatable {
     this.message,
   });
 
-  const WriteDiaryState.init()
+  WriteDiaryState.init()
       : status = EUploadStatus.init,
-        diary = const DiaryModel(),
+        diary = DiaryModel(),
         message = null;
 
   WriteDiaryState copyWith({

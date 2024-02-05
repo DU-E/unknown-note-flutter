@@ -6,34 +6,35 @@ part of 'diary_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DiaryModel _$DiaryModelFromJson(Map<String, dynamic> json) => DiaryModel(
-      id: json['id'] as int?,
-      content: json['content'] as String?,
-      emotion: $enumDecodeNullable(_$EEmotionEnumMap, json['emotion']),
-      isOpen: json['isOpen'] as bool?,
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      date:
-          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+_$DiaryModelImpl _$$DiaryModelImplFromJson(Map<String, dynamic> json) =>
+    _$DiaryModelImpl(
+      id: json['diaryid'] as int?,
+      content: json['dcontent'] as String?,
+      time: json['dtime'] == null
+          ? null
+          : DateTime.parse(json['dtime'] as String),
+      emotion: $enumDecodeNullable(_$EEmotionEnumMap, json['dtag']),
+      userId: json['userid'] as int?,
+      isOpen: openableFromJson(json['openable'] as int?),
     );
 
-Map<String, dynamic> _$DiaryModelToJson(DiaryModel instance) =>
+Map<String, dynamic> _$$DiaryModelImplToJson(_$DiaryModelImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'content': instance.content,
-      'emotion': _$EEmotionEnumMap[instance.emotion],
-      'isOpen': instance.isOpen,
-      'tags': instance.tags,
-      'date': instance.date?.toIso8601String(),
+      'diaryid': instance.id,
+      'dcontent': instance.content,
+      'dtime': instance.time?.toIso8601String(),
+      'dtag': _$EEmotionEnumMap[instance.emotion],
+      'userid': instance.userId,
+      'openable': openableToJson(instance.isOpen),
     };
 
 const _$EEmotionEnumMap = {
-  EEmotion.normal: 'normal',
   EEmotion.happy: 'happy',
   EEmotion.love: 'love',
-  EEmotion.anticipation: 'anticipation',
-  EEmotion.thank: 'thank',
+  EEmotion.expect: 'expect',
+  EEmotion.thanks: 'thanks',
   EEmotion.sad: 'sad',
-  EEmotion.rage: 'rage',
+  EEmotion.anger: 'anger',
   EEmotion.fear: 'fear',
   EEmotion.regret: 'regret',
 };

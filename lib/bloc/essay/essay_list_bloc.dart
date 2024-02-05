@@ -1,18 +1,21 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
+import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
 
 class EssayListBloc extends Bloc<EssayListEvent, EssayListState> {
-  final DudeGetRepository dudeGetRepository;
+  final DudeEssayRepository dudeEssayRepository;
 
   EssayListBloc({
-    required this.dudeGetRepository,
+    required this.dudeEssayRepository,
   }) : super(EssayListState.init()) {
     on<EssayListChangeCategory>(_essayListChangeCategoryHandler);
     on<EssayListLoadMore>(_essayListLoadMoreHandler);
+    on<EssayListRetry>(_essayListRetryHandler);
   }
 
   Future<void> _essayListChangeCategoryHandler(
@@ -34,7 +37,7 @@ class EssayListBloc extends Bloc<EssayListEvent, EssayListState> {
     emit(state.copyWith(status: ELoadingStatus.loading));
 
     try {
-      var res = await dudeGetRepository.getEssayList(
+      var res = await dudeEssayRepository.getEssayList(
         category: state.category,
         page: state.page + 1,
       );
@@ -42,18 +45,33 @@ class EssayListBloc extends Bloc<EssayListEvent, EssayListState> {
       List<EssayModel> newList = [];
       newList
         ..addAll(state.list)
-        ..addAll(res);
+        ..addAll(res.data ?? []);
 
       emit(state.copyWith(
         status: ELoadingStatus.loaded,
         list: newList,
         page: state.page + 1,
       ));
+    } on DioException catch (e) {
+      var error = e.error as ResModel<void>;
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        message: '[${error.code}] ${error.message as String}',
+      ));
     } catch (e) {
       emit(state.copyWith(
         status: ELoadingStatus.error,
-        message: e.toString(),
+        message: '[5001] ${e.toString()}',
       ));
     }
+  }
+
+  Future<void> _essayListRetryHandler(
+    EssayListRetry event,
+    Emitter<EssayListState> emit,
+  ) async {
+    emit(state.copyWith(
+      status: ELoadingStatus.init,
+    ));
   }
 }

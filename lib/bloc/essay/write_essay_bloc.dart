@@ -7,9 +7,9 @@ import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 class WriteEssayBloc extends HydratedBloc<WriteEssayEvent, WriteEssayState> {
   // TODO; upload repository
 
-  WriteEssayBloc() : super(const WriteEssayState.init()) {
+  WriteEssayBloc() : super(WriteEssayState.init()) {
     on<WriteEssaySetTitle>(_writeEssaySetTitleHandler);
-    on<WriteEssaySetBody>(_writeEssaySetBodyHandler);
+    on<WriteEssaySetContent>(_writeEssaySetContentHandler);
     on<WriteEssayUpload>(_writeEssayUploadHandler);
   }
 
@@ -33,13 +33,13 @@ class WriteEssayBloc extends HydratedBloc<WriteEssayEvent, WriteEssayState> {
     ));
   }
 
-  Future<void> _writeEssaySetBodyHandler(
-    WriteEssaySetBody event,
+  Future<void> _writeEssaySetContentHandler(
+    WriteEssaySetContent event,
     Emitter<WriteEssayState> emit,
   ) async {
     emit(state.copyWith(
       essay: state.essay.copyWith(
-        body: event.body,
+        content: event.content,
       ),
     ));
   }
@@ -56,7 +56,7 @@ class WriteEssayBloc extends HydratedBloc<WriteEssayEvent, WriteEssayState> {
 
     emit(state.copyWith(
       status: EUploadStatus.success,
-      essay: const EssayModel(),
+      essay: EssayModel(),
     ));
   }
 }

@@ -7,7 +7,7 @@ import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 class WriteDiaryBloc extends HydratedBloc<WriteDiaryEvent, WriteDiaryState> {
   // TODO; upload repository
 
-  WriteDiaryBloc() : super(const WriteDiaryState.init()) {
+  WriteDiaryBloc() : super(WriteDiaryState.init()) {
     on<WriteDiarySetContent>(_writeDiarySetContentHandler);
     on<WriteDiaryUpload>(_writeDiaryUploadHandler);
   }
@@ -44,7 +44,7 @@ class WriteDiaryBloc extends HydratedBloc<WriteDiaryEvent, WriteDiaryState> {
 
     emit(state.copyWith(
       status: EUploadStatus.success,
-      diary: const DiaryModel(),
+      diary: DiaryModel(),
     ));
   }
 }

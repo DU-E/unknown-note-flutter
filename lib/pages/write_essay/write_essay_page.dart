@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_state.dart';
-import 'package:unknown_note_flutter/common/widgets/app_font.dart';
-import 'package:unknown_note_flutter/common/widgets/common_button.dart';
-import 'package:unknown_note_flutter/common/widgets/common_horizontal_spliter.dart';
-import 'package:unknown_note_flutter/common/widgets/common_loading_widget.dart';
-import 'package:unknown_note_flutter/common/widgets/common_text_form.dart';
+import 'package:unknown_note_flutter/widgets/app_font.dart';
+import 'package:unknown_note_flutter/widgets/common_button.dart';
+import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
+import 'package:unknown_note_flutter/widgets/common_loading_widget.dart';
+import 'package:unknown_note_flutter/widgets/common_text_form.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
@@ -21,13 +21,13 @@ class WriteEssayPage extends StatefulWidget {
 
 class _WriteEssayPageState extends State<WriteEssayPage> {
   String? _title;
-  String? _body;
+  String? _content;
 
   @override
   void initState() {
     super.initState();
     _title = context.read<WriteEssayBloc>().state.essay.title;
-    _body = context.read<WriteEssayBloc>().state.essay.body;
+    _content = context.read<WriteEssayBloc>().state.essay.content;
   }
 
   bool _isUploading(WriteEssayState state) {
@@ -39,14 +39,14 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
     context.read<WriteEssayBloc>().add(WriteEssaySetTitle(
           title: _title ?? '',
         ));
-    context.read<WriteEssayBloc>().add(WriteEssaySetBody(
-          body: _body ?? '',
+    context.read<WriteEssayBloc>().add(WriteEssaySetContent(
+          content: _content ?? '',
         ));
   }
 
   void _onDelete() {
     _title = '';
-    _body = '';
+    _content = '';
     _save();
     setState(() {});
   }
@@ -164,9 +164,9 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
               color: Theme.of(context).primaryColor.withOpacity(0.05),
               padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
               child: CommonTextForm(
-                initText: _body,
+                initText: _content,
                 getValue: (value) {
-                  _body = value;
+                  _content = value;
                 },
                 singleLine: false,
                 expanded: true,

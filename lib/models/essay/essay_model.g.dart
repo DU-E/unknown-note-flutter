@@ -6,24 +6,34 @@ part of 'essay_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EssayModel _$EssayModelFromJson(Map<String, dynamic> json) => EssayModel(
-      id: json['id'] as int?,
-      author: json['author'] as String?,
-      title: json['title'] as String?,
-      body: json['body'] as String?,
-      likes: json['likes'] as int?,
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      date:
-          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+_$EssayModelImpl _$$EssayModelImplFromJson(Map<String, dynamic> json) =>
+    _$EssayModelImpl(
+      id: json['essayid'] as int?,
+      title: json['etitle'] as String?,
+      content: json['econtent'] as String?,
+      time: json['etime'] == null
+          ? null
+          : DateTime.parse(json['etime'] as String),
+      likes: json['elikes'] as int?,
+      category: $enumDecodeNullable(_$EEssayCategoryEnumMap, json['ecategory']),
+      nickname: json['nickname'] as String?,
     );
 
-Map<String, dynamic> _$EssayModelToJson(EssayModel instance) =>
+Map<String, dynamic> _$$EssayModelImplToJson(_$EssayModelImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'author': instance.author,
-      'title': instance.title,
-      'body': instance.body,
-      'likes': instance.likes,
-      'tags': instance.tags,
-      'date': instance.date?.toIso8601String(),
+      'essayid': instance.id,
+      'etitle': instance.title,
+      'econtent': instance.content,
+      'etime': instance.time?.toIso8601String(),
+      'elikes': instance.likes,
+      'ecategory': _$EEssayCategoryEnumMap[instance.category],
+      'nickname': instance.nickname,
     };
+
+const _$EEssayCategoryEnumMap = {
+  EEssayCategory.poem: 'poem',
+  EEssayCategory.novel: 'novel',
+  EEssayCategory.whisper: 'whisper',
+  EEssayCategory.subs: 'subs',
+  EEssayCategory.favs: 'favs',
+};

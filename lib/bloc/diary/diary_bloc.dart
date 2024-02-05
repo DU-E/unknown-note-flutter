@@ -1,14 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
-import 'package:unknown_note_flutter/repository/dude_get_repository.dart';
+import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 
 class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
-  final DudeGetRepository dudeGetRepository;
+  final DudeDiaryRepository dudeDiaryRepository;
 
   DiaryBloc({
-    required this.dudeGetRepository,
+    required this.dudeDiaryRepository,
   }) : super(const DiaryState.init()) {
     on<DiaryChangeEmotion>(_diaryChangeEmotionHandler);
     on<DiaryGet>(_diaryGetHandler);
@@ -19,9 +21,8 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
     Emitter<DiaryState> emit,
   ) async {
     if (state.status == ELoadingStatus.loading) return;
-
     emit(state.copyWith(
-      status: ELoadingStatus.init,
+      status: ELoadingStatus.loading,
       emotion: event.emotion,
       page: 0,
     ));
@@ -41,20 +42,26 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
 
   Future<void> _getDiary(Emitter<DiaryState> emit) async {
     try {
-      var res = await dudeGetRepository.getDiary(
+      var res = await dudeDiaryRepository.getDiary(
         emotion: state.emotion,
         page: state.page + 1,
       );
 
       emit(state.copyWith(
         status: ELoadingStatus.loaded,
-        diary: res,
+        diary: res.data,
         page: state.page + 1,
+      ));
+    } on DioException catch (e) {
+      var error = e.error as ResModel<void>;
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        message: '[${error.code}] ${error.message as String}',
       ));
     } catch (e) {
       emit(state.copyWith(
         status: ELoadingStatus.error,
-        message: e.toString(),
+        message: '[5001] ${e.toString()}',
       ));
     }
   }
