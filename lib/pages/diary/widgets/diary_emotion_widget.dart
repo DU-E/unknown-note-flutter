@@ -66,6 +66,7 @@ class DiaryEmotionWidget extends StatelessWidget {
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
+              mainAxisExtent: Sizes.size80,
               crossAxisSpacing: Sizes.size5,
               mainAxisSpacing: Sizes.size5,
             ),

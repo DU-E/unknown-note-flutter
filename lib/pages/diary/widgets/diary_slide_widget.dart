@@ -46,7 +46,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
       height: _tabController.index == 0
           ? 230
           : _tabController.index == 1
-              ? 335
+              ? 320
               : 390,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(),
@@ -60,6 +60,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
             BlocBuilder<DiaryBloc, DiaryState>(
               builder: (context, state) => DiaryEmotionWidget(
                 onSelected: (emotion) {
+                  if (state.emotion == emotion) return;
                   context.read<DiaryBloc>().add(DiaryChangeEmotion(
                         emotion: emotion,
                       ));
