@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
-import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
-import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
-import 'package:unknown_note_flutter/pages/diary/widgets/diary_emotion_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_font_controller.dart';
 import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
@@ -12,14 +8,14 @@ import 'package:unknown_note_flutter/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
-class DiarySlideWidget extends StatefulWidget {
-  const DiarySlideWidget({super.key});
+class ReadDiarySlideWidget extends StatefulWidget {
+  const ReadDiarySlideWidget({super.key});
 
   @override
-  State<DiarySlideWidget> createState() => _DiarySlideWidgetState();
+  State<ReadDiarySlideWidget> createState() => _ReadDiarySlideWidgetState();
 }
 
-class _DiarySlideWidgetState extends State<DiarySlideWidget>
+class _ReadDiarySlideWidgetState extends State<ReadDiarySlideWidget>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -27,7 +23,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: 3,
+      length: 2,
       vsync: this,
     );
   }
@@ -43,11 +39,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
     return AnimatedContainer(
       duration: const Duration(milliseconds: 260),
       curve: Curves.easeOut,
-      height: _tabController.index == 0
-          ? 230
-          : _tabController.index == 1
-              ? 325
-              : 390,
+      height: _tabController.index == 0 ? 230 : 390,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(),
       child: TabBarView(
@@ -56,19 +48,6 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
         clipBehavior: Clip.hardEdge,
         children: [
           _tabMain(),
-          _tabSub(
-            BlocBuilder<DiaryBloc, DiaryState>(
-              builder: (context, state) => DiaryEmotionWidget(
-                onSelected: (emotion) {
-                  if (state.emotion == emotion) return;
-                  context.read<DiaryBloc>().add(DiaryChangeEmotion(
-                        emotion: emotion,
-                      ));
-                },
-                selected: state.emotion,
-              ),
-            ),
-          ),
           _tabSub(
             const CommonFontController(),
           ),
@@ -141,20 +120,11 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
           ),
           Gaps.v10,
           CommonRadioButton(
-            title: '감정 필터',
-            icon: Icons.emoji_emotions_rounded,
-            onTap: () {
-              setState(() {
-                _tabController.index = 1;
-              });
-            },
-          ),
-          CommonRadioButton(
             title: '글꼴',
             icon: Icons.font_download_rounded,
             onTap: () {
               setState(() {
-                _tabController.index = 2;
+                _tabController.index = 1;
               });
             },
           ),
@@ -182,6 +152,13 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
               ),
               CommonZoomController(),
             ],
+          ),
+          CommonRadioButton(
+            title: '일기 수정',
+            icon: Icons.edit_note_rounded,
+            onTap: () {
+              context.pop(true);
+            },
           ),
         ],
       ),

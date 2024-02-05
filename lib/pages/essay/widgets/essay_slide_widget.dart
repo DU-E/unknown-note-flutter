@@ -18,6 +18,7 @@ class EssaySlideWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Gaps.v14,
           Row(
             children: [
               Icon(
