@@ -21,9 +21,8 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
     Emitter<DiaryState> emit,
   ) async {
     if (state.status == ELoadingStatus.loading) return;
-
     emit(state.copyWith(
-      status: ELoadingStatus.init,
+      status: ELoadingStatus.loading,
       emotion: event.emotion,
       page: 0,
     ));

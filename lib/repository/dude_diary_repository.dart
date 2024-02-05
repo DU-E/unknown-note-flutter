@@ -17,9 +17,10 @@ class DudeDiaryRepository {
         'emotion': emotion.key,
         // 'error': 2000,
       },
-      data: {
-        'page': page,
-      },
+      // @deprecated
+      // data: {
+      //   'page': page,
+      // },
     );
 
     var resModel = ResModel<DiaryModel>.fromJson(

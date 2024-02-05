@@ -1,5 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
+import 'package:unknown_note_flutter/bloc/setting/setting_state.dart';
 import 'package:unknown_note_flutter/widgets/common_shadow_container.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
@@ -48,7 +51,12 @@ class DiarySkeleton extends StatelessWidget {
                         Random(seed * 100 + index).nextDouble() *
                             (MediaQuery.of(context).size.width - 200) +
                         100))
-                  _rowSkeleton(width: w),
+                  BlocBuilder<SettingBloc, SettingState>(
+                    builder: (context, state) => _rowSkeleton(
+                      width: w,
+                      height: state.getZoom(),
+                    ),
+                  ),
               ],
             )
           ],
@@ -59,11 +67,12 @@ class DiarySkeleton extends StatelessWidget {
 
   Widget _rowSkeleton({
     double width = double.infinity,
+    double height = Sizes.size10,
   }) =>
       Container(
         margin: const EdgeInsets.only(bottom: Sizes.size10),
         width: width,
-        height: Sizes.size10,
+        height: height,
         decoration: BoxDecoration(
           color: Colors.grey,
           borderRadius: BorderRadius.circular(Sizes.size10),

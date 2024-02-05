@@ -4,6 +4,7 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 class CommonButton extends StatelessWidget {
   final Widget child;
   final Color? color;
+  final Color? foregroundColor;
   final Color? shadowColor;
   final double borderRadius;
   final Function()? onTap;
@@ -12,6 +13,7 @@ class CommonButton extends StatelessWidget {
     super.key,
     required this.child,
     this.color,
+    this.foregroundColor,
     this.shadowColor,
     this.borderRadius = Sizes.size10,
     this.onTap,
@@ -26,6 +28,7 @@ class CommonButton extends StatelessWidget {
         ),
         surfaceTintColor: shadowColor ?? Colors.white,
         shadowColor: shadowColor ?? Theme.of(context).primaryColor,
+        foregroundColor: foregroundColor,
         padding: const EdgeInsets.all(0),
         backgroundColor: color,
       ),

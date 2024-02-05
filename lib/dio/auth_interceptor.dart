@@ -28,7 +28,7 @@ class AuthInterceptor extends Interceptor {
     options.receiveTimeout = const Duration(seconds: 5);
 
     // 매 요청마다 헤더에 token 포함
-    options.headers['x-access-token'] = jwt;
+    options.headers['Authorization'] = jwt;
 
     // base url 설정
     options.baseUrl = Strings.baseUrl;

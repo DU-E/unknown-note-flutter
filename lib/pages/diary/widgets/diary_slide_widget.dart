@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
+import 'package:unknown_note_flutter/pages/diary/widgets/diary_emotion_widget.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_font_controller.dart';
 import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
@@ -6,7 +11,6 @@ import 'package:unknown_note_flutter/widgets/common_radio_button.dart';
 import 'package:unknown_note_flutter/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
-import 'package:unknown_note_flutter/pages/essay/widgets/essay_slide_widget.dart';
 
 class DiarySlideWidget extends StatefulWidget {
   const DiarySlideWidget({super.key});
@@ -39,7 +43,11 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
     return AnimatedContainer(
       duration: const Duration(milliseconds: 260),
       curve: Curves.easeOut,
-      height: _tabController.index == 0 ? 230 : 380,
+      height: _tabController.index == 0
+          ? 230
+          : _tabController.index == 1
+              ? 335
+              : 390,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(),
       child: TabBarView(
@@ -49,7 +57,16 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
         children: [
           _tabMain(),
           _tabSub(
-            const EssaySlideWidget(),
+            BlocBuilder<DiaryBloc, DiaryState>(
+              builder: (context, state) => DiaryEmotionWidget(
+                onSelected: (emotion) {
+                  context.read<DiaryBloc>().add(DiaryChangeEmotion(
+                        emotion: emotion,
+                      ));
+                },
+                selected: state.emotion,
+              ),
+            ),
           ),
           _tabSub(
             const CommonFontController(),
@@ -61,10 +78,10 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
 
   Widget _tabSub(Widget child) {
     return SingleChildScrollView(
+      reverse: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Gaps.v10,
           child,
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: Sizes.size32),
@@ -89,6 +106,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
               color: Colors.green.withOpacity(0.5),
             ),
           ),
+          Gaps.v16,
         ],
       ),
     );
@@ -102,6 +120,7 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           const Row(
             children: [
