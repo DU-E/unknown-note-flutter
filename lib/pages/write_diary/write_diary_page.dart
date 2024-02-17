@@ -10,7 +10,7 @@ import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/pages/diary/widgets/diary_emotion_widget.dart';
 import 'package:unknown_note_flutter/pages/write_diary/widgets/write_diary_emotion_button.dart';
 import 'package:unknown_note_flutter/pages/write_diary/widgets/write_diary_open_switch.dart';
-import 'package:unknown_note_flutter/pages/write_diary/widgets/write_diary_slide_widget.dart';
+import 'package:unknown_note_flutter/widgets/common_write_slide_widget.dart';
 import 'package:unknown_note_flutter/utils/date_formatter.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_button.dart';
@@ -56,7 +56,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
     DraggableMenu.open(
       context,
       CommonDraggable(
-        child: WriteDiarySlideWidget(
+        child: CommonWriteSlideWidget(
           onDelete: _onDelete,
         ),
       ),

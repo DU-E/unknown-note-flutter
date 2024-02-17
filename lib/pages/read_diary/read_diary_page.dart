@@ -31,6 +31,7 @@ class ReadDiaryPage extends StatelessWidget {
       ),
     );
     if (res == true) {
+      // ignore: use_build_context_synchronously
       context.replace(
         '/write/diary',
         extra: diary,

@@ -1,15 +1,9 @@
+import 'package:unknown_note_flutter/models/essay/essay_model.dart';
+
 abstract class WriteEssayEvent {}
 
-class WriteEssaySetTitle extends WriteEssayEvent {
-  final String title;
+class WriteEssayUpload extends WriteEssayEvent {
+  EssayModel essay;
 
-  WriteEssaySetTitle({required this.title});
+  WriteEssayUpload(this.essay);
 }
-
-class WriteEssaySetContent extends WriteEssayEvent {
-  final String content;
-
-  WriteEssaySetContent({required this.content});
-}
-
-class WriteEssayUpload extends WriteEssayEvent {}

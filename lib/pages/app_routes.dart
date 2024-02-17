@@ -96,7 +96,9 @@ class _AppRoutesState extends State<AppRoutes> {
             key: state.pageKey,
             child: BlocProvider(
               create: (context) => WriteEssayBloc(),
-              child: const WriteEssayPage(),
+              child: WriteEssayPage(
+                essay: state.extra as EssayModel?,
+              ),
             ),
           ),
         ),

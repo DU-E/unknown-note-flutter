@@ -8,19 +8,19 @@ import 'package:unknown_note_flutter/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
-class WriteDiarySlideWidget extends StatefulWidget {
+class CommonWriteSlideWidget extends StatefulWidget {
   final Function() onDelete;
 
-  const WriteDiarySlideWidget({
+  const CommonWriteSlideWidget({
     super.key,
     required this.onDelete,
   });
 
   @override
-  State<WriteDiarySlideWidget> createState() => _WriteDiarySlideWidgetState();
+  State<CommonWriteSlideWidget> createState() => CommonWriteSlideWidgetState();
 }
 
-class _WriteDiarySlideWidgetState extends State<WriteDiarySlideWidget>
+class CommonWriteSlideWidgetState extends State<CommonWriteSlideWidget>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 

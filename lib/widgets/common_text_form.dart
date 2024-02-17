@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_state.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/enums/enum_font.dart';
 
 class CommonTextForm extends StatefulWidget {
   final String? initText;
@@ -75,7 +76,7 @@ class _CommonTextFormState extends State<CommonTextForm> {
         keyboardType: widget.singleLine ? null : TextInputType.multiline,
         maxLines: widget.singleLine ? 1 : null,
         style: TextStyle(
-          fontFamily: state.font!.fontFamily,
+          fontFamily: state.font?.fontFamily ?? EFont.pretendard.fontFamily,
           fontSize: widget.dynamicSize ? state.getZoom() : Sizes.size14,
         ),
         expands: widget.expanded,

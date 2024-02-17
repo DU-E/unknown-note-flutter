@@ -1,33 +1,46 @@
+import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_state.dart';
+import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
+import 'package:unknown_note_flutter/models/essay/essay_model.dart';
+import 'package:unknown_note_flutter/pages/write_essay/widgets/write_essay_category_button.dart';
+import 'package:unknown_note_flutter/pages/write_essay/widgets/write_essay_category_slide_widget.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
-import 'package:unknown_note_flutter/widgets/common_button.dart';
+import 'package:unknown_note_flutter/widgets/common_draggable.dart';
 import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
 import 'package:unknown_note_flutter/widgets/common_loading_widget.dart';
 import 'package:unknown_note_flutter/widgets/common_text_form.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
+import 'package:unknown_note_flutter/widgets/common_write_slide_widget.dart';
 
 class WriteEssayPage extends StatefulWidget {
-  const WriteEssayPage({super.key});
+  final EssayModel? essay;
+
+  const WriteEssayPage({
+    super.key,
+    this.essay,
+  });
 
   @override
   State<WriteEssayPage> createState() => _WriteEssayPageState();
 }
 
 class _WriteEssayPageState extends State<WriteEssayPage> {
-  String? _title;
-  String? _content;
+  late ValueNotifier<EssayModel> _essay;
 
   @override
   void initState() {
     super.initState();
-    _title = context.read<WriteEssayBloc>().state.essay.title;
-    _content = context.read<WriteEssayBloc>().state.essay.content;
+    _essay = ValueNotifier<EssayModel>(widget.essay ??
+        EssayModel(
+          time: DateTime.now(),
+        ));
   }
 
   bool _isUploading(WriteEssayState state) {
@@ -35,30 +48,69 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
         state.status == EUploadStatus.uploading;
   }
 
-  void _save() {
-    context.read<WriteEssayBloc>().add(WriteEssaySetTitle(
-          title: _title ?? '',
-        ));
-    context.read<WriteEssayBloc>().add(WriteEssaySetContent(
-          content: _content ?? '',
-        ));
+  void _onSettingTap() {
+    DraggableMenu.open(
+      context,
+      CommonDraggable(
+        child: CommonWriteSlideWidget(
+          onDelete: _onDelete,
+        ),
+      ),
+    );
+  }
+
+  void _onCategoryTap() {
+    DraggableMenu.open(
+      context,
+      CommonDraggable(
+        child: ValueListenableBuilder(
+          valueListenable: _essay,
+          builder: (context, value, _) {
+            return WriteEssayCategorySlideWidget(
+              selected: value.category,
+              onSelected: _onCategorySelect,
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void _onCategorySelect(EEssayCategory category) {
+    _essay.value = _essay.value.copyWith(category: category);
+  }
+
+  void _onTitleChanged(String value) {
+    _essay.value = _essay.value.copyWith(title: value);
+  }
+
+  void _onBodyChanged(String value) {
+    _essay.value = _essay.value.copyWith(content: value);
   }
 
   void _onDelete() {
-    _title = '';
-    _content = '';
-    _save();
-    setState(() {});
+    setState(() {
+      _essay.value = EssayModel(
+        time: DateTime.now(),
+      );
+    });
   }
 
-  void _onUpload() {
-    _save();
-    context.read<WriteEssayBloc>().add(WriteEssayUpload());
+  void _upload() {
+    context.read<WriteEssayBloc>().add(WriteEssayUpload(_essay.value));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WriteEssayBloc, WriteEssayState>(
+    return BlocConsumer<WriteEssayBloc, WriteEssayState>(
+      listener: (context, state) {
+        if (state.status == EUploadStatus.success) {
+          context.replace(
+            '/essay/${_essay.value.id}',
+            extra: _essay.value,
+          );
+        }
+      },
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: const AppFont(
@@ -70,11 +122,11 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: _isUploading(state) ? null : null,
+              onPressed: _isUploading(state) ? null : _onSettingTap,
               icon: const Icon(Icons.settings_rounded),
             ),
             IconButton(
-              onPressed: _isUploading(state) ? null : _save,
+              onPressed: _isUploading(state) ? null : _upload,
               icon: const Icon(Icons.save_rounded),
             ),
           ],
@@ -103,24 +155,6 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
               ),
           ],
         ),
-        bottomNavigationBar: CommonButton(
-          onTap: (_isUploading(state)) ? null : _onUpload,
-          color: Theme.of(context).primaryColor.withOpacity(0.7),
-          shadowColor: Colors.transparent,
-          borderRadius: 0,
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom + Sizes.size14,
-              top: Sizes.size14,
-            ),
-            child: const AppFont(
-              '저장',
-              color: Colors.white,
-              size: Sizes.size16,
-              weight: FontWeight.w700,
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -136,22 +170,42 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppFont(
-            '제목',
-            color: Theme.of(context).primaryColor,
-          ),
-          const CommonHorizontalSpliter(),
-          Container(
-            color: Theme.of(context).primaryColor.withOpacity(0.05),
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
-            child: SingleChildScrollView(
-              child: CommonTextForm(
-                initText: _title,
-                getValue: (value) {
-                  _title = value;
+          Row(
+            children: [
+              ValueListenableBuilder(
+                valueListenable: _essay,
+                builder: (context, value, child) {
+                  return WriteEssayCategoryButton(
+                    onTap: _onCategoryTap,
+                    category: value.category,
+                  );
                 },
               ),
-            ),
+              Gaps.h10,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppFont(
+                      '제목',
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    const CommonHorizontalSpliter(),
+                    Container(
+                      color: Theme.of(context).primaryColor.withOpacity(0.05),
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: Sizes.size10),
+                      child: SingleChildScrollView(
+                        child: CommonTextForm(
+                          initText: _essay.value.title,
+                          getValue: _onTitleChanged,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
           Gaps.v10,
           AppFont(
@@ -164,10 +218,8 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
               color: Theme.of(context).primaryColor.withOpacity(0.05),
               padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
               child: CommonTextForm(
-                initText: _content,
-                getValue: (value) {
-                  _content = value;
-                },
+                initText: _essay.value.content,
+                getValue: _onBodyChanged,
                 singleLine: false,
                 expanded: true,
                 dynamicSize: true,

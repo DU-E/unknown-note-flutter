@@ -1,14 +1,19 @@
+import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_state.dart';
+import 'package:unknown_note_flutter/enums/enum_font.dart';
+import 'package:unknown_note_flutter/pages/read_essay/widgets/read_essay_slide_widget.dart';
+import 'package:unknown_note_flutter/utils/date_formatter.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
+import 'package:unknown_note_flutter/widgets/common_draggable.dart';
 import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
+import 'package:unknown_note_flutter/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/widgets/common_tagitem_widget.dart';
-import 'package:unknown_note_flutter/widgets/common_zoom_controller.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
-import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 
 class ReadEssayPage extends StatelessWidget {
@@ -18,6 +23,25 @@ class ReadEssayPage extends StatelessWidget {
     super.key,
     required this.essay,
   });
+
+  void _onSettingTap(BuildContext context) async {
+    var res = await DraggableMenu.open(
+      context,
+      const CommonDraggable(
+        child: ReadEssaySlideWidget(
+          // TODO: check essay author id == user id
+          isWriter: true,
+        ),
+      ),
+    );
+    if (res == true) {
+      // ignore: use_build_context_synchronously
+      context.replace(
+        '/write/essay',
+        extra: essay,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +77,7 @@ class ReadEssayPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const AppFont('Author'),
+                      const AppFont('글쓴이'),
                       Gaps.h5,
                       CommonTagItemWidget(tag: essay.nickname ?? "Anonymous"),
                     ],
@@ -61,10 +85,14 @@ class ReadEssayPage extends StatelessWidget {
                   Gaps.v3,
                   Row(
                     children: [
-                      const AppFont('Write at'),
+                      const AppFont('작성일'),
                       Gaps.h5,
                       CommonTagItemWidget(
-                        tag: essay.time?.toString() ?? Strings.nullStr,
+                        tag: dateToYMD(essay.time),
+                      ),
+                      Gaps.h3,
+                      CommonTagItemWidget(
+                        tag: dateToE(essay.time),
                       ),
                     ],
                   ),
@@ -74,6 +102,7 @@ class ReadEssayPage extends StatelessWidget {
                   BlocBuilder<SettingBloc, SettingState>(
                     builder: (context, state) => AppFont(
                       essay.content ?? '',
+                      font: state.font ?? EFont.pretendard,
                       size: state.getZoom(),
                     ),
                   ),
@@ -88,7 +117,10 @@ class ReadEssayPage extends StatelessWidget {
                 right: Sizes.size20,
                 bottom: MediaQuery.of(context).padding.bottom + Sizes.size20,
               ),
-              child: const CommonZoomController(),
+              child: CommonIconButton(
+                icon: Icons.settings_rounded,
+                onTap: () => _onSettingTap(context),
+              ),
             ),
           ),
         ],
