@@ -58,7 +58,6 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   void _onAddTap() {
-    print(_controller.selectedDate);
     context.push('/write/diary');
   }
 

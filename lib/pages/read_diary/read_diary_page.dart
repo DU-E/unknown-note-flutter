@@ -1,6 +1,7 @@
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_state.dart';
 import 'package:unknown_note_flutter/enums/enum_font.dart';
@@ -30,7 +31,10 @@ class ReadDiaryPage extends StatelessWidget {
       ),
     );
     if (res == true) {
-      print('edit ${diary.id} diray');
+      context.replace(
+        '/write/diary',
+        extra: diary,
+      );
     }
   }
 

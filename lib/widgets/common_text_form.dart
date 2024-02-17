@@ -38,7 +38,8 @@ class _CommonTextFormState extends State<CommonTextForm> {
   @override
   void didUpdateWidget(covariant CommonTextForm oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.initText != widget.initText) {
+
+    if (widget.initText == null || oldWidget.initText != widget.initText) {
       _controller.dispose();
       _controller = TextEditingController(text: widget.initText);
     }
@@ -66,12 +67,15 @@ class _CommonTextFormState extends State<CommonTextForm> {
         onChanged: widget.getValue,
         decoration: const InputDecoration(
           border: InputBorder.none,
-          contentPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.symmetric(
+            vertical: Sizes.size5,
+          ),
         ),
         cursorRadius: const Radius.circular(Sizes.size5),
         keyboardType: widget.singleLine ? null : TextInputType.multiline,
         maxLines: widget.singleLine ? 1 : null,
         style: TextStyle(
+          fontFamily: state.font!.fontFamily,
           fontSize: widget.dynamicSize ? state.getZoom() : Sizes.size14,
         ),
         expands: widget.expanded,

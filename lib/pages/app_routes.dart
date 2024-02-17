@@ -115,7 +115,9 @@ class _AppRoutesState extends State<AppRoutes> {
             key: state.pageKey,
             child: BlocProvider(
               create: (context) => WriteDiaryBloc(),
-              child: const WriteDiaryPage(),
+              child: WriteDiaryPage(
+                diary: state.extra as DiaryModel?,
+              ),
             ),
           ),
         ),
