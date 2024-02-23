@@ -59,12 +59,12 @@ class _AppRoutesState extends State<AppRoutes> {
         // TODO: implement profile setting page
         if (authState is AuthUnAuthState) return '/edit_profile';
         if (authState is AuthAuthState) {
-          return blockPageInAuthAuthState.contains(state.fullPath)
+          return blockPageInAuthAuthState.contains(state.matchedLocation)
               ? '/home'
-              : state.fullPath;
+              : state.matchedLocation;
         }
 
-        return state.fullPath;
+        return state.matchedLocation;
       },
       routes: [
         GoRoute(
