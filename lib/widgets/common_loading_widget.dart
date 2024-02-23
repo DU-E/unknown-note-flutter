@@ -18,10 +18,7 @@ class _CommonLoadingWidgetState extends State<CommonLoadingWidget> {
   @override
   void initState() {
     super.initState();
-
-    if (widget.whenBuild != null) {
-      widget.whenBuild!();
-    }
+    widget.whenBuild?.call();
   }
 
   @override

@@ -1,8 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:unknown_note_flutter/dio/un_auth_interceptor.dart';
+import 'package:unknown_note_flutter/enums/enum_auth_method.dart';
 import 'package:unknown_note_flutter/models/oauth2/oauth2_model.dart';
+import 'package:unknown_note_flutter/models/res/res_model.dart';
 
 class AuthenticationRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -87,5 +91,35 @@ class AuthenticationRepository {
   Future<void> signoutWithNaver() async {
     await FlutterNaverLogin.logOut();
     return;
+  }
+
+  Future<ResModel<String>> dudeSignin({
+    required EAuthMethod method,
+    required String accessToken,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(UnAuthInterceptor());
+    // var res = await dio.post(
+    //   '/signin',
+    //   data: {
+    //     'method': method.key.toLowerCase(),
+    //     'token': accessToken,
+    //   },
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+
+    var resTmp = ResModel<String>(
+      code: 1000,
+      data: 'test_jwt_token',
+    ).toJson((token) => token.toString());
+
+    var res = ResModel<String>.fromJson(
+      resTmp,
+      (json) => json.toString(),
+    );
+
+    return res;
   }
 }

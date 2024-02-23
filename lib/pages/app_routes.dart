@@ -9,12 +9,14 @@ import 'package:unknown_note_flutter/bloc/calendar/calendar_bloc.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
+import 'package:unknown_note_flutter/bloc/splash/splash_cubit.dart';
+import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
 import 'package:unknown_note_flutter/utils/my_transition_page.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/pages/home/home_page.dart';
-import 'package:unknown_note_flutter/pages/profile/profile_page.dart';
 import 'package:unknown_note_flutter/pages/read_diary/read_diary_page.dart';
 import 'package:unknown_note_flutter/pages/read_essay/read_essay_page.dart';
 import 'package:unknown_note_flutter/pages/signin/signin_page.dart';
@@ -38,23 +40,43 @@ class _AppRoutesState extends State<AppRoutes> {
 
     // Initialize AuthBloc
     AuthBlocSingleton.initializer(
-      repository: context.read<AuthenticationRepository>(),
+      authRepository: context.read<AuthenticationRepository>(),
+      userRepository: context.read<DudeUserRepository>(),
     );
 
     // Set routerConfig
     _routerConfig = GoRouter(
-      initialLocation: '/home',
+      initialLocation: '/',
       refreshListenable: AuthBlocSingleton.bloc,
       redirect: (context, state) {
         final authState = AuthBlocSingleton.bloc.state;
+        final blockPageInAuthAuthState = ['/', '/signin', '/edit_profile'];
 
-        if (authState is AuthUnknownState) return '/signin';
-        if (authState is AuthUnAuthState) return '/profile';
-        if (authState is AuthAuthState) return '/home';
+        if (authState is AuthInitState) return '/';
+        if (authState is AuthUnknownState || authState is AuthErrorState) {
+          return '/signin';
+        }
+        // TODO: implement profile setting page
+        if (authState is AuthUnAuthState) return '/edit_profile';
+        if (authState is AuthAuthState) {
+          return blockPageInAuthAuthState.contains(state.fullPath)
+              ? '/home'
+              : state.fullPath;
+        }
 
-        return state.path;
+        return state.fullPath;
       },
       routes: [
+        GoRoute(
+          path: '/',
+          pageBuilder: (context, state) => transPage(
+            key: state.pageKey,
+            child: BlocProvider(
+              create: (context) => SplashCubit(),
+              child: const SplashPage(),
+            ),
+          ),
+        ),
         GoRoute(
           path: '/signin',
           pageBuilder: (context, state) => transPage(
@@ -121,13 +143,6 @@ class _AppRoutesState extends State<AppRoutes> {
                 diary: state.extra as DiaryModel?,
               ),
             ),
-          ),
-        ),
-        GoRoute(
-          path: '/profile',
-          pageBuilder: (context, state) => transPage(
-            key: state.pageKey,
-            child: const ProfilePage(),
           ),
         ),
       ],

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:unknown_note_flutter/enums/enum_auth_method.dart';
-import 'package:unknown_note_flutter/models/oauth2/oauth2_model.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
 
 abstract class AuthState extends Equatable {}
 
@@ -18,35 +17,43 @@ class AuthUnknownState extends AuthState {
 
 /// 소셜 로그인은 했으나, DB의 회원정보가 없는 상태
 class AuthUnAuthState extends AuthState {
-  final EAuthMethod method;
-  final OAuth2Model oauth2;
+  final UserModel user;
 
   AuthUnAuthState({
-    required this.method,
-    required this.oauth2,
+    required this.user,
   });
+
+  AuthUnAuthState copyWith({
+    UserModel? user,
+  }) =>
+      AuthUnAuthState(
+        user: user ?? this.user,
+      );
 
   @override
   List<Object?> get props => [
-        method,
-        oauth2,
+        user,
       ];
 }
 
 /// 소셜 로그인 및 DB의 회원정보가 있는 상태
 class AuthAuthState extends AuthState {
-  final EAuthMethod method;
-  final OAuth2Model oauth2;
+  final UserModel user;
 
   AuthAuthState({
-    required this.method,
-    required this.oauth2,
+    required this.user,
   });
+
+  AuthAuthState copyWith({
+    UserModel? user,
+  }) =>
+      AuthAuthState(
+        user: user ?? this.user,
+      );
 
   @override
   List<Object?> get props => [
-        method,
-        oauth2,
+        user,
       ];
 }
 
