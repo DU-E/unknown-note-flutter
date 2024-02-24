@@ -13,6 +13,7 @@ import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_draggable.dart';
 import 'package:unknown_note_flutter/widgets/common_horizontal_spliter.dart';
 import 'package:unknown_note_flutter/widgets/common_loading_widget.dart';
+import 'package:unknown_note_flutter/widgets/common_snackbar.dart';
 import 'package:unknown_note_flutter/widgets/common_text_form.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
@@ -108,6 +109,14 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
           context.replace(
             '/essay/${_essay.value.id}',
             extra: _essay.value,
+          );
+        }
+        if (state.status == EUploadStatus.error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            CommonSnackbar(
+              context,
+              content: AppFont(state.message ?? '일기 저장에 실패했습니다.'),
+            ),
           );
         }
       },
