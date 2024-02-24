@@ -1,5 +1,5 @@
 class Strings {
-  static const String nullStr = 'N/A';
+  static const String nullStr = '';
   static const String jwtToken = 'JWT_TOKEN';
 
   static const String baseUrl =

@@ -115,6 +115,15 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
             extra: _diary.value,
           );
         }
+        if (state.status == EUploadStatus.error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: AppFont(state.message ?? '일기 저장에 실패했습니다.'),
+              backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
+              elevation: 0,
+            ),
+          );
+        }
       },
       builder: (context, state) => Scaffold(
         appBar: AppBar(

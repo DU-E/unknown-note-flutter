@@ -138,7 +138,9 @@ class _AppRoutesState extends State<AppRoutes> {
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
             child: BlocProvider(
-              create: (context) => WriteDiaryBloc(),
+              create: (context) => WriteDiaryBloc(
+                diaryRepository: context.read<DudeDiaryRepository>(),
+              ),
               child: WriteDiaryPage(
                 diary: state.extra as DiaryModel?,
               ),
