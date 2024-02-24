@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'dart:math' as math;
 
 class UserInfoProfileWidget extends StatelessWidget {
-  const UserInfoProfileWidget({super.key});
+  final UserModel user;
+  final int diaryCount;
+  final int essayCount;
+
+  const UserInfoProfileWidget({
+    super.key,
+    required this.user,
+    required this.diaryCount,
+    required this.essayCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +52,8 @@ class UserInfoProfileWidget extends StatelessWidget {
                       color: Colors.grey.shade700,
                       borderRadius: BorderRadius.circular(Sizes.size5),
                     ),
-                    child: const AppFont(
-                      'introduce',
+                    child: AppFont(
+                      user.introduce ?? Strings.nullStr,
                       color: Colors.white,
                     ),
                   ),
@@ -69,7 +80,7 @@ class UserInfoProfileWidget extends StatelessWidget {
                   children: [
                     _infoText(
                       title: '일기',
-                      value: '3',
+                      value: diaryCount.toString(),
                     ),
                     Gaps.h32,
                     _verticalDivider(),
@@ -77,7 +88,7 @@ class UserInfoProfileWidget extends StatelessWidget {
                 ),
                 _infoText(
                   title: '닉네임',
-                  value: '@asasd',
+                  value: user.nickName ?? Strings.nullStr,
                   size: Sizes.size14,
                 ),
                 Row(
@@ -86,7 +97,7 @@ class UserInfoProfileWidget extends StatelessWidget {
                     Gaps.h32,
                     _infoText(
                       title: '수필',
-                      value: '3',
+                      value: essayCount.toString(),
                     ),
                   ],
                 ),

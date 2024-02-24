@@ -128,8 +128,6 @@ class DudeUserRepository {
       (json) => UserProfileModel.fromJson(json),
     );
 
-    print(res);
-
     return res;
   }
 }

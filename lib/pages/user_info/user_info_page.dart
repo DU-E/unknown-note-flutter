@@ -1,8 +1,14 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_info_state.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/pages/essay/widgets/essay_listitem_widget.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_graph.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_heatmap.dart';
@@ -11,7 +17,12 @@ import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
 
 class UserInfoPage extends StatefulWidget {
-  const UserInfoPage({super.key});
+  final bool popAble;
+
+  const UserInfoPage({
+    super.key,
+    this.popAble = false,
+  });
 
   @override
   State<UserInfoPage> createState() => _UserInfoPageState();
@@ -32,7 +43,7 @@ class _UserInfoPageState extends State<UserInfoPage>
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     _tabController = TabController(
-      length: 4,
+      length: widget.popAble ? 2 : 4,
       vsync: this,
     );
     _tabController.addListener(_tabListener);
@@ -76,178 +87,202 @@ class _UserInfoPageState extends State<UserInfoPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
-        surfaceTintColor: Colors.transparent,
-        title: ValueListenableBuilder(
-          valueListenable: _titleBottomPadding,
-          builder: (context, value, child) => AnimatedContainer(
-            duration: const Duration(milliseconds: 1),
-            margin: EdgeInsets.only(
-              bottom: value * 2,
-              top: _appbarHeight,
+    return BlocBuilder<UserInfoBloc, UserInfoState>(
+      builder: (context, state) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
+          surfaceTintColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          title: ValueListenableBuilder(
+            valueListenable: _titleBottomPadding,
+            builder: (context, value, child) => AnimatedContainer(
+              duration: const Duration(milliseconds: 1),
+              margin: EdgeInsets.only(
+                bottom: value * 2,
+                top: _appbarHeight,
+              ),
+              child: child,
             ),
-            child: child,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: _appbarHeight,
+                  child: Center(
+                    child: AppFont(
+                      widget.popAble ? '작성자 정보' : '내 정보',
+                      color: Colors.white,
+                      size: Sizes.size16,
+                      weight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: _appbarHeight,
+                  child: Center(
+                    child: AppFont(
+                      state.userProfile?.user?.nickName ?? Strings.nullStr,
+                      color: Colors.white,
+                      size: Sizes.size16,
+                      weight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: _appbarHeight,
-                child: Center(
-                  child: AppFont(
-                    '내 정보',
-                    color: Colors.white,
-                    size: Sizes.size16,
-                    weight: FontWeight.w700,
-                  ),
-                ),
+          leading: widget.popAble ? null : const SizedBox(),
+          actions: [
+            Container(
+              width: Sizes.size56,
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size5,
               ),
-              SizedBox(
-                height: _appbarHeight,
-                child: Center(
-                  child: AppFont(
-                    'username',
-                    color: Colors.white,
-                    size: Sizes.size16,
-                    weight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
+              child: !widget.popAble
+                  ? IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.settings_rounded,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const SizedBox(),
+            ),
+          ],
+        ),
+        body: state.status == ELoadingStatus.error
+            ? _buildError(state.message ?? '사용자 정보를 불러오는데 실패했습니다.')
+            : _buildBody(state),
+      ),
+    );
+  }
+
+  Widget _buildBody(UserInfoState state) {
+    return CustomScrollView(
+      controller: _scrollController,
+      slivers: [
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: _expandedHeight,
+            child: UserInfoProfileWidget(
+              user: state.userProfile?.user ?? UserModel(),
+              diaryCount: state.userProfile?.diaryCount ?? 0,
+              essayCount: state.userProfile?.essayCount ?? 0,
+            ),
           ),
         ),
-        leading: const SizedBox(),
-        actions: [
-          Container(
-            width: Sizes.size56,
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size5,
-            ),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.settings_rounded,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: _expandedHeight,
-              child: UserInfoProfileWidget(),
-            ),
-          ),
-          SliverStickyHeader(
-            header: CommonBlurContainer(
-              child: TabBar(
-                controller: _tabController,
-                dividerColor: Theme.of(context).primaryColor,
-                indicatorColor: Colors.white,
-                tabs: const [
-                  Tab(
+        SliverStickyHeader(
+          header: CommonBlurContainer(
+            child: TabBar(
+              controller: _tabController,
+              dividerColor: Theme.of(context).primaryColor,
+              indicatorColor: Colors.white,
+              tabs: [
+                if (!widget.popAble)
+                  const Tab(
                     child: AppFont(
                       '감정 분석',
                       color: Colors.white,
                       weight: FontWeight.w700,
                     ),
                   ),
-                  Tab(
-                    child: AppFont(
-                      '활동 기록',
-                      color: Colors.white,
-                      weight: FontWeight.w700,
-                    ),
+                const Tab(
+                  child: AppFont(
+                    '활동 기록',
+                    color: Colors.white,
+                    weight: FontWeight.w700,
                   ),
-                  Tab(
+                ),
+                if (!widget.popAble)
+                  const Tab(
                     child: AppFont(
                       '기분 통계',
                       color: Colors.white,
                       weight: FontWeight.w700,
                     ),
                   ),
-                  Tab(
-                    child: AppFont(
-                      '이달의 꽃',
-                      color: Colors.white,
-                      weight: FontWeight.w700,
-                    ),
+                const Tab(
+                  child: AppFont(
+                    '이달의 꽃',
+                    color: Colors.white,
+                    weight: FontWeight.w700,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            sliver: SliverToBoxAdapter(
-              child: ExpandablePageView(
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                animationCurve: Curves.easeOut,
-                children: const [
-                  UserInfoGraph(),
-                  UserInfoHeatmap(),
-                  SizedBox(
+          ),
+          sliver: SliverToBoxAdapter(
+            child: ExpandablePageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              animationCurve: Curves.easeOut,
+              children: [
+                if (!widget.popAble) const UserInfoGraph(),
+                const UserInfoHeatmap(),
+                if (!widget.popAble)
+                  const SizedBox(
                     height: 400,
                     child: Center(
                       child: AppFont('9감정 개수'),
                     ),
                   ),
-                  SizedBox(
-                    height: 500,
-                    child: Center(
-                      child: AppFont('꽃말'),
-                    ),
+                const SizedBox(
+                  height: 500,
+                  child: Center(
+                    child: AppFont('꽃말'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverStickyHeader(
+          header: const CommonBlurContainer(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Sizes.size20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppFont(
+                    '작성한 수필',
+                    color: Colors.white,
+                    weight: FontWeight.w700,
+                    size: Sizes.size16,
+                  ),
+                  AppFont(
+                    'Total 3',
+                    color: Colors.white,
                   ),
                 ],
               ),
             ),
           ),
-          SliverStickyHeader(
-            header: const CommonBlurContainer(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Sizes.size20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppFont(
-                      '작성한 수필',
-                      color: Colors.white,
-                      weight: FontWeight.w700,
-                      size: Sizes.size16,
-                    ),
-                    AppFont(
-                      'Total 3',
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
+          sliver: SliverList.builder(
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.only(
+                top: Sizes.size20,
+                left: Sizes.size20,
+                right: Sizes.size20,
+              ),
+              child: EssayListItemWidget(
+                essay: EssayModel(),
               ),
             ),
-            sliver: SliverList.builder(
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(
-                  top: Sizes.size20,
-                  left: Sizes.size20,
-                  right: Sizes.size20,
-                ),
-                child: EssayListItemWidget(
-                  essay: EssayModel(),
-                ),
-              ),
-              itemCount: 20,
-            ),
+            itemCount: 20,
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: MediaQuery.of(context).padding.bottom + Sizes.size80,
-            ),
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: MediaQuery.of(context).padding.bottom + Sizes.size80,
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildError(String message) {
+    return Center(
+      child: AppFont(message),
     );
   }
 }

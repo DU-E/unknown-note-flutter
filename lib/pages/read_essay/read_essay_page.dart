@@ -43,6 +43,12 @@ class ReadEssayPage extends StatelessWidget {
     }
   }
 
+  void _onNickNameTap(BuildContext context) {
+    context.push(
+      '/profile/${essay.user?.userId ?? -1}',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,8 +85,12 @@ class ReadEssayPage extends StatelessWidget {
                     children: [
                       const AppFont('글쓴이'),
                       Gaps.h5,
-                      CommonTagItemWidget(
-                          tag: essay.user?.nickName ?? "Anonymous"),
+                      InkWell(
+                        onTap: () => _onNickNameTap(context),
+                        child: CommonTagItemWidget(
+                          tag: essay.user?.nickName ?? "Anonymous",
+                        ),
+                      ),
                     ],
                   ),
                   Gaps.v3,

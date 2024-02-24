@@ -7,11 +7,17 @@ import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dar
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_bloc.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
+import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
+import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/bloc/splash/splash_cubit.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
 import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
+import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
 import 'package:unknown_note_flutter/utils/my_transition_page.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
@@ -91,6 +97,9 @@ class _AppRoutesState extends State<AppRoutes> {
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
+                  create: (context) => HomeScreenCubit(),
+                ),
+                BlocProvider(
                   create: (context) => CalendarStateCubit(),
                 ),
                 BlocProvider(
@@ -98,6 +107,21 @@ class _AppRoutesState extends State<AppRoutes> {
                     dudeDiaryRepository: context.read<DudeDiaryRepository>(),
                   ),
                 ),
+                BlocProvider(
+                  create: (context) => EssayListBloc(
+                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => DiaryBloc(
+                    dudeDiaryRepository: context.read<DudeDiaryRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => UserInfoBloc(
+                    userRepository: context.read<DudeUserRepository>(),
+                  ),
+                )
               ],
               child: const HomePage(),
             ),
@@ -143,6 +167,21 @@ class _AppRoutesState extends State<AppRoutes> {
               ),
               child: WriteDiaryPage(
                 diary: state.extra as DiaryModel?,
+              ),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '/profile/:userId',
+          pageBuilder: (context, state) => transPage(
+            key: state.pageKey,
+            child: BlocProvider(
+              create: (context) => UserInfoBloc(
+                userId: int.parse(state.pathParameters['userId']!),
+                userRepository: context.read<DudeUserRepository>(),
+              ),
+              child: const UserInfoPage(
+                popAble: true,
               ),
             ),
           ),

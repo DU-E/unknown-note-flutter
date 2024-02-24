@@ -6,6 +6,7 @@ import 'package:unknown_note_flutter/bloc/user_info/user_info_event.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
 import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
 
 class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState> {
@@ -27,7 +28,6 @@ class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState> {
       var myState = AuthBlocSingleton.bloc.state;
       if (myState is AuthAuthState) {
         add(UserInfoUpdateUser(myState.user));
-        add(UserInfoGet(myState.user.userId!));
       }
     }
   }
@@ -38,17 +38,26 @@ class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState> {
   ) async {
     emit(
       state.copyWith(
-        userProfile: state.userProfile?.copyWith(
-          user: event.user,
-        ),
+        userProfile: UserProfileModel(user: event.user),
       ),
     );
+
+    await _userInfoGetHandler(UserInfoGet(event.user.userId!), emit);
   }
 
   Future<void> _userInfoGetHandler(
     UserInfoGet event,
     Emitter<UserInfoState> emit,
   ) async {
+    // Validation
+    if (event.userId == -1) {
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        message: '해당 유저를 찾을 수 없습니다.',
+      ));
+      return;
+    }
+
     emit(state.copyWith(status: ELoadingStatus.loading));
     try {
       var res = await userRepository.getUserProfile(
