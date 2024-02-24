@@ -79,7 +79,8 @@ class ReadEssayPage extends StatelessWidget {
                     children: [
                       const AppFont('글쓴이'),
                       Gaps.h5,
-                      CommonTagItemWidget(tag: essay.nickname ?? "Anonymous"),
+                      CommonTagItemWidget(
+                          tag: essay.user?.nickName ?? "Anonymous"),
                     ],
                   ),
                   Gaps.v3,

@@ -3,6 +3,7 @@ import 'package:unknown_note_flutter/dio/auth_interceptor.dart';
 import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
 
 class DudeEssayRepository {
   Future<ResModel<List<EssayModel>>> getEssayList({
@@ -33,7 +34,11 @@ class DudeEssayRepository {
                 .add(Duration(minutes: page * 20 + i)),
             likes: 10,
             category: category,
-            nickname: 'woong',
+            user: UserModel(
+              userId: 1,
+              nickName: 'testWoong',
+              introduce: 'Hello world!',
+            ),
           ),
       ],
     ).toJson(

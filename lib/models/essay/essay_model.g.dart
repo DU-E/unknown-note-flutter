@@ -16,7 +16,9 @@ _$EssayModelImpl _$$EssayModelImplFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['etime'] as String),
       likes: json['elikes'] as int?,
       category: $enumDecodeNullable(_$EEssayCategoryEnumMap, json['ecategory']),
-      nickname: json['nickname'] as String?,
+      user: json['user'] == null
+          ? null
+          : UserModel.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$EssayModelImplToJson(_$EssayModelImpl instance) =>
@@ -27,7 +29,7 @@ Map<String, dynamic> _$$EssayModelImplToJson(_$EssayModelImpl instance) =>
       'etime': instance.time?.toIso8601String(),
       'elikes': instance.likes,
       'ecategory': _$EEssayCategoryEnumMap[instance.category],
-      'nickname': instance.nickname,
+      'user': instance.user?.toJson(),
     };
 
 const _$EEssayCategoryEnumMap = {
