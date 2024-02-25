@@ -160,7 +160,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
     try {
       var res = await dudeUserRepository.getUser();
 
-      if (res.data == null) throw Exception('사용자 정보를 불러오는데 실패했습니다.');
+      // TODO: probably not necessary
+      if (res.code == 2000 || res.data == null) {
+        await _authSignoutEventHandler(AuthSignoutEvent(), emit);
+        return;
+      }
 
       print('[AuthBloc._authGetUserEventHandler] ${res.data}');
 

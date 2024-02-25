@@ -6,7 +6,6 @@ import 'package:unknown_note_flutter/widgets/common_button.dart';
 
 class WriteDiaryEmotionButton extends StatelessWidget {
   final Function() onTap;
-
   final EEmotion? emotion;
 
   const WriteDiaryEmotionButton({
