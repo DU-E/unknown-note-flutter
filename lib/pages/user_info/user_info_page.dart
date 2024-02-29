@@ -22,10 +22,12 @@ import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
 
 class UserInfoPage extends StatefulWidget {
   final bool popAble;
+  final String? nickName;
 
   const UserInfoPage({
     super.key,
     this.popAble = false,
+    this.nickName,
   });
 
   @override
@@ -125,7 +127,9 @@ class _UserInfoPageState extends State<UserInfoPage>
                   height: _appbarHeight,
                   child: Center(
                     child: AppFont(
-                      state.userProfile?.user?.nickName ?? Strings.nullStr,
+                      widget.nickName ??
+                          state.userProfile?.user?.nickName ??
+                          Strings.nullStr,
                       color: Colors.white,
                       size: Sizes.size16,
                       weight: FontWeight.w700,
@@ -169,6 +173,7 @@ class _UserInfoPageState extends State<UserInfoPage>
           child: SizedBox(
             height: _expandedHeight,
             child: UserInfoProfileWidget(
+              nickName: widget.nickName,
               user: state.userProfile?.user ?? UserModel(),
               diaryCount: state.userProfile?.diaryCount ?? 0,
               essayCount: state.userProfile?.essayCount ?? 0,

@@ -46,6 +46,7 @@ class ReadEssayPage extends StatelessWidget {
   void _onNickNameTap(BuildContext context) {
     context.push(
       '/profile/${essay.user?.userId ?? -1}',
+      extra: essay.user?.nickName,
     );
   }
 

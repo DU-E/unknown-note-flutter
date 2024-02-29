@@ -104,9 +104,9 @@ class UserInfoGraph extends StatelessWidget {
                       getDotPainter: (p0, p1, p2, p3) => FlDotCirclePainter(
                         radius: p3 == 0 ? Sizes.size4 : 0,
                         color: Theme.of(context).primaryColor,
-                        strokeWidth: p3 == 0 ? Sizes.size2 : 0,
+                        strokeWidth: p3 == 0 ? Sizes.size10 : 0,
                         strokeColor:
-                            Theme.of(context).primaryColor.withOpacity(0.6),
+                            Theme.of(context).primaryColor.withOpacity(0.4),
                       ),
                     ),
                     belowBarData: BarAreaData(

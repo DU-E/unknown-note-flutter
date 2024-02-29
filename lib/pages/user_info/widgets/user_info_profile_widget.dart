@@ -8,6 +8,7 @@ import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'dart:math' as math;
 
 class UserInfoProfileWidget extends StatelessWidget {
+  final String? nickName;
   final UserModel user;
   final int diaryCount;
   final int essayCount;
@@ -15,6 +16,7 @@ class UserInfoProfileWidget extends StatelessWidget {
 
   const UserInfoProfileWidget({
     super.key,
+    this.nickName,
     required this.user,
     required this.diaryCount,
     required this.essayCount,
@@ -26,6 +28,56 @@ class UserInfoProfileWidget extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
+        Container(
+          color: Colors.red,
+        ),
+        Container(
+          color: Theme.of(context).primaryColor.withOpacity(0.6),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: Sizes.size32,
+              bottom: Sizes.size10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: _infoText(
+                    title: '일기',
+                    value: status == ELoadingStatus.loading
+                        ? '-'
+                        : diaryCount.toString(),
+                  ),
+                ),
+                _verticalDivider(),
+                Flexible(
+                  flex: 3,
+                  child: _infoText(
+                    title: '닉네임',
+                    value: nickName ??
+                        user.nickName ??
+                        (status == ELoadingStatus.loading
+                            ? '-'
+                            : Strings.nullStr),
+                    size: Sizes.size14,
+                  ),
+                ),
+                _verticalDivider(),
+                Flexible(
+                  flex: 2,
+                  child: _infoText(
+                    title: '수필',
+                    value: status == ELoadingStatus.loading
+                        ? '-'
+                        : essayCount.toString(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         Transform.translate(
           offset: const Offset(0, -Sizes.size72),
           child: Column(
@@ -68,52 +120,6 @@ class UserInfoProfileWidget extends StatelessWidget {
               Gaps.v20,
               const CircleAvatar(radius: Sizes.size40),
             ],
-          ),
-        ),
-        Container(
-          color: Theme.of(context).primaryColor.withOpacity(0.6),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: Sizes.size32,
-              bottom: Sizes.size10,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Flexible(
-                  flex: 2,
-                  child: _infoText(
-                    title: '일기',
-                    value: status == ELoadingStatus.loading
-                        ? '-'
-                        : diaryCount.toString(),
-                  ),
-                ),
-                _verticalDivider(),
-                Flexible(
-                  flex: 3,
-                  child: _infoText(
-                    title: '닉네임',
-                    value: user.nickName ??
-                        (status == ELoadingStatus.loading
-                            ? '-'
-                            : Strings.nullStr),
-                    size: Sizes.size14,
-                  ),
-                ),
-                _verticalDivider(),
-                Flexible(
-                  flex: 2,
-                  child: _infoText(
-                    title: '수필',
-                    value: status == ELoadingStatus.loading
-                        ? '-'
-                        : essayCount.toString(),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ],

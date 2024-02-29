@@ -180,8 +180,9 @@ class _AppRoutesState extends State<AppRoutes> {
                 userId: int.parse(state.pathParameters['userId']!),
                 userRepository: context.read<DudeUserRepository>(),
               ),
-              child: const UserInfoPage(
+              child: UserInfoPage(
                 popAble: true,
+                nickName: state.extra as String,
               ),
             ),
           ),
