@@ -6,11 +6,13 @@ import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_state.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
 import 'package:unknown_note_flutter/pages/essay/widgets/essay_listitem_widget.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_flower.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_graph.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_heatmap.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_profile_widget.dart';
@@ -233,11 +235,9 @@ class _UserInfoPageState extends State<UserInfoPage>
                     emotionsData: state.userProfile?.monthlyEmotions ??
                         UserMonthlyEmotionModel(),
                   ),
-                const SizedBox(
-                  height: 500,
-                  child: Center(
-                    child: AppFont('꽃말'),
-                  ),
+                UserInfoFlower(
+                  flower: state.userProfile?.flower ?? EEmotion.happy,
+                  status: state.status,
                 ),
               ],
             ),
