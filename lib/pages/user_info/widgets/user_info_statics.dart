@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/enums/enum_font.dart';
@@ -80,10 +81,18 @@ class UserInfoStatics extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: emotion.color),
         borderRadius: BorderRadius.circular(Sizes.size10),
-        color: emotion.color.withOpacity(0.5),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            emotion.color.withOpacity(0.5),
+            emotion.color,
+          ],
+        ),
       ),
       clipBehavior: Clip.hardEdge,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(Sizes.size5),
@@ -93,32 +102,24 @@ class UserInfoStatics extends StatelessWidget {
               height: Sizes.size52,
             ),
           ),
-          AppFont(
-            emotion.text,
-            font: EFont.cafe24Dongdong,
-            size: Sizes.size16,
-          ),
-          const Expanded(child: SizedBox()),
-          Container(
-            height: Sizes.size72,
-            padding: const EdgeInsets.only(left: Sizes.size10),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  emotion.color.withOpacity(0),
-                  emotion.color,
-                ],
+          Gaps.h5,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppFont(
+                emotion.text,
+                font: EFont.cafe24Dongdong,
+                size: Sizes.size16,
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
-              child: Center(
+              Padding(
+                padding: const EdgeInsets.only(left: Sizes.size5),
                 child: AppFont(
-                  value.toString(),
+                  '${value.toString()}일',
                   font: EFont.cafe24Dongdong,
                   color: Colors.white,
                   weight: FontWeight.w700,
-                  size: Sizes.size20,
+                  size: Sizes.size14,
                   shadows: const [
                     Shadow(
                       color: Colors.black,
@@ -127,7 +128,7 @@ class UserInfoStatics extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

@@ -26,6 +26,17 @@ class UserInfoFlower extends StatelessWidget {
         horizontal: Sizes.size20,
         vertical: Sizes.size10,
       ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            flower.color.withOpacity(0.7),
+            Colors.white.withOpacity(0),
+          ],
+          stops: const [0, 0.2],
+        ),
+      ),
       child: status == ELoadingStatus.loading
           ? Center(
               child: CircularProgressIndicator(
