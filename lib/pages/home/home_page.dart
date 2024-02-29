@@ -9,38 +9,13 @@ import 'package:unknown_note_flutter/pages/essay/essay_page.dart';
 import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
 import 'package:unknown_note_flutter/pages/home/widgets/home_navigaton_bar.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  late final TabController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TabController(
-      length: 4,
-      vsync: this,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeScreenCubit, EHomeScreen>(
-      listener: (context, state) {
-        _controller.index = state.idx;
-      },
-      child: Stack(
+    return BlocBuilder<HomeScreenCubit, EHomeScreen>(
+      builder: (context, state) => Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Scaffold(
@@ -55,9 +30,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             body: SafeArea(
               top: true,
               bottom: false,
-              child: TabBarView(
-                controller: _controller,
-                physics: const NeverScrollableScrollPhysics(),
+              child: IndexedStack(
+                index: state.idx,
                 children: const [
                   CalendarPage(),
                   DiaryPage(),
