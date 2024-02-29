@@ -40,7 +40,7 @@ class UserMonthlyEmotionModel with _$UserMonthlyEmotionModel {
     int? expect,
     int? thanks,
     int? sad,
-    int? rage,
+    int? anger,
     int? fear,
     int? regret,
   }) = _UserMonthlyEmotionModel;

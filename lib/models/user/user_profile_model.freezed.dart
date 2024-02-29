@@ -526,7 +526,7 @@ mixin _$UserMonthlyEmotionModel {
   int? get expect => throw _privateConstructorUsedError;
   int? get thanks => throw _privateConstructorUsedError;
   int? get sad => throw _privateConstructorUsedError;
-  int? get rage => throw _privateConstructorUsedError;
+  int? get anger => throw _privateConstructorUsedError;
   int? get fear => throw _privateConstructorUsedError;
   int? get regret => throw _privateConstructorUsedError;
 
@@ -548,7 +548,7 @@ abstract class $UserMonthlyEmotionModelCopyWith<$Res> {
       int? expect,
       int? thanks,
       int? sad,
-      int? rage,
+      int? anger,
       int? fear,
       int? regret});
 }
@@ -572,7 +572,7 @@ class _$UserMonthlyEmotionModelCopyWithImpl<$Res,
     Object? expect = freezed,
     Object? thanks = freezed,
     Object? sad = freezed,
-    Object? rage = freezed,
+    Object? anger = freezed,
     Object? fear = freezed,
     Object? regret = freezed,
   }) {
@@ -597,9 +597,9 @@ class _$UserMonthlyEmotionModelCopyWithImpl<$Res,
           ? _value.sad
           : sad // ignore: cast_nullable_to_non_nullable
               as int?,
-      rage: freezed == rage
-          ? _value.rage
-          : rage // ignore: cast_nullable_to_non_nullable
+      anger: freezed == anger
+          ? _value.anger
+          : anger // ignore: cast_nullable_to_non_nullable
               as int?,
       fear: freezed == fear
           ? _value.fear
@@ -628,7 +628,7 @@ abstract class _$$UserMonthlyEmotionModelImplCopyWith<$Res>
       int? expect,
       int? thanks,
       int? sad,
-      int? rage,
+      int? anger,
       int? fear,
       int? regret});
 }
@@ -651,7 +651,7 @@ class __$$UserMonthlyEmotionModelImplCopyWithImpl<$Res>
     Object? expect = freezed,
     Object? thanks = freezed,
     Object? sad = freezed,
-    Object? rage = freezed,
+    Object? anger = freezed,
     Object? fear = freezed,
     Object? regret = freezed,
   }) {
@@ -676,9 +676,9 @@ class __$$UserMonthlyEmotionModelImplCopyWithImpl<$Res>
           ? _value.sad
           : sad // ignore: cast_nullable_to_non_nullable
               as int?,
-      rage: freezed == rage
-          ? _value.rage
-          : rage // ignore: cast_nullable_to_non_nullable
+      anger: freezed == anger
+          ? _value.anger
+          : anger // ignore: cast_nullable_to_non_nullable
               as int?,
       fear: freezed == fear
           ? _value.fear
@@ -701,7 +701,7 @@ class _$UserMonthlyEmotionModelImpl implements _UserMonthlyEmotionModel {
       this.expect,
       this.thanks,
       this.sad,
-      this.rage,
+      this.anger,
       this.fear,
       this.regret});
 
@@ -719,7 +719,7 @@ class _$UserMonthlyEmotionModelImpl implements _UserMonthlyEmotionModel {
   @override
   final int? sad;
   @override
-  final int? rage;
+  final int? anger;
   @override
   final int? fear;
   @override
@@ -727,7 +727,7 @@ class _$UserMonthlyEmotionModelImpl implements _UserMonthlyEmotionModel {
 
   @override
   String toString() {
-    return 'UserMonthlyEmotionModel(happy: $happy, love: $love, expect: $expect, thanks: $thanks, sad: $sad, rage: $rage, fear: $fear, regret: $regret)';
+    return 'UserMonthlyEmotionModel(happy: $happy, love: $love, expect: $expect, thanks: $thanks, sad: $sad, anger: $anger, fear: $fear, regret: $regret)';
   }
 
   @override
@@ -740,7 +740,7 @@ class _$UserMonthlyEmotionModelImpl implements _UserMonthlyEmotionModel {
             (identical(other.expect, expect) || other.expect == expect) &&
             (identical(other.thanks, thanks) || other.thanks == thanks) &&
             (identical(other.sad, sad) || other.sad == sad) &&
-            (identical(other.rage, rage) || other.rage == rage) &&
+            (identical(other.anger, anger) || other.anger == anger) &&
             (identical(other.fear, fear) || other.fear == fear) &&
             (identical(other.regret, regret) || other.regret == regret));
   }
@@ -748,7 +748,7 @@ class _$UserMonthlyEmotionModelImpl implements _UserMonthlyEmotionModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, happy, love, expect, thanks, sad, rage, fear, regret);
+      runtimeType, happy, love, expect, thanks, sad, anger, fear, regret);
 
   @JsonKey(ignore: true)
   @override
@@ -772,7 +772,7 @@ abstract class _UserMonthlyEmotionModel implements UserMonthlyEmotionModel {
       final int? expect,
       final int? thanks,
       final int? sad,
-      final int? rage,
+      final int? anger,
       final int? fear,
       final int? regret}) = _$UserMonthlyEmotionModelImpl;
 
@@ -790,7 +790,7 @@ abstract class _UserMonthlyEmotionModel implements UserMonthlyEmotionModel {
   @override
   int? get sad;
   @override
-  int? get rage;
+  int? get anger;
   @override
   int? get fear;
   @override

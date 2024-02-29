@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'dart:math' as math;
@@ -10,12 +11,14 @@ class UserInfoProfileWidget extends StatelessWidget {
   final UserModel user;
   final int diaryCount;
   final int essayCount;
+  final ELoadingStatus status;
 
   const UserInfoProfileWidget({
     super.key,
     required this.user,
     required this.diaryCount,
     required this.essayCount,
+    required this.status,
   });
 
   @override
@@ -53,7 +56,10 @@ class UserInfoProfileWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(Sizes.size5),
                     ),
                     child: AppFont(
-                      user.introduce ?? Strings.nullStr,
+                      user.introduce ??
+                          (status == ELoadingStatus.loading
+                              ? '잠시만 기다려주세요~'
+                              : Strings.nullStr),
                       color: Colors.white,
                     ),
                   ),
@@ -70,36 +76,41 @@ class UserInfoProfileWidget extends StatelessWidget {
             padding: const EdgeInsets.only(
               top: Sizes.size32,
               bottom: Sizes.size10,
-              left: Sizes.size52,
-              right: Sizes.size52,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Row(
-                  children: [
-                    _infoText(
-                      title: '일기',
-                      value: diaryCount.toString(),
-                    ),
-                    Gaps.h32,
-                    _verticalDivider(),
-                  ],
+                Flexible(
+                  flex: 2,
+                  child: _infoText(
+                    title: '일기',
+                    value: status == ELoadingStatus.loading
+                        ? '-'
+                        : diaryCount.toString(),
+                  ),
                 ),
-                _infoText(
-                  title: '닉네임',
-                  value: user.nickName ?? Strings.nullStr,
-                  size: Sizes.size14,
+                _verticalDivider(),
+                Flexible(
+                  flex: 3,
+                  child: _infoText(
+                    title: '닉네임',
+                    value: user.nickName ??
+                        (status == ELoadingStatus.loading
+                            ? '-'
+                            : Strings.nullStr),
+                    size: Sizes.size14,
+                  ),
                 ),
-                Row(
-                  children: [
-                    _verticalDivider(),
-                    Gaps.h32,
-                    _infoText(
-                      title: '수필',
-                      value: essayCount.toString(),
-                    ),
-                  ],
+                _verticalDivider(),
+                Flexible(
+                  flex: 2,
+                  child: _infoText(
+                    title: '수필',
+                    value: status == ELoadingStatus.loading
+                        ? '-'
+                        : essayCount.toString(),
+                  ),
                 ),
               ],
             ),

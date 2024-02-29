@@ -73,7 +73,7 @@ _$UserMonthlyEmotionModelImpl _$$UserMonthlyEmotionModelImplFromJson(
       expect: json['expect'] as int?,
       thanks: json['thanks'] as int?,
       sad: json['sad'] as int?,
-      rage: json['rage'] as int?,
+      anger: json['anger'] as int?,
       fear: json['fear'] as int?,
       regret: json['regret'] as int?,
     );
@@ -86,7 +86,7 @@ Map<String, dynamic> _$$UserMonthlyEmotionModelImplToJson(
       'expect': instance.expect,
       'thanks': instance.thanks,
       'sad': instance.sad,
-      'rage': instance.rage,
+      'anger': instance.anger,
       'fear': instance.fear,
       'regret': instance.regret,
     };

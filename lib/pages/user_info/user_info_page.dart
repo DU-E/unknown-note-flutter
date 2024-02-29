@@ -9,10 +9,12 @@ import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
 import 'package:unknown_note_flutter/pages/essay/widgets/essay_listitem_widget.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_graph.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_heatmap.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_profile_widget.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_statics.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
 
@@ -168,6 +170,7 @@ class _UserInfoPageState extends State<UserInfoPage>
               user: state.userProfile?.user ?? UserModel(),
               diaryCount: state.userProfile?.diaryCount ?? 0,
               essayCount: state.userProfile?.essayCount ?? 0,
+              status: state.status,
             ),
           ),
         ),
@@ -217,14 +220,18 @@ class _UserInfoPageState extends State<UserInfoPage>
               physics: const NeverScrollableScrollPhysics(),
               animationCurve: Curves.easeOut,
               children: [
-                if (!widget.popAble) const UserInfoGraph(),
-                const UserInfoHeatmap(),
                 if (!widget.popAble)
-                  const SizedBox(
-                    height: 400,
-                    child: Center(
-                      child: AppFont('9감정 개수'),
-                    ),
+                  UserInfoGraph(
+                    graphData: state.userProfile?.recentGraph ?? [],
+                    status: state.status,
+                  ),
+                UserInfoHeatmap(
+                  monthlyData: state.userProfile?.monthlyAct ?? [],
+                ),
+                if (!widget.popAble)
+                  UserInfoStatics(
+                    emotionsData: state.userProfile?.monthlyEmotions ??
+                        UserMonthlyEmotionModel(),
                   ),
                 const SizedBox(
                   height: 500,

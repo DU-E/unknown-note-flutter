@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
 
 class UserInfoHeatmap extends StatelessWidget {
-  const UserInfoHeatmap({super.key});
+  final List<UserStatsDataModel> monthlyData;
+
+  const UserInfoHeatmap({
+    super.key,
+    required this.monthlyData,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final today = DateTime.now();
+
     return Center(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -19,10 +27,8 @@ class UserInfoHeatmap extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: Sizes.size20),
               child: HeatMap(
                 datasets: {
-                  DateTime(2024, 1, 17): 3,
-                  DateTime(2024, 1, 16): 6,
-                  DateTime(2024, 1, 14): 1,
-                  DateTime(2024, 1, 13): 2,
+                  for (var data in monthlyData)
+                    (data.date ?? today): data.value?.toInt() ?? 0,
                 },
                 colorMode: ColorMode.opacity,
                 showColorTip: false,
