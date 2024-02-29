@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_info_event.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_state.dart';
+import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
@@ -19,14 +21,17 @@ import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_profile_w
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_statics.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
+import 'package:unknown_note_flutter/widgets/common_button.dart';
 
 class UserInfoPage extends StatefulWidget {
   final bool popAble;
+  final int userId;
   final String? nickName;
 
   const UserInfoPage({
     super.key,
     this.popAble = false,
+    required this.userId,
     this.nickName,
   });
 
@@ -158,9 +163,13 @@ class _UserInfoPageState extends State<UserInfoPage>
             ),
           ],
         ),
-        body: state.status == ELoadingStatus.error
-            ? _buildError(state.message ?? '사용자 정보를 불러오는데 실패했습니다.')
-            : _buildBody(state),
+        body: Stack(
+          children: [
+            _buildBody(state),
+            if (state.status == ELoadingStatus.error)
+              _buildError(state.message),
+          ],
+        ),
       ),
     );
   }
@@ -292,9 +301,28 @@ class _UserInfoPageState extends State<UserInfoPage>
     );
   }
 
-  Widget _buildError(String message) {
-    return Center(
-      child: AppFont(message),
+  Widget _buildError(String? message) {
+    return CommonBlurContainer(
+      height: double.infinity,
+      color: Colors.black.withOpacity(0.4),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppFont(
+              message ?? Strings.unknownFail,
+              color: Colors.white,
+            ),
+            Gaps.v20,
+            CommonButton(
+              onTap: () {
+                context.read<UserInfoBloc>().add(UserInfoGet(widget.userId));
+              },
+              child: const AppFont('재시도'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

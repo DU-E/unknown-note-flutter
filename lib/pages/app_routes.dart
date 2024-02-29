@@ -182,7 +182,8 @@ class _AppRoutesState extends State<AppRoutes> {
               ),
               child: UserInfoPage(
                 popAble: true,
-                nickName: state.extra as String,
+                userId: int.parse(state.pathParameters['userId']!),
+                nickName: state.extra != null ? state.extra as String : null,
               ),
             ),
           ),

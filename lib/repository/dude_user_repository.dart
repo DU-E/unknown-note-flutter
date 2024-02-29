@@ -6,6 +6,7 @@ import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
+import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
 
 class DudeUserRepository {
   Future<ResModel<UserModel>> getUser() async {
@@ -52,6 +53,14 @@ class DudeUserRepository {
 
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
+
+    // mockThrowDioError(
+    //   errorModel: ResModel(
+    //     code: 2001,
+    //     message: '프로필 조회에 실패했습니다.',
+    //   ),
+    // );
+
     var resTmp = ResModel<UserProfileModel>(
       code: 1000,
       data: UserProfileModel(

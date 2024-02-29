@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/enums/enum_home_screen.dart';
@@ -32,11 +34,15 @@ class HomePage extends StatelessWidget {
               bottom: false,
               child: IndexedStack(
                 index: state.idx,
-                children: const [
-                  CalendarPage(),
-                  DiaryPage(),
-                  EssayPage(),
-                  UserInfoPage(),
+                children: [
+                  const CalendarPage(),
+                  const DiaryPage(),
+                  const EssayPage(),
+                  UserInfoPage(
+                    userId: (AuthBlocSingleton.bloc.state as AuthAuthState)
+                        .user
+                        .userId!,
+                  ),
                 ],
               ),
             ),

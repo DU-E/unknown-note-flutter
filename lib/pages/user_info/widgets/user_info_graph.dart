@@ -222,9 +222,10 @@ class UserInfoGraph extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             )
           : const Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 AppFont('충분한 데이터가 모이지 않았습니다 ;('),
-                Gaps.h10,
+                Gaps.v20,
                 AppFont('일기를 꾸준히 작성해보아요!'),
               ],
             ),
