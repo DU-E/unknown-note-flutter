@@ -13,7 +13,12 @@ import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 
 class DiarySlideWidget extends StatefulWidget {
-  const DiarySlideWidget({super.key});
+  final DiaryBloc diaryBloc;
+
+  const DiarySlideWidget({
+    super.key,
+    required this.diaryBloc,
+  });
 
   @override
   State<DiarySlideWidget> createState() => _DiarySlideWidgetState();
@@ -58,12 +63,13 @@ class _DiarySlideWidgetState extends State<DiarySlideWidget>
           _tabMain(),
           _tabSub(
             BlocBuilder<DiaryBloc, DiaryState>(
+              bloc: widget.diaryBloc,
               builder: (context, state) => DiaryEmotionWidget(
                 onSelected: (emotion) {
                   if (state.emotion == emotion) return;
-                  context.read<DiaryBloc>().add(DiaryChangeEmotion(
-                        emotion: emotion,
-                      ));
+                  widget.diaryBloc.add(DiaryChangeEmotion(
+                    emotion: emotion,
+                  ));
                 },
                 selected: state.emotion,
               ),
