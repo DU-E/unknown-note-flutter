@@ -186,6 +186,7 @@ class _UserInfoPageState extends State<UserInfoPage>
               user: state.userProfile?.user ?? UserModel(),
               diaryCount: state.userProfile?.diaryCount ?? 0,
               essayCount: state.userProfile?.essayCount ?? 0,
+              flower: state.userProfile?.flower,
               status: state.status,
             ),
           ),

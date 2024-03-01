@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_profile_bg.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'dart:math' as math;
 
@@ -12,6 +14,7 @@ class UserInfoProfileWidget extends StatelessWidget {
   final UserModel user;
   final int diaryCount;
   final int essayCount;
+  final EEmotion? flower;
   final ELoadingStatus status;
 
   const UserInfoProfileWidget({
@@ -20,6 +23,7 @@ class UserInfoProfileWidget extends StatelessWidget {
     required this.user,
     required this.diaryCount,
     required this.essayCount,
+    required this.flower,
     required this.status,
   });
 
@@ -28,8 +32,8 @@ class UserInfoProfileWidget extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Container(
-          color: Colors.red,
+        UserInfoProfileBG(
+          flower: flower,
         ),
         Container(
           color: Theme.of(context).primaryColor.withOpacity(0.6),
