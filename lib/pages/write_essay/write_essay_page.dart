@@ -107,8 +107,8 @@ class _WriteEssayPageState extends State<WriteEssayPage> {
       listener: (context, state) {
         if (state.status == EUploadStatus.success) {
           context.replace(
-            '/essay/${_essay.value.id}',
-            extra: _essay.value,
+            '/essay/${state.result!.id}',
+            extra: state.result!,
           );
         }
         if (state.status == EUploadStatus.error) {

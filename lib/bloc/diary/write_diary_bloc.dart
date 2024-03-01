@@ -44,17 +44,13 @@ class WriteDiaryBloc extends Bloc<WriteDiaryEvent, WriteDiaryState> {
       // Upload
       emit(state.copyWith(status: EUploadStatus.uploading));
 
-      var res = await diaryRepository.postDiary(
+      await diaryRepository.postDiary(
         diary: event.diary,
       );
 
-      if (res.code == 1000) {
-        emit(state.copyWith(
-          status: EUploadStatus.success,
-        ));
-      } else {
-        throw Exception(res.message);
-      }
+      emit(state.copyWith(
+        status: EUploadStatus.success,
+      ));
     } on DioException catch (e) {
       var error = e.error as ResModel<void>;
       emit(state.copyWith(

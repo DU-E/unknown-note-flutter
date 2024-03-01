@@ -141,7 +141,9 @@ class _AppRoutesState extends State<AppRoutes> {
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
             child: BlocProvider(
-              create: (context) => WriteEssayBloc(),
+              create: (context) => WriteEssayBloc(
+                essayRepository: context.read<DudeEssayRepository>(),
+              ),
               child: WriteEssayPage(
                 essay: state.extra as EssayModel?,
               ),
