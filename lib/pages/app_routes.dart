@@ -15,6 +15,7 @@ import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/bloc/splash/splash_cubit.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
 import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
+import 'package:unknown_note_flutter/pages/user_edit/user_edit_page.dart';
 import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
@@ -56,14 +57,13 @@ class _AppRoutesState extends State<AppRoutes> {
       refreshListenable: AuthBlocSingleton.bloc,
       redirect: (context, state) {
         final authState = AuthBlocSingleton.bloc.state;
-        final blockPageInAuthAuthState = ['/', '/signin', '/edit_profile'];
+        final blockPageInAuthAuthState = ['/', '/signin']; // '/edit/profile' 제외
 
         if (authState is AuthInitState) return '/';
         if (authState is AuthUnknownState || authState is AuthErrorState) {
           return '/signin';
         }
-        // TODO: implement profile setting page
-        if (authState is AuthUnAuthState) return '/edit_profile';
+        if (authState is AuthUnAuthState) return '/edit/profile';
         if (authState is AuthAuthState) {
           return blockPageInAuthAuthState.contains(state.matchedLocation)
               ? '/home'
@@ -185,6 +185,14 @@ class _AppRoutesState extends State<AppRoutes> {
                 userId: int.parse(state.pathParameters['userId']!),
                 nickName: state.extra != null ? state.extra as String : null,
               ),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '/edit/profile',
+          pageBuilder: (context, state) => transPage(
+            child: UserEditPage(
+              popAble: state.extra != null ? state.extra as bool : false,
             ),
           ),
         ),

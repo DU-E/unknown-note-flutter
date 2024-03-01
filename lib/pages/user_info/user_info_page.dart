@@ -2,6 +2,7 @@ import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_event.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_state.dart';
@@ -96,6 +97,13 @@ class _UserInfoPageState extends State<UserInfoPage>
     );
   }
 
+  void _onSettingTap() {
+    context.push(
+      '/edit/profile',
+      extra: true, // popAble
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserInfoBloc, UserInfoState>(
@@ -153,7 +161,7 @@ class _UserInfoPageState extends State<UserInfoPage>
               ),
               child: !widget.popAble
                   ? IconButton(
-                      onPressed: () {},
+                      onPressed: _onSettingTap,
                       icon: const Icon(
                         Icons.settings_rounded,
                         color: Colors.white,
