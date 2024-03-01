@@ -71,7 +71,11 @@ class _CalendarPageState extends State<CalendarPage> {
             date: state.headDate,
             gotoToday: () {
               _controller.displayDate = DateTime.now();
-              _controller.selectedDate = DateTime.now();
+              _controller.selectedDate = DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                1,
+              );
             },
           ),
         ),

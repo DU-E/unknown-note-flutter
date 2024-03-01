@@ -5,7 +5,7 @@ class CalendarStateCubit extends Cubit<CalendarHeaderState> {
   CalendarStateCubit()
       : super(CalendarHeaderState(
           headDate: DateTime.now(),
-          selectedDate: DateTime.now(),
+          selectedDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
         ));
 
   void onChangeHeadDate(DateTime? date) {

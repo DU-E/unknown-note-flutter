@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_bloc.dart';
+import 'package:unknown_note_flutter/bloc/calendar/calendar_state.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
@@ -30,14 +31,14 @@ class CalendarAddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarStateCubit, CalendarHeaderState>(
+    return BlocBuilder<CalendarBloc, CalendarState>(
       builder: (context, state) {
-        var calendarBloc = context.watch<CalendarBloc>();
-        var diary = calendarBloc
-            .state
-            .page?[
-                DateTime(state.selectedDate.year, state.selectedDate.month, 1)]
-            ?.diaries?[state.selectedDate];
+        var calendarState = context.watch<CalendarStateCubit>().state;
+        var diary = state
+            .page?[DateTime(calendarState.selectedDate.year,
+                calendarState.selectedDate.month, 1)]
+            ?.diaries?[calendarState.selectedDate];
+
         if (diary != null) {
           return CommonButton(
             onTap: () => _onReadTap(context, diary: diary),
@@ -67,8 +68,8 @@ class CalendarAddButton extends StatelessWidget {
         }
         return CommonIconButton(
           icon: Icons.add,
-          onTap: calendarBloc.state.status?[DateTime(
-                      state.selectedDate.year, state.selectedDate.month, 1)] ==
+          onTap: state.status?[DateTime(calendarState.selectedDate.year,
+                      calendarState.selectedDate.month, 1)] ==
                   ELoadingStatus.loaded
               ? () => _onAddTap(context)
               : null,
