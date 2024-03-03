@@ -67,17 +67,17 @@ class UserInfoGraph extends StatelessWidget {
                 ),
                 borderData: FlBorderData(show: false),
                 lineTouchData: const LineTouchData(enabled: false),
-                maxX: 30,
-                minX: 0,
+                maxX: 0,
+                minX: 30,
                 maxY: 1,
                 minY: 0,
                 lineBarsData: [
                   LineChartBarData(
                     spots: [
-                      // D+30 data
-                      FlSpot(30, graphData.first.value?.toDouble() ?? 0),
+                      // D-day data
+                      FlSpot(0, _avgData()),
                       // Between data
-                      for (var data in graphData)
+                      for (var data in graphData.reversed)
                         FlSpot(
                           today
                               .difference(data.date ?? today)
@@ -85,16 +85,16 @@ class UserInfoGraph extends StatelessWidget {
                               .toDouble(),
                           data.value?.toDouble() ?? 0,
                         ),
-                      // D-day data
-                      FlSpot(0, _avgData()),
+                      // D+31 data
+                      FlSpot(31, graphData.first.value?.toDouble() ?? 0),
                     ],
                     isStrokeJoinRound: true,
                     isCurved: true,
                     curveSmoothness: 0.2,
                     gradient: LinearGradient(
                       colors: [
-                        Theme.of(context).primaryColor.withOpacity(0.3),
                         Theme.of(context).primaryColor,
+                        Theme.of(context).primaryColor.withOpacity(0.3),
                       ],
                     ),
                     barWidth: 3,
@@ -112,10 +112,12 @@ class UserInfoGraph extends StatelessWidget {
                     belowBarData: BarAreaData(
                       show: true,
                       gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                         colors: [
-                          Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor,
-                        ].map((color) => color.withOpacity(0.3)).toList(),
+                          Theme.of(context).primaryColor.withOpacity(0.5),
+                          Theme.of(context).primaryColor.withOpacity(0.2),
+                        ],
                       ),
                     ),
                   ),
