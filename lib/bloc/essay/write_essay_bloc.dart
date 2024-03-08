@@ -3,15 +3,19 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_state.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_http_method.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
+import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
 
 class WriteEssayBloc extends Bloc<WriteEssayEvent, WriteEssayState> {
   final DudeEssayRepository essayRepository;
+  final EHttpMethod httpMethod;
 
   WriteEssayBloc({
     required this.essayRepository,
+    required this.httpMethod,
   }) : super(const WriteEssayState.init()) {
     on<WriteEssayUpload>(_writeEssayUploadHandler);
   }
@@ -53,14 +57,22 @@ class WriteEssayBloc extends Bloc<WriteEssayEvent, WriteEssayState> {
       // Upload
       emit(state.copyWith(status: EUploadStatus.uploading));
 
-      var res = await essayRepository.postEssay(
-        essay: event.essay,
-      );
+      ResModel<EssayModel>? res;
+      switch (httpMethod) {
+        case EHttpMethod.post:
+          res = await essayRepository.postEssay(essay: event.essay);
+          break;
+        case EHttpMethod.patch:
+          res = await essayRepository.patchEssay(essay: event.essay);
+          break;
+        default:
+          break;
+      }
 
-      if (res.data != null) {
+      if (res?.data != null) {
         emit(state.copyWith(
           status: EUploadStatus.success,
-          result: res.data,
+          result: res!.data,
         ));
       } else {
         throw Exception('저장된 에세이 수신에 실패했습니다.');

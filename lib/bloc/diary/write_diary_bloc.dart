@@ -3,15 +3,18 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_state.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_http_method.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 
 class WriteDiaryBloc extends Bloc<WriteDiaryEvent, WriteDiaryState> {
   final DudeDiaryRepository diaryRepository;
+  final EHttpMethod httpMethod;
 
   WriteDiaryBloc({
     required this.diaryRepository,
+    required this.httpMethod,
   }) : super(const WriteDiaryState.init()) {
     on<WriteDiaryUpload>(_writeDiaryUploadHandler);
   }
@@ -44,9 +47,14 @@ class WriteDiaryBloc extends Bloc<WriteDiaryEvent, WriteDiaryState> {
       // Upload
       emit(state.copyWith(status: EUploadStatus.uploading));
 
-      await diaryRepository.postDiary(
-        diary: event.diary,
-      );
+      switch (httpMethod) {
+        case EHttpMethod.post:
+          await diaryRepository.postDiary(diary: event.diary);
+          break;
+        case EHttpMethod.patch:
+          await diaryRepository.patchDiary(diary: event.diary);
+          break;
+      }
 
       emit(state.copyWith(
         status: EUploadStatus.success,

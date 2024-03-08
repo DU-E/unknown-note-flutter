@@ -14,6 +14,7 @@ import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/bloc/splash/splash_cubit.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
+import 'package:unknown_note_flutter/enums/enum_http_method.dart';
 import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
 import 'package:unknown_note_flutter/pages/user_edit/user_edit_page.dart';
 import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
@@ -143,6 +144,8 @@ class _AppRoutesState extends State<AppRoutes> {
             child: BlocProvider(
               create: (context) => WriteEssayBloc(
                 essayRepository: context.read<DudeEssayRepository>(),
+                httpMethod:
+                    state.extra == null ? EHttpMethod.post : EHttpMethod.patch,
               ),
               child: WriteEssayPage(
                 essay: state.extra as EssayModel?,
@@ -166,6 +169,8 @@ class _AppRoutesState extends State<AppRoutes> {
             child: BlocProvider(
               create: (context) => WriteDiaryBloc(
                 diaryRepository: context.read<DudeDiaryRepository>(),
+                httpMethod:
+                    state.extra == null ? EHttpMethod.post : EHttpMethod.patch,
               ),
               child: WriteDiaryPage(
                 diary: state.extra as DiaryModel?,

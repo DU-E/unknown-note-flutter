@@ -110,4 +110,26 @@ class DudeDiaryRepository {
 
     return res;
   }
+
+  Future<ResModel<void>> patchDiary({
+    required DiaryModel diary,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.patch(
+    //   '/diary/save',
+    //   data: diary.toJson(),
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+    var resTmp = ResModel<void>(
+      code: 1000,
+      // message: 'diary saving failed',
+    ).toJson((p0) => null);
+
+    var res = ResModel<void>.fromJson(resTmp, (json) {});
+
+    return res;
+  }
 }

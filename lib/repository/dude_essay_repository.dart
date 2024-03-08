@@ -85,4 +85,33 @@ class DudeEssayRepository {
 
     return res;
   }
+
+  Future<ResModel<EssayModel>> patchEssay({
+    required EssayModel essay,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.patch(
+    //   '/essay',
+    //   data: essay.toJson(),
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+    essay = essay.copyWith(
+      user: (AuthBlocSingleton.bloc.state as AuthAuthState).user,
+    );
+    var resTmp = ResModel<EssayModel>(
+      code: 1000,
+      // message: 'diary saving failed',
+      data: essay,
+    ).toJson((essay) => essay.toJson());
+
+    var res = ResModel<EssayModel>.fromJson(
+      resTmp,
+      (json) => EssayModel.fromJson(json),
+    );
+
+    return res;
+  }
 }
