@@ -13,6 +13,7 @@ import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/bloc/splash/splash_cubit.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
 import 'package:unknown_note_flutter/enums/enum_http_method.dart';
 import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
@@ -122,7 +123,15 @@ class _AppRoutesState extends State<AppRoutes> {
                   create: (context) => UserInfoBloc(
                     userRepository: context.read<DudeUserRepository>(),
                   ),
-                )
+                ),
+                BlocProvider(
+                  create: (context) => UserEssayBloc(
+                    userId: (AuthBlocSingleton.bloc.state as AuthAuthState)
+                        .user
+                        .userId!,
+                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                  ),
+                ),
               ],
               child: const HomePage(),
             ),
@@ -182,11 +191,21 @@ class _AppRoutesState extends State<AppRoutes> {
           path: '/profile/:userId',
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
-            child: BlocProvider(
-              create: (context) => UserInfoBloc(
-                userId: int.parse(state.pathParameters['userId']!),
-                userRepository: context.read<DudeUserRepository>(),
-              ),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => UserInfoBloc(
+                    userId: int.parse(state.pathParameters['userId']!),
+                    userRepository: context.read<DudeUserRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => UserEssayBloc(
+                    userId: int.parse(state.pathParameters['userId']!),
+                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                  ),
+                ),
+              ],
               child: UserInfoPage(
                 popAble: true,
                 userId: int.parse(state.pathParameters['userId']!),

@@ -6,6 +6,7 @@ import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
 
 class DudeEssayRepository {
   Future<ResModel<List<EssayModel>>> getEssayList({
@@ -36,6 +37,58 @@ class DudeEssayRepository {
                 .add(Duration(minutes: page * 20 + i)),
             likes: 10,
             category: category,
+            user: UserModel(
+              userId: 1,
+              nickName: 'testWoong',
+              introduce: 'Hello world!',
+            ),
+          ),
+      ],
+    ).toJson(
+      (essayList) => essayList.map((essay) => essay.toJson()).toList(),
+    );
+
+    var res = ResModel<List<EssayModel>>.fromJson(
+      resTmp,
+      (json) => (json as List<dynamic>)
+          .map((essay) => EssayModel.fromJson(essay))
+          .toList(),
+    );
+
+    return res;
+  }
+
+  Future<ResModel<List<EssayModel>>> getUserEssayList({
+    required int userId,
+    required int page,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.get(
+    //   '/essay',
+    //   queryParameters: {
+    //     'user_id': userId,
+    //   },
+    //   data: {
+    //     'page': page,
+    //   },
+    // );
+
+    // TODO; connect api
+    await Future.delayed(const Duration(seconds: 1));
+
+    var resTmp = ResModel<List<EssayModel>>(
+      code: 1000,
+      data: [
+        for (int i = 1; i <= 20; i++)
+          EssayModel(
+            id: page * 20 + i,
+            title: '${page * 20 + i}th $userId\'s essay',
+            content: '${page * 20 + i}th $userId\'s essay contents blah',
+            time: DateTime(2023, 12, 21, 13, 09)
+                .add(Duration(minutes: page * 20 + i)),
+            likes: 10,
+            category: EEssayCategory.novel,
             user: UserModel(
               userId: 1,
               nickName: 'testWoong',

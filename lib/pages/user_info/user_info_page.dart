@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:go_router/go_router.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_essay_bloc.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_essay_event.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_essay_state.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_event.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_state.dart';
@@ -23,6 +26,7 @@ import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_statics.d
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
 import 'package:unknown_note_flutter/widgets/common_button.dart';
+import 'package:unknown_note_flutter/widgets/common_loading_widget.dart';
 
 class UserInfoPage extends StatefulWidget {
   final bool popAble;
@@ -102,6 +106,10 @@ class _UserInfoPageState extends State<UserInfoPage>
       '/edit/profile',
       extra: true, // popAble
     );
+  }
+
+  void _loadMore() {
+    context.read<UserEssayBloc>().add(UserEssayLoadMore());
   }
 
   @override
@@ -267,43 +275,69 @@ class _UserInfoPageState extends State<UserInfoPage>
           ),
         ),
         SliverStickyHeader(
-          header: const CommonBlurContainer(
+          header: CommonBlurContainer(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: Sizes.size20),
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppFont(
+                  const AppFont(
                     '작성한 수필',
                     color: Colors.white,
                     weight: FontWeight.w700,
                     size: Sizes.size16,
                   ),
                   AppFont(
-                    'Total 3',
+                    'Total ${state.userProfile?.essayCount ?? 0}',
                     color: Colors.white,
                   ),
                 ],
               ),
             ),
           ),
-          sliver: SliverList.builder(
-            itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.only(
-                top: Sizes.size20,
-                left: Sizes.size20,
-                right: Sizes.size20,
-              ),
-              child: EssayListItemWidget(
-                essay: EssayModel(),
+          sliver: SliverPadding(
+            padding: const EdgeInsets.only(top: Sizes.size20),
+            sliver: BlocBuilder<UserEssayBloc, UserEssayState>(
+              builder: (context, state) => SliverList.separated(
+                itemBuilder: (context, index) {
+                  if (index < state.list.length) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.size20,
+                      ),
+                      child: EssayListItemWidget(
+                        essay: state.list[index],
+                      ),
+                    );
+                  } else {
+                    if (state.status == ELoadingStatus.error) {
+                      return Column(
+                        children: [
+                          AppFont(state.message ?? Strings.unknownFail),
+                          Gaps.v10,
+                          CommonButton(
+                            onTap: () {
+                              context
+                                  .read<UserEssayBloc>()
+                                  .add(UserEssayRetry());
+                            },
+                            child: const AppFont('재시도'),
+                          ),
+                        ],
+                      );
+                    }
+                    return CommonLoadingWidget(whenBuild: _loadMore);
+                  }
+                },
+                separatorBuilder: (context, index) => Gaps.v20,
+                itemCount: state.list.length + 1,
               ),
             ),
-            itemCount: 20,
           ),
         ),
         SliverToBoxAdapter(
           child: SizedBox(
-            height: MediaQuery.of(context).padding.bottom + Sizes.size80,
+            height: MediaQuery.of(context).padding.bottom + Sizes.size96,
           ),
         ),
       ],
