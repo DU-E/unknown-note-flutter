@@ -11,6 +11,7 @@ class CommonTextForm extends StatefulWidget {
   final bool singleLine;
   final bool expanded;
   final bool dynamicSize;
+  final String? hintText;
 
   const CommonTextForm({
     super.key,
@@ -19,6 +20,7 @@ class CommonTextForm extends StatefulWidget {
     this.singleLine = true,
     this.expanded = false,
     this.dynamicSize = false,
+    this.hintText,
   });
 
   @override
@@ -66,11 +68,12 @@ class _CommonTextFormState extends State<CommonTextForm> {
         autocorrect: false,
         onTapOutside: (_) => _unfocus(),
         onChanged: widget.getValue,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(
+          contentPadding: const EdgeInsets.symmetric(
             vertical: Sizes.size5,
           ),
+          hintText: widget.hintText,
         ),
         cursorRadius: const Radius.circular(Sizes.size5),
         keyboardType: widget.singleLine ? null : TextInputType.multiline,

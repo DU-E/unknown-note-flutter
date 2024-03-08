@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:go_router/go_router.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_essay_event.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_essay_state.dart';
@@ -14,7 +16,6 @@ import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
-import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
 import 'package:unknown_note_flutter/pages/essay/widgets/essay_listitem_widget.dart';
@@ -101,11 +102,16 @@ class _UserInfoPageState extends State<UserInfoPage>
     );
   }
 
-  void _onSettingTap() {
-    context.push(
+  void _onSettingTap() async {
+    await context.push(
       '/edit/profile',
       extra: true, // popAble
     );
+
+    if (mounted) {
+      context.read<UserInfoBloc>().add(UserInfoUpdateUser(
+          (AuthBlocSingleton.bloc.state as AuthAuthState).user));
+    }
   }
 
   void _loadMore() {

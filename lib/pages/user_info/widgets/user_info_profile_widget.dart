@@ -122,7 +122,14 @@ class UserInfoProfileWidget extends StatelessWidget {
                 ],
               ),
               Gaps.v20,
-              const CircleAvatar(radius: Sizes.size40),
+              CircleAvatar(
+                radius: Sizes.size40,
+                backgroundImage: user.profileImg?.isNotEmpty == true
+                    ? Image.network(
+                        user.profileImg ?? '',
+                      ).image
+                    : null,
+              ),
             ],
           ),
         ),

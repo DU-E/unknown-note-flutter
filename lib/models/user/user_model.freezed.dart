@@ -26,6 +26,8 @@ mixin _$UserModel {
   String? get nickName => throw _privateConstructorUsedError;
   @JsonKey(name: 'introduction')
   String? get introduce => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_img')
+  String? get profileImg => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,8 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'user_id') int? userId,
       @JsonKey(name: 'nickname') String? nickName,
-      @JsonKey(name: 'introduction') String? introduce});
+      @JsonKey(name: 'introduction') String? introduce,
+      @JsonKey(name: 'profile_img') String? profileImg});
 }
 
 /// @nodoc
@@ -60,6 +63,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? userId = freezed,
     Object? nickName = freezed,
     Object? introduce = freezed,
+    Object? profileImg = freezed,
   }) {
     return _then(_value.copyWith(
       userId: freezed == userId
@@ -73,6 +77,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       introduce: freezed == introduce
           ? _value.introduce
           : introduce // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImg: freezed == profileImg
+          ? _value.profileImg
+          : profileImg // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -89,7 +97,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'user_id') int? userId,
       @JsonKey(name: 'nickname') String? nickName,
-      @JsonKey(name: 'introduction') String? introduce});
+      @JsonKey(name: 'introduction') String? introduce,
+      @JsonKey(name: 'profile_img') String? profileImg});
 }
 
 /// @nodoc
@@ -106,6 +115,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? nickName = freezed,
     Object? introduce = freezed,
+    Object? profileImg = freezed,
   }) {
     return _then(_$UserModelImpl(
       userId: freezed == userId
@@ -120,6 +130,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.introduce
           : introduce // ignore: cast_nullable_to_non_nullable
               as String?,
+      profileImg: freezed == profileImg
+          ? _value.profileImg
+          : profileImg // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -130,7 +144,8 @@ class _$UserModelImpl implements _UserModel {
   _$UserModelImpl(
       {@JsonKey(name: 'user_id') this.userId,
       @JsonKey(name: 'nickname') this.nickName,
-      @JsonKey(name: 'introduction') this.introduce});
+      @JsonKey(name: 'introduction') this.introduce,
+      @JsonKey(name: 'profile_img') this.profileImg});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -144,10 +159,13 @@ class _$UserModelImpl implements _UserModel {
   @override
   @JsonKey(name: 'introduction')
   final String? introduce;
+  @override
+  @JsonKey(name: 'profile_img')
+  final String? profileImg;
 
   @override
   String toString() {
-    return 'UserModel(userId: $userId, nickName: $nickName, introduce: $introduce)';
+    return 'UserModel(userId: $userId, nickName: $nickName, introduce: $introduce, profileImg: $profileImg)';
   }
 
   @override
@@ -159,12 +177,15 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.nickName, nickName) ||
                 other.nickName == nickName) &&
             (identical(other.introduce, introduce) ||
-                other.introduce == introduce));
+                other.introduce == introduce) &&
+            (identical(other.profileImg, profileImg) ||
+                other.profileImg == profileImg));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, nickName, introduce);
+  int get hashCode =>
+      Object.hash(runtimeType, userId, nickName, introduce, profileImg);
 
   @JsonKey(ignore: true)
   @override
@@ -184,7 +205,8 @@ abstract class _UserModel implements UserModel {
   factory _UserModel(
           {@JsonKey(name: 'user_id') final int? userId,
           @JsonKey(name: 'nickname') final String? nickName,
-          @JsonKey(name: 'introduction') final String? introduce}) =
+          @JsonKey(name: 'introduction') final String? introduce,
+          @JsonKey(name: 'profile_img') final String? profileImg}) =
       _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -199,6 +221,9 @@ abstract class _UserModel implements UserModel {
   @override
   @JsonKey(name: 'introduction')
   String? get introduce;
+  @override
+  @JsonKey(name: 'profile_img')
+  String? get profileImg;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

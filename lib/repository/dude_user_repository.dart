@@ -26,7 +26,7 @@ class DudeUserRepository {
       code: 1000,
       data: UserModel(
         userId: 1,
-        nickName: 'testWoong',
+        // nickName: 'testWoong',
         introduce: 'Hello world!',
       ),
     ).toJson((user) => user.toJson());
@@ -35,6 +35,26 @@ class DudeUserRepository {
       resTmp,
       (json) => UserModel.fromJson(json),
     );
+
+    return res;
+  }
+
+  Future<ResModel<void>> patchUser({
+    required UserModel user,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.patch(
+    //   '/user',
+    //   data: user.toJson(),
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+
+    var resTmp = ResModel<void>(code: 1000).toJson((p0) => null);
+
+    var res = ResModel<void>.fromJson(resTmp, (json) => {});
 
     return res;
   }

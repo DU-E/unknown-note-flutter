@@ -13,14 +13,17 @@ import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
 import 'package:unknown_note_flutter/bloc/splash/splash_cubit.dart';
+import 'package:unknown_note_flutter/bloc/user_edit/user_edit_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
 import 'package:unknown_note_flutter/enums/enum_http_method.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
 import 'package:unknown_note_flutter/pages/user_edit/user_edit_page.dart';
 import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_image_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
 import 'package:unknown_note_flutter/utils/my_transition_page.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
@@ -59,7 +62,7 @@ class _AppRoutesState extends State<AppRoutes> {
       refreshListenable: AuthBlocSingleton.bloc,
       redirect: (context, state) {
         final authState = AuthBlocSingleton.bloc.state;
-        final blockPageInAuthAuthState = ['/', '/signin']; // '/edit/profile' 제외
+        final blockPageInAuthAuthState = ['/', '/signin'];
 
         if (authState is AuthInitState) return '/';
         if (authState is AuthUnknownState || authState is AuthErrorState) {
@@ -217,8 +220,23 @@ class _AppRoutesState extends State<AppRoutes> {
         GoRoute(
           path: '/edit/profile',
           pageBuilder: (context, state) => transPage(
-            child: UserEditPage(
-              popAble: state.extra != null ? state.extra as bool : false,
+            child: BlocProvider(
+              create: (context) {
+                UserModel? user;
+                if (AuthBlocSingleton.bloc.state is AuthUnAuthState) {
+                  user = (AuthBlocSingleton.bloc.state as AuthUnAuthState).user;
+                } else if (AuthBlocSingleton.bloc.state is AuthAuthState) {
+                  user = (AuthBlocSingleton.bloc.state as AuthAuthState).user;
+                }
+                return UserEditBloc(
+                  dudeUserRepository: context.read<DudeUserRepository>(),
+                  dudeImageRepository: context.read<DudeImageRepository>(),
+                  user: user,
+                );
+              },
+              child: UserEditPage(
+                popAble: state.extra != null ? state.extra as bool : false,
+              ),
             ),
           ),
         ),

@@ -24,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
     on<AuthNaverSigninEvent>(_authNaverSigninEventHandler);
     on<AuthSignoutEvent>(_authSignoutEventHandler);
     on<AuthGetUserEvent>(_authGetUserEventHandler);
+    on<AuthSetUserEvnet>(_authSetUserEventHandler);
   }
 
   Future<void> _authGoogleSigninEventHandler(
@@ -188,6 +189,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
       ));
     } finally {
       notifyListeners();
+    }
+  }
+
+  Future<void> _authSetUserEventHandler(
+    AuthSetUserEvnet event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (event.user.nickName?.isNotEmpty == true) {
+      emit(AuthAuthState(user: event.user));
+    } else {
+      emit(AuthUnAuthState(user: event.user));
     }
   }
 }

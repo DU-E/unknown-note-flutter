@@ -11,6 +11,7 @@ import 'package:unknown_note_flutter/pages/app_routes.dart';
 import 'package:unknown_note_flutter/repository/authentication_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_image_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
 
 void main() async {
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => DudeEssayRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => DudeImageRepository(),
         ),
       ],
       child: MultiBlocProvider(
