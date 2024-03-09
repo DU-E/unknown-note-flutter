@@ -35,6 +35,9 @@ mixin _$UserProfileModel {
   UserMonthlyEmotionModel? get monthlyEmotions =>
       throw _privateConstructorUsedError;
   EEmotion? get flower => throw _privateConstructorUsedError;
+  @JsonKey(
+      name: 'us_subscribed', fromJson: openableFromJson, toJson: openableToJson)
+  bool? get isSubscribed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +58,12 @@ abstract class $UserProfileModelCopyWith<$Res> {
       @JsonKey(name: 'recent_graph') List<UserStatsDataModel>? recentGraph,
       @JsonKey(name: 'monthly_act') List<UserStatsDataModel>? monthlyAct,
       @JsonKey(name: 'monthly_emo') UserMonthlyEmotionModel? monthlyEmotions,
-      EEmotion? flower});
+      EEmotion? flower,
+      @JsonKey(
+          name: 'us_subscribed',
+          fromJson: openableFromJson,
+          toJson: openableToJson)
+      bool? isSubscribed});
 
   $UserModelCopyWith<$Res>? get user;
   $UserMonthlyEmotionModelCopyWith<$Res>? get monthlyEmotions;
@@ -81,6 +89,7 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
     Object? monthlyAct = freezed,
     Object? monthlyEmotions = freezed,
     Object? flower = freezed,
+    Object? isSubscribed = freezed,
   }) {
     return _then(_value.copyWith(
       user: freezed == user
@@ -111,6 +120,10 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
           ? _value.flower
           : flower // ignore: cast_nullable_to_non_nullable
               as EEmotion?,
+      isSubscribed: freezed == isSubscribed
+          ? _value.isSubscribed
+          : isSubscribed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -155,7 +168,12 @@ abstract class _$$UserProfileModelImplCopyWith<$Res>
       @JsonKey(name: 'recent_graph') List<UserStatsDataModel>? recentGraph,
       @JsonKey(name: 'monthly_act') List<UserStatsDataModel>? monthlyAct,
       @JsonKey(name: 'monthly_emo') UserMonthlyEmotionModel? monthlyEmotions,
-      EEmotion? flower});
+      EEmotion? flower,
+      @JsonKey(
+          name: 'us_subscribed',
+          fromJson: openableFromJson,
+          toJson: openableToJson)
+      bool? isSubscribed});
 
   @override
   $UserModelCopyWith<$Res>? get user;
@@ -181,6 +199,7 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
     Object? monthlyAct = freezed,
     Object? monthlyEmotions = freezed,
     Object? flower = freezed,
+    Object? isSubscribed = freezed,
   }) {
     return _then(_$UserProfileModelImpl(
       user: freezed == user
@@ -211,6 +230,10 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
           ? _value.flower
           : flower // ignore: cast_nullable_to_non_nullable
               as EEmotion?,
+      isSubscribed: freezed == isSubscribed
+          ? _value.isSubscribed
+          : isSubscribed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -226,7 +249,12 @@ class _$UserProfileModelImpl implements _UserProfileModel {
       final List<UserStatsDataModel>? recentGraph,
       @JsonKey(name: 'monthly_act') final List<UserStatsDataModel>? monthlyAct,
       @JsonKey(name: 'monthly_emo') this.monthlyEmotions,
-      this.flower})
+      this.flower,
+      @JsonKey(
+          name: 'us_subscribed',
+          fromJson: openableFromJson,
+          toJson: openableToJson)
+      this.isSubscribed})
       : _recentGraph = recentGraph,
         _monthlyAct = monthlyAct;
 
@@ -268,10 +296,14 @@ class _$UserProfileModelImpl implements _UserProfileModel {
   final UserMonthlyEmotionModel? monthlyEmotions;
   @override
   final EEmotion? flower;
+  @override
+  @JsonKey(
+      name: 'us_subscribed', fromJson: openableFromJson, toJson: openableToJson)
+  final bool? isSubscribed;
 
   @override
   String toString() {
-    return 'UserProfileModel(user: $user, essayCount: $essayCount, diaryCount: $diaryCount, recentGraph: $recentGraph, monthlyAct: $monthlyAct, monthlyEmotions: $monthlyEmotions, flower: $flower)';
+    return 'UserProfileModel(user: $user, essayCount: $essayCount, diaryCount: $diaryCount, recentGraph: $recentGraph, monthlyAct: $monthlyAct, monthlyEmotions: $monthlyEmotions, flower: $flower, isSubscribed: $isSubscribed)';
   }
 
   @override
@@ -290,7 +322,9 @@ class _$UserProfileModelImpl implements _UserProfileModel {
                 .equals(other._monthlyAct, _monthlyAct) &&
             (identical(other.monthlyEmotions, monthlyEmotions) ||
                 other.monthlyEmotions == monthlyEmotions) &&
-            (identical(other.flower, flower) || other.flower == flower));
+            (identical(other.flower, flower) || other.flower == flower) &&
+            (identical(other.isSubscribed, isSubscribed) ||
+                other.isSubscribed == isSubscribed));
   }
 
   @JsonKey(ignore: true)
@@ -303,7 +337,8 @@ class _$UserProfileModelImpl implements _UserProfileModel {
       const DeepCollectionEquality().hash(_recentGraph),
       const DeepCollectionEquality().hash(_monthlyAct),
       monthlyEmotions,
-      flower);
+      flower,
+      isSubscribed);
 
   @JsonKey(ignore: true)
   @override
@@ -330,7 +365,12 @@ abstract class _UserProfileModel implements UserProfileModel {
       @JsonKey(name: 'monthly_act') final List<UserStatsDataModel>? monthlyAct,
       @JsonKey(name: 'monthly_emo')
       final UserMonthlyEmotionModel? monthlyEmotions,
-      final EEmotion? flower}) = _$UserProfileModelImpl;
+      final EEmotion? flower,
+      @JsonKey(
+          name: 'us_subscribed',
+          fromJson: openableFromJson,
+          toJson: openableToJson)
+      final bool? isSubscribed}) = _$UserProfileModelImpl;
 
   factory _UserProfileModel.fromJson(Map<String, dynamic> json) =
       _$UserProfileModelImpl.fromJson;
@@ -354,6 +394,10 @@ abstract class _UserProfileModel implements UserProfileModel {
   UserMonthlyEmotionModel? get monthlyEmotions;
   @override
   EEmotion? get flower;
+  @override
+  @JsonKey(
+      name: 'us_subscribed', fromJson: openableFromJson, toJson: openableToJson)
+  bool? get isSubscribed;
   @override
   @JsonKey(ignore: true)
   _$$UserProfileModelImplCopyWith<_$UserProfileModelImpl> get copyWith =>

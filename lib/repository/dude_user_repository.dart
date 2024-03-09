@@ -26,7 +26,7 @@ class DudeUserRepository {
       code: 1000,
       data: UserModel(
         userId: 1,
-        // nickName: 'testWoong',
+        nickName: 'testWoong',
         introduce: 'Hello world!',
       ),
     ).toJson((user) => user.toJson());
@@ -156,6 +156,56 @@ class DudeUserRepository {
       resTmp,
       (json) => UserProfileModel.fromJson(json),
     );
+
+    return res;
+  }
+
+  Future<ResModel<void>> postSubscribe({
+    required int userId,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.post(
+    //   '/user/subscribe',
+    //   queryParameters: {
+    //     'target_user_id': userId,
+    //   },
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+
+    var resTmp = ResModel<void>(
+      code: 1000,
+      // message: 'sub failed',
+    ).toJson((p0) => null);
+
+    var res = ResModel<void>.fromJson(resTmp, (json) {});
+
+    return res;
+  }
+
+  Future<ResModel<void>> deleteSubscribe({
+    required int userId,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.delete(
+    //   '/user/subscribe',
+    //   queryParameters: {
+    //     'target_user_id': userId,
+    //   },
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+
+    var resTmp = ResModel<void>(
+      code: 1000,
+      // message: 'unsub failed',
+    ).toJson((p0) => null);
+
+    var res = ResModel<void>.fromJson(resTmp, (json) {});
 
     return res;
   }

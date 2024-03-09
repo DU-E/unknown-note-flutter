@@ -25,6 +25,7 @@ _$UserProfileModelImpl _$$UserProfileModelImplFromJson(
           : UserMonthlyEmotionModel.fromJson(
               json['monthly_emo'] as Map<String, dynamic>),
       flower: $enumDecodeNullable(_$EEmotionEnumMap, json['flower']),
+      isSubscribed: openableFromJson(json['us_subscribed'] as int?),
     );
 
 Map<String, dynamic> _$$UserProfileModelImplToJson(
@@ -37,6 +38,7 @@ Map<String, dynamic> _$$UserProfileModelImplToJson(
       'monthly_act': instance.monthlyAct?.map((e) => e.toJson()).toList(),
       'monthly_emo': instance.monthlyEmotions?.toJson(),
       'flower': _$EEmotionEnumMap[instance.flower],
+      'us_subscribed': openableToJson(instance.isSubscribed),
     };
 
 const _$EEmotionEnumMap = {

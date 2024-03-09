@@ -13,3 +13,9 @@ class UserInfoGet extends UserInfoEvent {
 
   UserInfoGet(this.userId);
 }
+
+class UserInfoTapSubs extends UserInfoEvent {
+  final int userId;
+
+  UserInfoTapSubs(this.userId);
+}

@@ -67,7 +67,7 @@ class _UserEditPageState extends State<UserEditPage> {
         }
         if (state.status == ELoadingStatus.loaded) {
           if (widget.popAble) {
-            context.pop();
+            context.pop(true);
           } else {
             context.replace('/home');
           }
@@ -187,7 +187,7 @@ class _UserEditPageState extends State<UserEditPage> {
                   : _onTapComplete,
               child: Container(
                 width: double.infinity,
-                height: Sizes.size40,
+                height: Sizes.size52,
                 margin: EdgeInsets.only(
                   bottom: MediaQuery.paddingOf(context).bottom,
                 ),

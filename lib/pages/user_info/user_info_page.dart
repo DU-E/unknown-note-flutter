@@ -24,10 +24,12 @@ import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_graph.dar
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_heatmap.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_profile_widget.dart';
 import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_statics.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_sub_button.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
 import 'package:unknown_note_flutter/widgets/common_button.dart';
 import 'package:unknown_note_flutter/widgets/common_loading_widget.dart';
+import 'package:unknown_note_flutter/widgets/common_snackbar.dart';
 
 class UserInfoPage extends StatefulWidget {
   final bool popAble;
@@ -103,12 +105,12 @@ class _UserInfoPageState extends State<UserInfoPage>
   }
 
   void _onSettingTap() async {
-    await context.push(
+    var res = await context.push<bool?>(
       '/edit/profile',
       extra: true, // popAble
     );
 
-    if (mounted) {
+    if (res == true && mounted) {
       context.read<UserInfoBloc>().add(UserInfoUpdateUser(
           (AuthBlocSingleton.bloc.state as AuthAuthState).user));
     }
@@ -120,7 +122,17 @@ class _UserInfoPageState extends State<UserInfoPage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserInfoBloc, UserInfoState>(
+    return BlocConsumer<UserInfoBloc, UserInfoState>(
+      listener: (context, state) {
+        if (state.subStatus == ELoadingStatus.error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            CommonSnackbar(
+              context,
+              content: AppFont(state.message ?? Strings.unknownFail),
+            ),
+          );
+        }
+      },
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
@@ -181,14 +193,17 @@ class _UserInfoPageState extends State<UserInfoPage>
                         color: Colors.white,
                       ),
                     )
-                  : const SizedBox(),
+                  : UserInfoSubButton(
+                      userId: widget.userId,
+                    ),
             ),
           ],
         ),
         body: Stack(
           children: [
             _buildBody(state),
-            if (state.status == ELoadingStatus.error)
+            if (state.status == ELoadingStatus.error &&
+                state.subStatus != ELoadingStatus.error)
               _buildError(state.message),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/utils/openable_converter.dart';
 
 part 'user_profile_model.freezed.dart';
 part 'user_profile_model.g.dart';
@@ -15,6 +16,12 @@ class UserProfileModel with _$UserProfileModel {
     @JsonKey(name: 'monthly_act') List<UserStatsDataModel>? monthlyAct,
     @JsonKey(name: 'monthly_emo') UserMonthlyEmotionModel? monthlyEmotions,
     EEmotion? flower,
+    @JsonKey(
+      name: 'us_subscribed',
+      fromJson: openableFromJson,
+      toJson: openableToJson,
+    )
+    bool? isSubscribed,
   }) = _UserProfileModel;
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) =>

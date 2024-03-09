@@ -18,6 +18,7 @@ class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState> {
   }) : super(const UserInfoState.init()) {
     on<UserInfoUpdateUser>(_userInfoUpdateUserHandler);
     on<UserInfoGet>(_userInfoGetHandler);
+    on<UserInfoTapSubs>(_userInfoTapSubsHandler);
 
     // userId != null -> 다른 사람의 프로필을 보는 경우
     if (userId != null) {
@@ -80,6 +81,57 @@ class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState> {
         status: ELoadingStatus.error,
         message: '[5001] ${e.toString()}',
       ));
+    }
+  }
+
+  Future<void> _userInfoTapSubsHandler(
+    UserInfoTapSubs event,
+    Emitter<UserInfoState> emit,
+  ) async {
+    if (state.subStatus == ELoadingStatus.loading) return;
+
+    bool preSubState = state.userProfile?.isSubscribed ?? false;
+
+    try {
+      // 우선 바로 구독상태 변경
+      emit(state.copyWith(
+        subStatus: ELoadingStatus.loading,
+        userProfile: state.userProfile?.copyWith(
+          isSubscribed: !preSubState,
+        ),
+      ));
+      // 구독상태면 구독 해제 / 반대의 경우 구독
+      if (preSubState) {
+        await userRepository.deleteSubscribe(userId: event.userId);
+      } else {
+        await userRepository.postSubscribe(userId: event.userId);
+      }
+      // 성공시 추가 변경 없음
+      emit(state.copyWith(subStatus: ELoadingStatus.init));
+    } on DioException catch (e) {
+      var error = e.error as ResModel<void>;
+      // 실패시 원상 복구
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        subStatus: ELoadingStatus.error,
+        message: '[${error.code}] ${error.message as String}',
+        userProfile: state.userProfile?.copyWith(
+          isSubscribed: preSubState,
+        ),
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        subStatus: ELoadingStatus.error,
+        message: '[5001] ${e.toString()}',
+      ));
+    } finally {
+      if (state.subStatus == ELoadingStatus.error) {
+        emit(state.copyWith(
+          status: ELoadingStatus.loaded,
+          subStatus: ELoadingStatus.init,
+        ));
+      }
     }
   }
 }
