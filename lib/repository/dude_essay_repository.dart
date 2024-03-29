@@ -167,4 +167,54 @@ class DudeEssayRepository {
 
     return res;
   }
+
+  Future<ResModel<void>> postLike({
+    required int essayId,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.post(
+    //   '/essay/$essayId/like',
+    //   queryParameters: {
+    //     'user_id': (AuthBlocSingleton.bloc.state as AuthAuthState).user.userId,
+    //   },
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+
+    var resTmp = ResModel<void>(
+      code: 1000,
+      // message: 'sub failed',
+    ).toJson((p0) => null);
+
+    var res = ResModel<void>.fromJson(resTmp, (json) {});
+
+    return res;
+  }
+
+  Future<ResModel<void>> deleteLike({
+    required int essayId,
+  }) async {
+    // Dio dio = Dio();
+    // dio.interceptors.add(AuthInterceptor());
+    // var res = await dio.delete(
+    //   '/essay/$essayId/like',
+    //   queryParameters: {
+    //     'user_id': (AuthBlocSingleton.bloc.state as AuthAuthState).user.userId,
+    //   },
+    // );
+
+    // TODO: connect api
+    await Future.delayed(const Duration(seconds: 1));
+
+    var resTmp = ResModel<void>(
+      code: 1000,
+      // message: 'unsub failed',
+    ).toJson((p0) => null);
+
+    var res = ResModel<void>.fromJson(resTmp, (json) {});
+
+    return res;
+  }
 }

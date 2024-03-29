@@ -9,6 +9,7 @@ import 'package:unknown_note_flutter/bloc/calendar/calendar_bloc.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
+import 'package:unknown_note_flutter/bloc/essay/essay_like_cubit.dart';
 import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
 import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
@@ -144,8 +145,14 @@ class _AppRoutesState extends State<AppRoutes> {
           path: '/essay/:id',
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
-            child: ReadEssayPage(
-              essay: state.extra as EssayModel,
+            child: BlocProvider(
+              create: (context) => EssayLikeCubit(
+                essayRepository: context.read<DudeEssayRepository>(),
+                essayId: (state.extra as EssayModel).id ?? -1,
+              ),
+              child: ReadEssayPage(
+                essay: state.extra as EssayModel,
+              ),
             ),
           ),
         ),
