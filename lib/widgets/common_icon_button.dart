@@ -30,11 +30,14 @@ class CommonIconButton extends StatelessWidget {
             width: Sizes.size48,
             decoration: ShapeDecoration(
               shape: const CircleBorder(),
-              color: Theme.of(context).primaryColor.withOpacity(0.6),
+              color: Theme.of(context)
+                  .primaryColor
+                  .withOpacity(onTap != null ? 0.6 : 0.3),
             ),
             child: IconButton(
               onPressed: onTap,
               color: Colors.white,
+              disabledColor: Colors.white,
               icon: Icon(icon),
             ),
           ),

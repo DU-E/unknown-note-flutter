@@ -32,7 +32,7 @@ mixin _$EssayModel {
   int? get likes => throw _privateConstructorUsedError;
   @JsonKey(name: 'ecategory')
   EEssayCategory? get category => throw _privateConstructorUsedError;
-  String? get nickname => throw _privateConstructorUsedError;
+  UserModel? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +53,9 @@ abstract class $EssayModelCopyWith<$Res> {
       @JsonKey(name: 'etime') DateTime? time,
       @JsonKey(name: 'elikes') int? likes,
       @JsonKey(name: 'ecategory') EEssayCategory? category,
-      String? nickname});
+      UserModel? user});
+
+  $UserModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -75,7 +77,7 @@ class _$EssayModelCopyWithImpl<$Res, $Val extends EssayModel>
     Object? time = freezed,
     Object? likes = freezed,
     Object? category = freezed,
-    Object? nickname = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -102,11 +104,23 @@ class _$EssayModelCopyWithImpl<$Res, $Val extends EssayModel>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as EEssayCategory?,
-      nickname: freezed == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserModelCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserModelCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
   }
 }
 
@@ -125,7 +139,10 @@ abstract class _$$EssayModelImplCopyWith<$Res>
       @JsonKey(name: 'etime') DateTime? time,
       @JsonKey(name: 'elikes') int? likes,
       @JsonKey(name: 'ecategory') EEssayCategory? category,
-      String? nickname});
+      UserModel? user});
+
+  @override
+  $UserModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -145,7 +162,7 @@ class __$$EssayModelImplCopyWithImpl<$Res>
     Object? time = freezed,
     Object? likes = freezed,
     Object? category = freezed,
-    Object? nickname = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$EssayModelImpl(
       id: freezed == id
@@ -172,10 +189,10 @@ class __$$EssayModelImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as EEssayCategory?,
-      nickname: freezed == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ));
   }
 }
@@ -190,7 +207,7 @@ class _$EssayModelImpl implements _EssayModel {
       @JsonKey(name: 'etime') this.time,
       @JsonKey(name: 'elikes') this.likes,
       @JsonKey(name: 'ecategory') this.category,
-      this.nickname});
+      this.user});
 
   factory _$EssayModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$EssayModelImplFromJson(json);
@@ -214,11 +231,11 @@ class _$EssayModelImpl implements _EssayModel {
   @JsonKey(name: 'ecategory')
   final EEssayCategory? category;
   @override
-  final String? nickname;
+  final UserModel? user;
 
   @override
   String toString() {
-    return 'EssayModel(id: $id, title: $title, content: $content, time: $time, likes: $likes, category: $category, nickname: $nickname)';
+    return 'EssayModel(id: $id, title: $title, content: $content, time: $time, likes: $likes, category: $category, user: $user)';
   }
 
   @override
@@ -233,14 +250,13 @@ class _$EssayModelImpl implements _EssayModel {
             (identical(other.likes, likes) || other.likes == likes) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.nickname, nickname) ||
-                other.nickname == nickname));
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, title, content, time, likes, category, nickname);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, content, time, likes, category, user);
 
   @JsonKey(ignore: true)
   @override
@@ -264,7 +280,7 @@ abstract class _EssayModel implements EssayModel {
       @JsonKey(name: 'etime') final DateTime? time,
       @JsonKey(name: 'elikes') final int? likes,
       @JsonKey(name: 'ecategory') final EEssayCategory? category,
-      final String? nickname}) = _$EssayModelImpl;
+      final UserModel? user}) = _$EssayModelImpl;
 
   factory _EssayModel.fromJson(Map<String, dynamic> json) =
       _$EssayModelImpl.fromJson;
@@ -288,7 +304,7 @@ abstract class _EssayModel implements EssayModel {
   @JsonKey(name: 'ecategory')
   EEssayCategory? get category;
   @override
-  String? get nickname;
+  UserModel? get user;
   @override
   @JsonKey(ignore: true)
   _$$EssayModelImplCopyWith<_$EssayModelImpl> get copyWith =>

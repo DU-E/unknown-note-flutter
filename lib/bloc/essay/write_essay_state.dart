@@ -1,47 +1,38 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 
-part 'write_essay_state.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class WriteEssayState extends Equatable {
   final EUploadStatus status;
-  final EssayModel essay;
+  final EssayModel? result; // API result essay
   final String? message;
 
   const WriteEssayState({
     required this.status,
-    required this.essay,
+    this.result,
     this.message,
   });
 
-  WriteEssayState.init()
+  const WriteEssayState.init()
       : status = EUploadStatus.init,
-        essay = EssayModel(),
+        result = null,
         message = null;
 
   WriteEssayState copyWith({
     EUploadStatus? status,
-    EssayModel? essay,
+    EssayModel? result,
     String? message,
   }) =>
       WriteEssayState(
         status: status ?? this.status,
-        essay: essay ?? this.essay,
+        result: result ?? this.result,
         message: message ?? this.message,
       );
-
-  factory WriteEssayState.fromJson(Map<String, dynamic> json) =>
-      _$WriteEssayStateFromJson(json);
-
-  Map<String, dynamic> toJson() => _$WriteEssayStateToJson(this);
 
   @override
   List<Object?> get props => [
         status,
-        essay,
+        result,
         message,
       ];
 }

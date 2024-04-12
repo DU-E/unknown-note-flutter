@@ -1,17 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_emotion.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/pages/user_info/widgets/user_info_profile_bg.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'dart:math' as math;
 
 class UserInfoProfileWidget extends StatelessWidget {
-  const UserInfoProfileWidget({super.key});
+  final String? nickName;
+  final UserModel user;
+  final int diaryCount;
+  final int essayCount;
+  final EEmotion? flower;
+  final ELoadingStatus status;
+
+  const UserInfoProfileWidget({
+    super.key,
+    this.nickName,
+    required this.user,
+    required this.diaryCount,
+    required this.essayCount,
+    required this.flower,
+    required this.status,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
+        UserInfoProfileBG(
+          flower: flower,
+        ),
+        Container(
+          color: Theme.of(context).primaryColor.withOpacity(0.6),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: Sizes.size32,
+              bottom: Sizes.size10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: _infoText(
+                    title: '일기',
+                    value: status == ELoadingStatus.loading
+                        ? '-'
+                        : diaryCount.toString(),
+                  ),
+                ),
+                _verticalDivider(),
+                Flexible(
+                  flex: 3,
+                  child: _infoText(
+                    title: '닉네임',
+                    value: nickName ??
+                        user.nickName ??
+                        (status == ELoadingStatus.loading
+                            ? '-'
+                            : Strings.nullStr),
+                    size: Sizes.size14,
+                  ),
+                ),
+                _verticalDivider(),
+                Flexible(
+                  flex: 2,
+                  child: _infoText(
+                    title: '수필',
+                    value: status == ELoadingStatus.loading
+                        ? '-'
+                        : essayCount.toString(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         Transform.translate(
           offset: const Offset(0, -Sizes.size72),
           child: Column(
@@ -41,57 +111,26 @@ class UserInfoProfileWidget extends StatelessWidget {
                       color: Colors.grey.shade700,
                       borderRadius: BorderRadius.circular(Sizes.size5),
                     ),
-                    child: const AppFont(
-                      'introduce',
+                    child: AppFont(
+                      user.introduce ??
+                          (status == ELoadingStatus.loading
+                              ? '잠시만 기다려주세요~'
+                              : Strings.nullStr),
                       color: Colors.white,
                     ),
                   ),
                 ],
               ),
               Gaps.v20,
-              const CircleAvatar(radius: Sizes.size40),
+              CircleAvatar(
+                radius: Sizes.size40,
+                backgroundImage: user.profileImg?.isNotEmpty == true
+                    ? Image.network(
+                        user.profileImg ?? '',
+                      ).image
+                    : null,
+              ),
             ],
-          ),
-        ),
-        Container(
-          color: Theme.of(context).primaryColor.withOpacity(0.6),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: Sizes.size32,
-              bottom: Sizes.size10,
-              left: Sizes.size52,
-              right: Sizes.size52,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    _infoText(
-                      title: '일기',
-                      value: '3',
-                    ),
-                    Gaps.h32,
-                    _verticalDivider(),
-                  ],
-                ),
-                _infoText(
-                  title: '닉네임',
-                  value: '@asasd',
-                  size: Sizes.size14,
-                ),
-                Row(
-                  children: [
-                    _verticalDivider(),
-                    Gaps.h32,
-                    _infoText(
-                      title: '수필',
-                      value: '3',
-                    ),
-                  ],
-                ),
-              ],
-            ),
           ),
         ),
       ],

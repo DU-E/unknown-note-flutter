@@ -1,9 +1,9 @@
+import 'package:unknown_note_flutter/models/diary/diary_model.dart';
+
 abstract class WriteDiaryEvent {}
 
-class WriteDiarySetContent extends WriteDiaryEvent {
-  final String content;
+class WriteDiaryUpload extends WriteDiaryEvent {
+  DiaryModel diary;
 
-  WriteDiarySetContent({required this.content});
+  WriteDiaryUpload(this.diary);
 }
-
-class WriteDiaryUpload extends WriteDiaryEvent {}

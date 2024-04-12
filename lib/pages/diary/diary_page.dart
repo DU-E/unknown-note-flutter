@@ -43,11 +43,13 @@ class _DiaryPageState extends State<DiaryPage> {
     context.push('/write/diary');
   }
 
-  void _onSettingTap() {
+  void _onSettingTap(BuildContext context) {
     DraggableMenu.open(
       context,
-      const CommonDraggable(
-        child: DiarySlideWidget(),
+      CommonDraggable(
+        child: DiarySlideWidget(
+          diaryBloc: context.read<DiaryBloc>(),
+        ),
       ),
     );
   }
@@ -115,7 +117,7 @@ class _DiaryPageState extends State<DiaryPage> {
                   ),
                   CommonIconButton(
                     icon: Icons.settings_rounded,
-                    onTap: _onSettingTap,
+                    onTap: () => _onSettingTap(context),
                   ),
                 ],
               ),

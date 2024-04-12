@@ -1,50 +1,75 @@
+import 'package:dio/dio.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_state.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
+import 'package:unknown_note_flutter/enums/enum_http_method.dart';
 import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
-import 'package:unknown_note_flutter/models/diary/diary_model.dart';
+import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 
-class WriteDiaryBloc extends HydratedBloc<WriteDiaryEvent, WriteDiaryState> {
-  // TODO; upload repository
+class WriteDiaryBloc extends Bloc<WriteDiaryEvent, WriteDiaryState> {
+  final DudeDiaryRepository diaryRepository;
+  final EHttpMethod httpMethod;
 
-  WriteDiaryBloc() : super(WriteDiaryState.init()) {
-    on<WriteDiarySetContent>(_writeDiarySetContentHandler);
+  WriteDiaryBloc({
+    required this.diaryRepository,
+    required this.httpMethod,
+  }) : super(const WriteDiaryState.init()) {
     on<WriteDiaryUpload>(_writeDiaryUploadHandler);
-  }
-
-  @override
-  WriteDiaryState? fromJson(Map<String, dynamic> json) =>
-      WriteDiaryState.fromJson(json).copyWith(
-        status: EUploadStatus.init,
-      );
-
-  @override
-  Map<String, dynamic>? toJson(WriteDiaryState state) => state.toJson();
-
-  Future<void> _writeDiarySetContentHandler(
-    WriteDiarySetContent event,
-    Emitter<WriteDiaryState> emit,
-  ) async {
-    emit(state.copyWith(
-      diary: state.diary.copyWith(
-        content: event.content,
-      ),
-    ));
   }
 
   Future<void> _writeDiaryUploadHandler(
     WriteDiaryUpload event,
     Emitter<WriteDiaryState> emit,
   ) async {
-    emit(state.copyWith(status: EUploadStatus.tagging));
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      // Validation
+      if (event.diary.emotion == null) {
+        emit(state.copyWith(
+          status: EUploadStatus.error,
+          message: '감정을 선택해주세요.',
+        ));
+        emit(state.copyWith(status: EUploadStatus.init));
+        return;
+      }
 
-    emit(state.copyWith(status: EUploadStatus.uploading));
-    await Future.delayed(const Duration(seconds: 1));
+      if (event.diary.content == null ||
+          event.diary.content == Strings.nullStr) {
+        emit(state.copyWith(
+          status: EUploadStatus.error,
+          message: '내용을 작성해주세요.',
+        ));
+        emit(state.copyWith(status: EUploadStatus.init));
+        return;
+      }
 
-    emit(state.copyWith(
-      status: EUploadStatus.success,
-      diary: DiaryModel(),
-    ));
+      // Upload
+      emit(state.copyWith(status: EUploadStatus.uploading));
+
+      switch (httpMethod) {
+        case EHttpMethod.post:
+          await diaryRepository.postDiary(diary: event.diary);
+          break;
+        case EHttpMethod.patch:
+          await diaryRepository.patchDiary(diary: event.diary);
+          break;
+      }
+
+      emit(state.copyWith(
+        status: EUploadStatus.success,
+      ));
+    } on DioException catch (e) {
+      var error = e.error as ResModel<void>;
+      emit(state.copyWith(
+        status: EUploadStatus.error,
+        message: '[${error.code}] ${error.message as String}',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: EUploadStatus.error,
+        message: '[5001] ${e.toString()}',
+      ));
+    }
   }
 }

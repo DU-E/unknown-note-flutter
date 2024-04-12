@@ -5,6 +5,7 @@ import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_state.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_font.dart';
+import 'package:unknown_note_flutter/utils/date_formatter.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_shadow_container.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
@@ -43,8 +44,11 @@ class DiaryCard extends StatelessWidget {
                     height: Sizes.size72,
                   ),
                   Gaps.v4,
-                  AppFont(diary.time?.toString() ?? Strings.nullStr),
-                  AppFont(diary.time?.toString() ?? Strings.nullStr),
+                  AppFont(
+                    dateToYMD(diary.time),
+                    weight: FontWeight.w700,
+                  ),
+                  AppFont(dateToE(diary.time)),
                   Gaps.v20,
                 ],
               ),

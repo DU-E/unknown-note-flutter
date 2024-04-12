@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_bloc.dart';
 import 'package:unknown_note_flutter/bloc/setting/setting_state.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
+import 'package:unknown_note_flutter/enums/enum_font.dart';
 
 class CommonTextForm extends StatefulWidget {
   final String? initText;
@@ -10,6 +11,7 @@ class CommonTextForm extends StatefulWidget {
   final bool singleLine;
   final bool expanded;
   final bool dynamicSize;
+  final String? hintText;
 
   const CommonTextForm({
     super.key,
@@ -18,6 +20,7 @@ class CommonTextForm extends StatefulWidget {
     this.singleLine = true,
     this.expanded = false,
     this.dynamicSize = false,
+    this.hintText,
   });
 
   @override
@@ -38,7 +41,8 @@ class _CommonTextFormState extends State<CommonTextForm> {
   @override
   void didUpdateWidget(covariant CommonTextForm oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.initText != widget.initText) {
+
+    if (widget.initText == null || oldWidget.initText != widget.initText) {
       _controller.dispose();
       _controller = TextEditingController(text: widget.initText);
     }
@@ -64,14 +68,18 @@ class _CommonTextFormState extends State<CommonTextForm> {
         autocorrect: false,
         onTapOutside: (_) => _unfocus(),
         onChanged: widget.getValue,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           border: InputBorder.none,
-          contentPadding: EdgeInsets.zero,
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: Sizes.size5,
+          ),
+          hintText: widget.hintText,
         ),
         cursorRadius: const Radius.circular(Sizes.size5),
         keyboardType: widget.singleLine ? null : TextInputType.multiline,
         maxLines: widget.singleLine ? 1 : null,
         style: TextStyle(
+          fontFamily: state.font?.fontFamily ?? EFont.pretendard.fontFamily,
           fontSize: widget.dynamicSize ? state.getZoom() : Sizes.size14,
         ),
         expands: widget.expanded,

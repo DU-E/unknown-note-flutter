@@ -42,7 +42,7 @@ class EssayListItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppFont(
-                    essay.nickname ?? 'Anonymous',
+                    essay.user?.nickName ?? 'Anonymous',
                     color: Theme.of(context).primaryColor,
                   ),
                   Container(

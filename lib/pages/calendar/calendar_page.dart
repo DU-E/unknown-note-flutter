@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_bloc.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_event.dart';
@@ -9,10 +8,10 @@ import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
 import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
+import 'package:unknown_note_flutter/pages/calendar/widgets/calendar_add_button.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_blur_container.dart';
 import 'package:unknown_note_flutter/widgets/common_button.dart';
-import 'package:unknown_note_flutter/widgets/common_icon_button.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/pages/calendar/widgets/calendar_title.dart';
 
@@ -56,11 +55,6 @@ class _CalendarPageState extends State<CalendarPage> {
     }
   }
 
-  void _onAddTap() {
-    print(_controller.selectedDate);
-    context.push('/write/diary');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -77,7 +71,11 @@ class _CalendarPageState extends State<CalendarPage> {
             date: state.headDate,
             gotoToday: () {
               _controller.displayDate = DateTime.now();
-              _controller.selectedDate = DateTime.now();
+              _controller.selectedDate = DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                1,
+              );
             },
           ),
         ),
@@ -185,10 +183,7 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ],
         ),
-        CommonIconButton(
-          icon: Icons.add,
-          onTap: _onAddTap,
-        ),
+        const CalendarAddButton(),
       ],
     );
   }

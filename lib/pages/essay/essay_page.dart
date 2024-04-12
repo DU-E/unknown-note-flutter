@@ -44,10 +44,29 @@ class _EssayPageState extends State<EssayPage> {
   void _onCategoryTap() {
     DraggableMenu.open(
       context,
-      const CommonDraggable(
-        child: EssaySlideWidget(),
+      CommonDraggable(
+        child: BlocBuilder<EssayListBloc, EssayListState>(
+          bloc: context.read<EssayListBloc>(),
+          builder: (context, state) {
+            return EssaySlideWidget(
+              onSelected: _onCategoryChanged,
+              selected: state.category,
+            );
+          },
+        ),
       ),
     );
+  }
+
+  void _onCategoryChanged(EEssayCategory category) {
+    var bloc = context.read<EssayListBloc>();
+
+    if (bloc.state.category != category &&
+        bloc.state.status != ELoadingStatus.loading) {
+      bloc.add(EssayListChangeCategory(
+        category: category,
+      ));
+    }
   }
 
   void _onTapAdd() {

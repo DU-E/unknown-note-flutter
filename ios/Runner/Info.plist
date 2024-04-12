@@ -88,6 +88,8 @@
 	<string>ZVofPcfFu1iPIjdd99Is</string>
 	<key>naverConsumerSecret</key>
 	<string>EhsLBkKtQD</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>갤러리에 접근하기 위해 필요합니다.</string>
 	<key>naverServiceAppName</key>
 	<string>익명 노트</string>
 	<!-- http allows configurations -->

@@ -7,14 +7,29 @@ import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dar
 import 'package:unknown_note_flutter/bloc/authentication/auth_state.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_bloc.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state_cubit.dart';
+import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
+import 'package:unknown_note_flutter/bloc/essay/essay_like_cubit.dart';
+import 'package:unknown_note_flutter/bloc/essay/essay_list_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
+import 'package:unknown_note_flutter/bloc/home/home_screen_cubit.dart';
+import 'package:unknown_note_flutter/bloc/splash/splash_cubit.dart';
+import 'package:unknown_note_flutter/bloc/user_edit/user_edit_bloc.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_essay_bloc.dart';
+import 'package:unknown_note_flutter/bloc/user_info/user_info_bloc.dart';
+import 'package:unknown_note_flutter/enums/enum_http_method.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
+import 'package:unknown_note_flutter/pages/user_edit/user_edit_page.dart';
+import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_image_repository.dart';
+import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
 import 'package:unknown_note_flutter/utils/my_transition_page.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/pages/home/home_page.dart';
-import 'package:unknown_note_flutter/pages/profile/profile_page.dart';
 import 'package:unknown_note_flutter/pages/read_diary/read_diary_page.dart';
 import 'package:unknown_note_flutter/pages/read_essay/read_essay_page.dart';
 import 'package:unknown_note_flutter/pages/signin/signin_page.dart';
@@ -38,23 +53,42 @@ class _AppRoutesState extends State<AppRoutes> {
 
     // Initialize AuthBloc
     AuthBlocSingleton.initializer(
-      repository: context.read<AuthenticationRepository>(),
+      authRepository: context.read<AuthenticationRepository>(),
+      userRepository: context.read<DudeUserRepository>(),
     );
 
     // Set routerConfig
     _routerConfig = GoRouter(
-      initialLocation: '/home',
+      initialLocation: '/',
       refreshListenable: AuthBlocSingleton.bloc,
       redirect: (context, state) {
         final authState = AuthBlocSingleton.bloc.state;
+        final blockPageInAuthAuthState = ['/', '/signin'];
 
-        if (authState is AuthUnknownState) return '/signin';
-        if (authState is AuthUnAuthState) return '/profile';
-        if (authState is AuthAuthState) return '/home';
+        if (authState is AuthInitState) return '/';
+        if (authState is AuthUnknownState || authState is AuthErrorState) {
+          return '/signin';
+        }
+        if (authState is AuthUnAuthState) return '/edit/profile';
+        if (authState is AuthAuthState) {
+          return blockPageInAuthAuthState.contains(state.matchedLocation)
+              ? '/home'
+              : state.matchedLocation;
+        }
 
-        return state.path;
+        return state.matchedLocation;
       },
       routes: [
+        GoRoute(
+          path: '/',
+          pageBuilder: (context, state) => transPage(
+            key: state.pageKey,
+            child: BlocProvider(
+              create: (context) => SplashCubit(),
+              child: const SplashPage(),
+            ),
+          ),
+        ),
         GoRoute(
           path: '/signin',
           pageBuilder: (context, state) => transPage(
@@ -69,11 +103,37 @@ class _AppRoutesState extends State<AppRoutes> {
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
+                  create: (context) => HomeScreenCubit(),
+                ),
+                BlocProvider(
                   create: (context) => CalendarStateCubit(),
                 ),
                 BlocProvider(
                   create: (context) => CalendarBloc(
                     dudeDiaryRepository: context.read<DudeDiaryRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => EssayListBloc(
+                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => DiaryBloc(
+                    dudeDiaryRepository: context.read<DudeDiaryRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => UserInfoBloc(
+                    userRepository: context.read<DudeUserRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => UserEssayBloc(
+                    userId: (AuthBlocSingleton.bloc.state as AuthAuthState)
+                        .user
+                        .userId!,
+                    dudeEssayRepository: context.read<DudeEssayRepository>(),
                   ),
                 ),
               ],
@@ -85,8 +145,14 @@ class _AppRoutesState extends State<AppRoutes> {
           path: '/essay/:id',
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
-            child: ReadEssayPage(
-              essay: state.extra as EssayModel,
+            child: BlocProvider(
+              create: (context) => EssayLikeCubit(
+                essayRepository: context.read<DudeEssayRepository>(),
+                essayId: (state.extra as EssayModel).id ?? -1,
+              ),
+              child: ReadEssayPage(
+                essay: state.extra as EssayModel,
+              ),
             ),
           ),
         ),
@@ -95,8 +161,14 @@ class _AppRoutesState extends State<AppRoutes> {
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
             child: BlocProvider(
-              create: (context) => WriteEssayBloc(),
-              child: const WriteEssayPage(),
+              create: (context) => WriteEssayBloc(
+                essayRepository: context.read<DudeEssayRepository>(),
+                httpMethod:
+                    state.extra == null ? EHttpMethod.post : EHttpMethod.patch,
+              ),
+              child: WriteEssayPage(
+                essay: state.extra as EssayModel?,
+              ),
             ),
           ),
         ),
@@ -114,16 +186,65 @@ class _AppRoutesState extends State<AppRoutes> {
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
             child: BlocProvider(
-              create: (context) => WriteDiaryBloc(),
-              child: const WriteDiaryPage(),
+              create: (context) => WriteDiaryBloc(
+                diaryRepository: context.read<DudeDiaryRepository>(),
+                httpMethod:
+                    state.extra == null ? EHttpMethod.post : EHttpMethod.patch,
+              ),
+              child: WriteDiaryPage(
+                diary: state.extra as DiaryModel?,
+              ),
             ),
           ),
         ),
         GoRoute(
-          path: '/profile',
+          path: '/profile/:userId',
           pageBuilder: (context, state) => transPage(
             key: state.pageKey,
-            child: const ProfilePage(),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => UserInfoBloc(
+                    userId: int.parse(state.pathParameters['userId']!),
+                    userRepository: context.read<DudeUserRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => UserEssayBloc(
+                    userId: int.parse(state.pathParameters['userId']!),
+                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                  ),
+                ),
+              ],
+              child: UserInfoPage(
+                popAble: true,
+                userId: int.parse(state.pathParameters['userId']!),
+                nickName: state.extra != null ? state.extra as String : null,
+              ),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '/edit/profile',
+          pageBuilder: (context, state) => transPage(
+            child: BlocProvider(
+              create: (context) {
+                UserModel? user;
+                if (AuthBlocSingleton.bloc.state is AuthUnAuthState) {
+                  user = (AuthBlocSingleton.bloc.state as AuthUnAuthState).user;
+                } else if (AuthBlocSingleton.bloc.state is AuthAuthState) {
+                  user = (AuthBlocSingleton.bloc.state as AuthAuthState).user;
+                }
+                return UserEditBloc(
+                  dudeUserRepository: context.read<DudeUserRepository>(),
+                  dudeImageRepository: context.read<DudeImageRepository>(),
+                  user: user,
+                );
+              },
+              child: UserEditPage(
+                popAble: state.extra != null ? state.extra as bool : false,
+              ),
+            ),
           ),
         ),
       ],
