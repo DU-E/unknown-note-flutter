@@ -54,7 +54,9 @@ jobs:
 
       - name: 📦 Install dependencies
         working-directory: code
-        run: flutter pub get
+        run: |
+          flutter config --no-analytics
+          flutter pub get
 
       # - name: 🔍 Analyze project source
       #   working-directory: code
