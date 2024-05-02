@@ -46,11 +46,11 @@ jobs:
           echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
           echo "$GITHUB_WORKSPACE/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
           
-      - name: 🐦 Populate the Flutter tool's cache of binary artifacts
-        if: steps.flutter-cache.outputs.cache-hit != 'true'
-        run: |
-          flutter config --no-analytics
-          flutter precache
+      # - name: 🐦 Populate the Flutter tool's cache of binary artifacts
+      #   if: steps.flutter-cache.outputs.cache-hit != 'true'
+      #   run: |
+      #     flutter config --no-analytics
+      #     flutter precache
 
       - name: 📦 Install dependencies
         working-directory: code
