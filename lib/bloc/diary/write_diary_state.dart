@@ -1,21 +1,20 @@
-import 'package:equatable/equatable.dart';
-import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
+import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 
-class WriteDiaryState extends Equatable {
-  final EUploadStatus status;
-  final String? message;
-
+class WriteDiaryState extends BlocState {
   const WriteDiaryState({
-    required this.status,
-    this.message,
+    required super.status,
+    super.message,
   });
 
   const WriteDiaryState.init()
-      : status = EUploadStatus.init,
-        message = null;
+      : super(
+          status: ELoadingStatus.init,
+        );
 
+  @override
   WriteDiaryState copyWith({
-    EUploadStatus? status,
+    ELoadingStatus? status,
     String? message,
   }) =>
       WriteDiaryState(

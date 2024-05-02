@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
+import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
@@ -38,13 +39,13 @@ class EssayLikeCubit extends Cubit<EssayLikeState> {
       // 실패시 원상 복구
       emit(state.copyWith(
         status: ELoadingStatus.error,
-        message: '[${error.code}] ${error.message as String}',
+        message: '[${error.code}] ${error.message ?? Strings.unknownFail}',
         isLike: preSubState,
       ));
     } catch (e) {
       emit(state.copyWith(
         status: ELoadingStatus.error,
-        message: '[5001] ${e.toString()}',
+        message: '[5001] ${e.toString().replaceAll('Exception: ', '')}',
         isLike: preSubState,
       ));
     } finally {
@@ -57,37 +58,37 @@ class EssayLikeCubit extends Cubit<EssayLikeState> {
   }
 }
 
-class EssayLikeState extends Equatable {
-  final ELoadingStatus status;
+class EssayLikeState extends BlocState {
   final bool isLike;
-  final String? message;
 
   const EssayLikeState({
-    required this.status,
     required this.isLike,
-    this.message,
+    required super.status,
+    super.message,
   });
 
   const EssayLikeState.init()
-      : status = ELoadingStatus.init,
-        isLike = false,
-        message = null;
+      : isLike = false,
+        super(
+          status: ELoadingStatus.init,
+        );
 
+  @override
   EssayLikeState copyWith({
-    ELoadingStatus? status,
     bool? isLike,
+    ELoadingStatus? status,
     String? message,
   }) =>
       EssayLikeState(
-        status: status ?? status ?? this.status,
         isLike: isLike ?? this.isLike,
+        status: status ?? status ?? this.status,
         message: message ?? this.message,
       );
 
   @override
   List<Object?> get props => [
-        status,
         isLike,
+        status,
         message,
       ];
 }

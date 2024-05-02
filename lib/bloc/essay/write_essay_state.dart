@@ -1,26 +1,26 @@
-import 'package:equatable/equatable.dart';
-import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
+import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 
-class WriteEssayState extends Equatable {
-  final EUploadStatus status;
+class WriteEssayState extends BlocState {
   final EssayModel? result; // API result essay
-  final String? message;
 
   const WriteEssayState({
-    required this.status,
     this.result,
-    this.message,
+    required super.status,
+    super.message,
   });
 
   const WriteEssayState.init()
-      : status = EUploadStatus.init,
-        result = null,
-        message = null;
+      : result = null,
+        super(
+          status: ELoadingStatus.init,
+        );
 
+  @override
   WriteEssayState copyWith({
-    EUploadStatus? status,
     EssayModel? result,
+    ELoadingStatus? status,
     String? message,
   }) =>
       WriteEssayState(

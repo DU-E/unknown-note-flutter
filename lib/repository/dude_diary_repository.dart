@@ -3,6 +3,7 @@ import 'package:unknown_note_flutter/dio/auth_interceptor.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
 
 class DudeDiaryRepository {
   Future<ResModel<DiaryModel>> getDiary({
@@ -15,7 +16,7 @@ class DudeDiaryRepository {
       '/diary',
       queryParameters: {
         'emotion': emotion.key,
-        // 'error': 2000,
+        // 'error': 4000,
       },
       // @deprecated
       // data: {

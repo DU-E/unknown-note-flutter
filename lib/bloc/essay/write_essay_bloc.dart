@@ -1,15 +1,16 @@
-import 'package:dio/dio.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_event.dart';
 import 'package:unknown_note_flutter/bloc/essay/write_essay_state.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_http_method.dart';
-import 'package:unknown_note_flutter/enums/enum_upload_status.dart';
+import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
+import 'package:unknown_note_flutter/mixins/dio_exception_handler_mixin.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
 
-class WriteEssayBloc extends Bloc<WriteEssayEvent, WriteEssayState> {
+class WriteEssayBloc extends Bloc<WriteEssayEvent, WriteEssayState>
+    with DioExceptionHandlerMixin {
   final DudeEssayRepository essayRepository;
   final EHttpMethod httpMethod;
 
@@ -24,70 +25,60 @@ class WriteEssayBloc extends Bloc<WriteEssayEvent, WriteEssayState> {
     WriteEssayUpload event,
     Emitter<WriteEssayState> emit,
   ) async {
-    try {
-      // Validation
-      if (event.essay.category == null) {
-        emit(state.copyWith(
-          status: EUploadStatus.error,
-          message: '카테고리를 선택해주세요.',
-        ));
-        emit(state.copyWith(status: EUploadStatus.init));
-        return;
-      }
-
-      if (event.essay.title == null || event.essay.title == Strings.nullStr) {
-        emit(state.copyWith(
-          status: EUploadStatus.error,
-          message: '제목을 작성해주세요.',
-        ));
-        emit(state.copyWith(status: EUploadStatus.init));
-        return;
-      }
-
-      if (event.essay.content == null ||
-          event.essay.content == Strings.nullStr) {
-        emit(state.copyWith(
-          status: EUploadStatus.error,
-          message: '내용을 작성해주세요.',
-        ));
-        emit(state.copyWith(status: EUploadStatus.init));
-        return;
-      }
-
-      // Upload
-      emit(state.copyWith(status: EUploadStatus.uploading));
-
-      ResModel<EssayModel>? res;
-      switch (httpMethod) {
-        case EHttpMethod.post:
-          res = await essayRepository.postEssay(essay: event.essay);
-          break;
-        case EHttpMethod.patch:
-          res = await essayRepository.patchEssay(essay: event.essay);
-          break;
-        default:
-          break;
-      }
-
-      if (res?.data != null) {
-        emit(state.copyWith(
-          status: EUploadStatus.success,
-          result: res!.data,
-        ));
-      } else {
-        throw Exception('저장된 에세이 수신에 실패했습니다.');
-      }
-    } on DioException catch (e) {
-      var error = e.error as ResModel<void>;
+    // Validation
+    if (event.essay.category == null) {
       emit(state.copyWith(
-        status: EUploadStatus.error,
-        message: '[${error.code}] ${error.message as String}',
+        status: ELoadingStatus.error,
+        message: '카테고리를 선택해주세요.',
       ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: EUploadStatus.error,
-        message: '[5001] ${e.toString()}',
-      ));
+      emit(state.copyWith(status: ELoadingStatus.init));
+      return;
     }
+
+    if (event.essay.title == null || event.essay.title == Strings.nullStr) {
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        message: '제목을 작성해주세요.',
+      ));
+      emit(state.copyWith(status: ELoadingStatus.init));
+      return;
+    }
+
+    if (event.essay.content == null || event.essay.content == Strings.nullStr) {
+      emit(state.copyWith(
+        status: ELoadingStatus.error,
+        message: '내용을 작성해주세요.',
+      ));
+      emit(state.copyWith(status: ELoadingStatus.init));
+      return;
+    }
+
+    emit(state.copyWith(status: ELoadingStatus.loading));
+    await handleApiRequest(
+      () async {
+        ResModel<EssayModel>? res;
+        switch (httpMethod) {
+          case EHttpMethod.post:
+            res = await essayRepository.postEssay(essay: event.essay);
+            break;
+          case EHttpMethod.patch:
+            res = await essayRepository.patchEssay(essay: event.essay);
+            break;
+          default:
+            break;
+        }
+
+        if (res?.data != null) {
+          emit(state.copyWith(
+            status: ELoadingStatus.loaded,
+            result: res!.data,
+          ));
+        } else {
+          throw Exception('저장된 에세이 수신에 실패했습니다.');
+        }
+      },
+      state: state,
+      emit: emit,
+    );
   }
 }

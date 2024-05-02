@@ -1,12 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
-import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/mixins/dio_exception_handler_mixin.dart';
 import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 
-class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
+class DiaryBloc extends Bloc<DiaryEvent, DiaryState>
+    with DioExceptionHandlerMixin {
   final DudeDiaryRepository dudeDiaryRepository;
 
   DiaryBloc({
@@ -41,28 +41,22 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
   }
 
   Future<void> _getDiary(Emitter<DiaryState> emit) async {
-    try {
-      var res = await dudeDiaryRepository.getDiary(
-        emotion: state.emotion,
-        page: state.page + 1,
-      );
+    await handleApiRequest(
+      () async {
+        var res = await dudeDiaryRepository.getDiary(
+          emotion: state.emotion,
+          page: state.page + 1,
+        );
 
-      emit(state.copyWith(
-        status: ELoadingStatus.loaded,
-        diary: res.data,
-        page: state.page + 1,
-      ));
-    } on DioException catch (e) {
-      var error = e.error as ResModel<void>;
-      emit(state.copyWith(
-        status: ELoadingStatus.error,
-        message: '[${error.code}] ${error.message as String}',
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: ELoadingStatus.error,
-        message: '[5001] ${e.toString()}',
-      ));
-    }
+        emit(state.copyWith(
+          status: ELoadingStatus.loaded,
+          diary: res.data,
+          page: state.page + 1,
+        ));
+      },
+      state: state,
+      emit: emit,
+      initAfterError: false,
+    );
   }
 }
