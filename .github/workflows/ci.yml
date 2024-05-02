@@ -52,14 +52,14 @@ jobs:
           flutter config --no-analytics
           flutter precache
 
+      - name: Change working directory
+        run: cd $GITHUB_WORKSPACE
+
       - name: 📦 Install dependencies
-        working-directory: "."
         run: flutter pub get
 
       - name: 🔍 Analyze project source
-        working-directory: "."
         run: flutter analyze lib test
 
       - name: 🧪 Run tests
-        working-directory: "."
         run: flutter test
