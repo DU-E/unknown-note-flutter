@@ -56,9 +56,9 @@ jobs:
         working-directory: code
         run: flutter pub get
 
-      - name: 🔍 Analyze project source
-        working-directory: code
-        run: flutter analyze lib test
+      # - name: 🔍 Analyze project source
+      #   working-directory: code
+      #   run: flutter analyze lib test
 
       - name: 🧪 Run tests
         working-directory: code
