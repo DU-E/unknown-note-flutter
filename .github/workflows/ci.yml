@@ -1,11 +1,5 @@
 name: CI
 
-inputs:
-  working_directory:
-    required: false
-    default: "."
-    description: The working directory for this workflow
-
 on:
   push:
   pull_request:
@@ -59,13 +53,13 @@ jobs:
           flutter precache
 
       - name: 📦 Install dependencies
-        working-directory: ${{ inputs.working_directory }}
+        working-directory: "."
         run: flutter pub get
 
       - name: 🔍 Analyze project source
-        working-directory: ${{ inputs.working_directory }}
+        working-directory: "."
         run: flutter analyze lib test
 
       - name: 🧪 Run tests
-        working-directory: ${{ inputs.working_directory }}
+        working-directory: "."
         run: flutter test
