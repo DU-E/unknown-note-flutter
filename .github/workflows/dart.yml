@@ -1,4 +1,4 @@
-name: Dart PR Workflow
+name: CI
 
 on:
   push:
@@ -11,15 +11,58 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: flutter/flutter@v2
+      - uses: dart-lang/setup-dart@v1
         with:
-          channel: 3.16.5
+          sdk: 3.2.3
+
+      - name: Clone the repository
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        with:
+          path: code
+          
+      - name: Get Flutter version
+        id: get-flutter-version
+        uses: zgosalvez/github-actions-get-flutter-version-env@b5f12dbe2915d60c827758258d6193df1dacca1d
+        with:
+          pubspec-file-path: code/pubspec.yaml
+          
+      - name: Cache Flutter
+        id: flutter-cache
+        uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353
+        with:
+          path: flutter
+          key: ${{ env.cache-name }}-ubuntu-latest-${{ steps.get-flutter-version.outputs.version }}-${{ hashFiles('code/pubspec.lock') }}
+          restore-keys: |
+            ${{ env.cache-name }}-ubuntu-latest-${{ steps.get-flutter-version.outputs.version }}-
+            ${{ env.cache-name }}-ubuntu-latest-
+            ${{ env.cache-name }}-
+        env:
+          cache-name: flutter-cache
+          
+      - name: Clone the Flutter repository
+        if: steps.flutter-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        with:
+          repository: flutter/flutter
+          ref: ${{ steps.get-flutter-version.outputs.version }}
+          path: flutter
+          
+      - name: Add the flutter tool to the path
+        run: |
+          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+          echo "$GITHUB_WORKSPACE/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
+          
+      - name: Populate the Flutter tool's cache of binary artifacts
+        if: steps.flutter-cache.outputs.cache-hit != 'true'
+        run: |
+          flutter config --no-analytics
+          flutter precache
 
       - name: 📦 Install dependencies
-        run: flutter pub get
+        run: dart pub get
 
       - name: 🔍 Analyze project source
-        run: flutter analyze
+        run: dart analyze
 
       - name: 🧪 Run tests
-        run: flutter test
+        run: dart test
