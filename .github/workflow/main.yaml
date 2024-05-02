@@ -1,0 +1,17 @@
+name: PR Workflow
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+jobs:
+  pr_check:
+    name: ✨ PR Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
+
+      - name: 🎯 Build Flutter
+        uses: ./.github/actions/flutter
