@@ -1,15 +1,24 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:unknown_note_flutter/dio/un_auth_interceptor.dart';
 import 'package:unknown_note_flutter/enums/enum_auth_method.dart';
+import 'package:unknown_note_flutter/mixins/mock_throw_exception_mixin.dart';
 import 'package:unknown_note_flutter/models/oauth2/oauth2_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/repository/interface/interface_authentication_repository.dart';
 
-class AuthenticationRepository implements IAuthenticationRepository {
+class MockAuthenticationRepository
+    with MockThrowExceptionMixin
+    implements IAuthenticationRepository {
+  final int delay;
+  final int? errorCode;
+
+  MockAuthenticationRepository({
+    this.delay = 1000,
+    this.errorCode,
+  });
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: ['openid', 'email'],
   );
@@ -104,29 +113,23 @@ class AuthenticationRepository implements IAuthenticationRepository {
     required EAuthMethod method,
     required String accessToken,
   }) async {
-    // Dio dio = Dio();
-    // dio.interceptors.add(UnAuthInterceptor());
-    // var res = await dio.post(
-    //   '/signin',
-    //   data: {
-    //     'method': method.key.toLowerCase(),
-    //     'token': accessToken,
-    //   },
-    // );
+    await Future.delayed(Duration(milliseconds: delay));
 
-    // TODO: connect api
-    await Future.delayed(const Duration(seconds: 1));
+    return mockedResponse<ResModel<String>>(
+      () {
+        var resTmp = ResModel<String>(
+          code: 1000,
+          data: 'test_jwt_token',
+        ).toJson((token) => token.toString());
 
-    var resTmp = ResModel<String>(
-      code: 1000,
-      data: 'test_jwt_token',
-    ).toJson((token) => token.toString());
+        var res = ResModel<String>.fromJson(
+          resTmp,
+          (json) => json.toString(),
+        );
 
-    var res = ResModel<String>.fromJson(
-      resTmp,
-      (json) => json.toString(),
+        return res;
+      },
+      errorCode: errorCode,
     );
-
-    return res;
   }
 }

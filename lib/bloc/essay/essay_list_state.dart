@@ -1,39 +1,39 @@
-import 'package:equatable/equatable.dart';
+import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
 import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 
-class EssayListState extends Equatable {
-  final ELoadingStatus status;
+class EssayListState extends BlocState {
   final EEssayCategory category;
   final String? mood;
   final List<EssayModel> list;
   final int page;
-  final String? message;
 
   const EssayListState({
-    required this.status,
     required this.category,
     this.mood,
     required this.list,
     required this.page,
-    this.message,
+    required super.status,
+    super.message,
   });
 
-  EssayListState.init()
-      : status = ELoadingStatus.init,
-        category = EEssayCategory.poem,
+  const EssayListState.init()
+      : category = EEssayCategory.poem,
         mood = null,
-        list = [],
+        list = const [],
         page = 0,
-        message = null;
+        super(
+          status: ELoadingStatus.init,
+        );
 
+  @override
   EssayListState copyWith({
-    ELoadingStatus? status,
     EEssayCategory? category,
     String? mood,
     List<EssayModel>? list,
     int? page,
+    ELoadingStatus? status,
     String? message,
   }) =>
       EssayListState(

@@ -202,8 +202,7 @@ class _UserInfoPageState extends State<UserInfoPage>
         body: Stack(
           children: [
             _buildBody(state),
-            if (state.status == ELoadingStatus.error &&
-                state.subStatus != ELoadingStatus.error)
+            if (state.infoStatus == ELoadingStatus.error)
               _buildError(state.message),
           ],
         ),
@@ -224,7 +223,7 @@ class _UserInfoPageState extends State<UserInfoPage>
               diaryCount: state.userProfile?.diaryCount ?? 0,
               essayCount: state.userProfile?.essayCount ?? 0,
               flower: state.userProfile?.flower,
-              status: state.status,
+              status: state.infoStatus,
             ),
           ),
         ),

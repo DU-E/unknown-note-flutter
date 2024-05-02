@@ -4,10 +4,10 @@ import 'package:unknown_note_flutter/bloc/calendar/calendar_event.dart';
 import 'package:unknown_note_flutter/bloc/calendar/calendar_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
-import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_diary_repository.dart';
 
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
-  final DudeDiaryRepository dudeDiaryRepository;
+  final IDudeDiaryRepository dudeDiaryRepository;
 
   CalendarBloc({
     required this.dudeDiaryRepository,

@@ -6,9 +6,10 @@ import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
-import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_user_repository.dart';
 
-class DudeUserRepository {
+class DudeUserRepository implements IDudeUserRepository {
+  @override
   Future<ResModel<UserModel>> getUser() async {
     // Dio dio = Dio();
     // dio.interceptors.add(AuthInterceptor());
@@ -39,6 +40,7 @@ class DudeUserRepository {
     return res;
   }
 
+  @override
   Future<ResModel<void>> patchUser({
     required UserModel user,
   }) async {
@@ -59,6 +61,7 @@ class DudeUserRepository {
     return res;
   }
 
+  @override
   Future<ResModel<UserProfileModel>> getUserProfile({
     required int userId,
   }) async {
@@ -74,13 +77,13 @@ class DudeUserRepository {
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
 
-    // mockThrowDioError(
-    //   errorModel: ResModel(
-    //     code: 2001,
-    //     message: '프로필 조회에 실패했습니다.',
-    //   ),
-    // );
-
+    var today = DateTime.now().copyWith(
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    );
     var resTmp = ResModel<UserProfileModel>(
       code: 1000,
       data: UserProfileModel(
@@ -93,53 +96,53 @@ class DudeUserRepository {
         essayCount: 611,
         recentGraph: [
           UserStatsDataModel(
-            date: DateTime(2024, 2, 1),
+            date: today.subtract(const Duration(days: 1)),
             value: 0,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 3),
+            date: today.subtract(const Duration(days: 2)),
             value: -0.2,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 5),
+            date: today.subtract(const Duration(days: 3)),
             value: -0.3,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 8),
+            date: today.subtract(const Duration(days: 10)),
             value: -0.1,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 10),
+            date: today.subtract(const Duration(days: 20)),
             value: 0.2,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 20),
-            value: 0.5,
+            date: today.subtract(const Duration(days: 30)),
+            value: 1,
           ),
         ],
         monthlyAct: [
           UserStatsDataModel(
-            date: DateTime(2024, 2, 1),
+            date: today.subtract(const Duration(days: 1)),
             value: 1,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 3),
+            date: today.subtract(const Duration(days: 2)),
             value: 3,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 5),
+            date: today.subtract(const Duration(days: 3)),
             value: 5,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 8),
+            date: today.subtract(const Duration(days: 10)),
             value: 7,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 10),
+            date: today.subtract(const Duration(days: 20)),
             value: 4,
           ),
           UserStatsDataModel(
-            date: DateTime(2024, 2, 20),
+            date: today.subtract(const Duration(days: 30)),
             value: 2,
           ),
         ],
@@ -160,6 +163,7 @@ class DudeUserRepository {
     return res;
   }
 
+  @override
   Future<ResModel<void>> postSubscribe({
     required int userId,
   }) async {
@@ -175,16 +179,14 @@ class DudeUserRepository {
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
 
-    var resTmp = ResModel<void>(
-      code: 1000,
-      // message: 'sub failed',
-    ).toJson((p0) => null);
+    var resTmp = ResModel<void>(code: 1000).toJson((p0) => null);
 
     var res = ResModel<void>.fromJson(resTmp, (json) {});
 
     return res;
   }
 
+  @override
   Future<ResModel<void>> deleteSubscribe({
     required int userId,
   }) async {
@@ -200,10 +202,7 @@ class DudeUserRepository {
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
 
-    var resTmp = ResModel<void>(
-      code: 1000,
-      // message: 'unsub failed',
-    ).toJson((p0) => null);
+    var resTmp = ResModel<void>(code: 1000).toJson((p0) => null);
 
     var res = ResModel<void>.fromJson(resTmp, (json) {});
 

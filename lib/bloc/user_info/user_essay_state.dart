@@ -1,44 +1,44 @@
-import 'package:equatable/equatable.dart';
+import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 
-class UserEssayState extends Equatable {
-  final ELoadingStatus status;
+class UserEssayState extends BlocState {
   final List<EssayModel> list;
   final int page;
-  final String? message;
 
   const UserEssayState({
-    required this.status,
     required this.list,
     required this.page,
-    this.message,
+    required super.status,
+    super.message,
   });
 
-  UserEssayState.init()
-      : status = ELoadingStatus.init,
-        list = [],
+  const UserEssayState.init()
+      : list = const [],
         page = 0,
-        message = null;
+        super(
+          status: ELoadingStatus.init,
+        );
 
+  @override
   UserEssayState copyWith({
-    ELoadingStatus? status,
     List<EssayModel>? list,
     int? page,
+    ELoadingStatus? status,
     String? message,
   }) =>
       UserEssayState(
-        status: status ?? this.status,
         list: list ?? this.list,
         page: page ?? this.page,
+        status: status ?? this.status,
         message: message ?? this.message,
       );
 
   @override
   List<Object?> get props => [
-        status,
         list,
         page,
+        status,
         message,
       ];
 }

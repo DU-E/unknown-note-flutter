@@ -1,50 +1,56 @@
-import 'package:equatable/equatable.dart';
+import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
 
-class UserInfoState extends Equatable {
-  final ELoadingStatus status;
-  final ELoadingStatus subStatus;
+class UserInfoState extends BlocState {
   final int? userId;
   final UserProfileModel? userProfile;
-  final String? message;
+  final ELoadingStatus infoStatus;
+  final ELoadingStatus subStatus;
 
   const UserInfoState({
-    required this.status,
+    required this.infoStatus,
     required this.subStatus,
     this.userId,
     this.userProfile,
-    this.message,
+    required super.status,
+    super.message,
   });
 
   const UserInfoState.init()
-      : status = ELoadingStatus.init,
+      : infoStatus = ELoadingStatus.init,
         subStatus = ELoadingStatus.init,
         userId = null,
         userProfile = null,
-        message = null;
+        super(
+          status: ELoadingStatus.init,
+        );
 
+  @override
   UserInfoState copyWith({
-    ELoadingStatus? status,
+    ELoadingStatus? infoStatus,
     ELoadingStatus? subStatus,
     int? userId,
     UserProfileModel? userProfile,
+    ELoadingStatus? status,
     String? message,
   }) =>
       UserInfoState(
-        status: status ?? this.status,
+        infoStatus: infoStatus ?? this.infoStatus,
         subStatus: subStatus ?? this.subStatus,
         userId: userId ?? this.userId,
         userProfile: userProfile ?? this.userProfile,
+        status: status ?? this.status,
         message: message ?? this.message,
       );
 
   @override
   List<Object?> get props => [
-        status,
+        infoStatus,
         subStatus,
         userId,
         userProfile,
+        status,
         message,
       ];
 }

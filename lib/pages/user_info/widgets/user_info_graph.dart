@@ -77,7 +77,7 @@ class UserInfoGraph extends StatelessWidget {
                       // D-day data
                       FlSpot(0, _avgData()),
                       // Between data
-                      for (var data in graphData.reversed)
+                      for (var data in graphData)
                         FlSpot(
                           today
                               .difference(data.date ?? today)
@@ -86,7 +86,7 @@ class UserInfoGraph extends StatelessWidget {
                           data.value?.toDouble() ?? 0,
                         ),
                       // D+31 data
-                      FlSpot(31, graphData.first.value?.toDouble() ?? 0),
+                      FlSpot(31, graphData.last.value?.toDouble() ?? 0),
                     ],
                     isStrokeJoinRound: true,
                     isCurved: true,

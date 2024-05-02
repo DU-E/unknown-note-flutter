@@ -1,42 +1,42 @@
-import 'package:equatable/equatable.dart';
+import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 
-class DiaryState extends Equatable {
-  final ELoadingStatus status;
+class DiaryState extends BlocState {
   final EEmotion emotion;
   final DiaryModel? diary;
   final int page;
-  final String? message;
 
   const DiaryState({
-    required this.status,
     required this.emotion,
     this.diary,
     required this.page,
-    this.message,
+    required super.status,
+    super.message,
   });
 
   const DiaryState.init()
-      : status = ELoadingStatus.init,
-        emotion = EEmotion.happy,
+      : emotion = EEmotion.happy,
         diary = null,
         page = 0,
-        message = null;
+        super(
+          status: ELoadingStatus.init,
+        );
 
+  @override
   DiaryState copyWith({
-    ELoadingStatus? status,
     EEmotion? emotion,
     DiaryModel? diary,
     int? page,
+    ELoadingStatus? status,
     String? message,
   }) =>
       DiaryState(
-        status: status ?? this.status,
         emotion: emotion ?? this.emotion,
         diary: diary ?? diary,
         page: page ?? this.page,
+        status: status ?? this.status,
         message: message ?? this.message,
       );
 
