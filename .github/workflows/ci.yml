@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: 📚 Git Checkout
         uses: actions/checkout@v4
+        with:
+          path: code
           
       - name: 🐦 Get Flutter version
         id: get-flutter-version
@@ -52,6 +54,8 @@ jobs:
           
       - name: 📚 Git Checkout
         uses: actions/checkout@v4
+        with:
+          path: code
 
       - name: 📦 Install dependencies
         run: flutter pub get
