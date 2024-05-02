@@ -11,15 +11,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
+      - uses: flutter/flutter@v2
         with:
-          sdk: 3.2.3
+          channel: 3.16.5
 
       - name: 📦 Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: 🔍 Analyze project source
-        run: dart analyze
+        run: flutter analyze
 
       - name: 🧪 Run tests
-        run: dart test
+        run: flutter test
