@@ -6,15 +6,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  testingv:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
-        with:
-          sdk: 3.2.3
-
       - name: Clone the repository
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
         with:
@@ -59,10 +53,10 @@ jobs:
           flutter precache
 
       - name: 📦 Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: 🔍 Analyze project source
-        run: dart analyze
+        run: flutter analyze
 
       - name: 🧪 Run tests
-        run: dart test
+        run: flutter test
