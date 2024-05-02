@@ -26,14 +26,14 @@ runs:
     - name: 📦 Install Dependencies
       working-directory: ${{ inputs.working_dir }}
       shell: ${{ inputs.shell }}
-      run: dart pub get
+      run: flutter pub get
 
     - name: 🔍 Analyze
       working-directory: ${{ inputs.working_dir }}
       shell: ${{ inputs.shell }}
-      run: dart analyze --no-fatal-infos --no-fatal-warnings
+      run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
     - name: 🧪 Test
       working-directory: ${{ inputs.working_dir }}
       shell: ${{ inputs.shell }}
-      run: dart test
+      run: flutter test
