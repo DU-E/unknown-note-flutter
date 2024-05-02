@@ -1,0 +1,39 @@
+name: Flutter Workflow
+description: 플러터 코드 테스팅을 위한 워크플로
+
+inputs:
+  dart_sdk:
+    required: false
+    default: "stable"
+    description: 사용할 Dart SDK 버전
+  working_dir:
+    required: false
+    default: "."
+    description: 이 워크플로의 작업 폴더
+  analyze_dir:
+    required: false
+    default: "lib test"
+    description: lint 분석할 폴더
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🎯 Setup Dart
+      uses: dart-lang/setup-dart@v1
+      with:
+        sdk: ${{ inputs.dart_sdk }}
+
+    - name: 📦 Install Dependencies
+      working-directory: ${{ inputs.working_dir }}
+      shell: ${{ inputs.shell }}
+      run: flutter pub get
+
+    - name: 🔍 Analyze
+      working-directory: ${{ inputs.working_dir }}
+      shell: ${{ inputs.shell }}
+      run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+    - name: 🧪 Test
+      working-directory: ${{ inputs.working_dir }}
+      shell: ${{ inputs.shell }}
+      run: flutter test
