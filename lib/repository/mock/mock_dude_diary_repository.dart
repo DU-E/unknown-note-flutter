@@ -30,7 +30,7 @@ class MockDudeDiaryRepository
             id: page,
             content: 'diary $page',
             isOpen: true,
-            emotion: EEmotion.happy,
+            emotion: emotion,
             time: DateTime.now(),
             userId: 1,
           ),
