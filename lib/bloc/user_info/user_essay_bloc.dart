@@ -4,12 +4,11 @@ import 'package:unknown_note_flutter/bloc/user_info/user_essay_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/mixins/dio_exception_handler_mixin.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
-
-import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_essay_repository.dart';
 
 class UserEssayBloc extends Bloc<UserEssayEvent, UserEssayState>
     with DioExceptionHandlerMixin {
-  final DudeEssayRepository dudeEssayRepository;
+  final IDudeEssayRepository dudeEssayRepository;
   final int userId;
 
   UserEssayBloc({

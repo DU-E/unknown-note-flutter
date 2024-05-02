@@ -6,9 +6,11 @@ import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_essay_repository.dart';
 import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
 
-class DudeEssayRepository {
+class DudeEssayRepository implements IDudeEssayRepository {
+  @override
   Future<ResModel<List<EssayModel>>> getEssayList({
     required EEssayCategory category,
     required int page,
@@ -58,6 +60,7 @@ class DudeEssayRepository {
     return res;
   }
 
+  @override
   Future<ResModel<List<EssayModel>>> getUserEssayList({
     required int userId,
     required int page,
@@ -110,6 +113,7 @@ class DudeEssayRepository {
     return res;
   }
 
+  @override
   Future<ResModel<EssayModel>> postEssay({
     required EssayModel essay,
   }) async {
@@ -139,6 +143,7 @@ class DudeEssayRepository {
     return res;
   }
 
+  @override
   Future<ResModel<EssayModel>> patchEssay({
     required EssayModel essay,
   }) async {
@@ -168,6 +173,7 @@ class DudeEssayRepository {
     return res;
   }
 
+  @override
   Future<ResModel<void>> postLike({
     required int essayId,
   }) async {
@@ -183,16 +189,14 @@ class DudeEssayRepository {
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
 
-    var resTmp = ResModel<void>(
-      code: 1000,
-      // message: 'sub failed',
-    ).toJson((p0) => null);
+    var resTmp = ResModel<void>(code: 1000).toJson((p0) => null);
 
     var res = ResModel<void>.fromJson(resTmp, (json) {});
 
     return res;
   }
 
+  @override
   Future<ResModel<void>> deleteLike({
     required int essayId,
   }) async {
@@ -208,10 +212,7 @@ class DudeEssayRepository {
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
 
-    var resTmp = ResModel<void>(
-      code: 1000,
-      // message: 'unsub failed',
-    ).toJson((p0) => null);
+    var resTmp = ResModel<void>(code: 1000).toJson((p0) => null);
 
     var res = ResModel<void>.fromJson(resTmp, (json) {});
 

@@ -4,10 +4,10 @@ import 'package:unknown_note_flutter/bloc/abs_bloc_state.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
-import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_essay_repository.dart';
 
 class EssayLikeCubit extends Cubit<EssayLikeState> {
-  final DudeEssayRepository essayRepository;
+  final IDudeEssayRepository essayRepository;
   final int essayId;
 
   EssayLikeCubit({

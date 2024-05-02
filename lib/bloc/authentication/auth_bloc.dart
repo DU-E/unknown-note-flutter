@@ -8,12 +8,12 @@ import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_auth_method.dart';
 import 'package:unknown_note_flutter/models/oauth2/oauth2_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
-import 'package:unknown_note_flutter/repository/authentication_repository.dart';
-import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_authentication_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_user_repository.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
-  final AuthenticationRepository authenticationRepository;
-  final DudeUserRepository dudeUserRepository;
+  final IAuthenticationRepository authenticationRepository;
+  final IDudeUserRepository dudeUserRepository;
 
   AuthBloc({
     required this.authenticationRepository,

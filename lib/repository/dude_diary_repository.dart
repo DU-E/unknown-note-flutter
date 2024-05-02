@@ -3,9 +3,11 @@ import 'package:unknown_note_flutter/dio/auth_interceptor.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_diary_repository.dart';
 import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
 
-class DudeDiaryRepository {
+class DudeDiaryRepository implements IDudeDiaryRepository {
+  @override
   Future<ResModel<DiaryModel>> getDiary({
     required EEmotion emotion,
     required int page,
@@ -32,6 +34,7 @@ class DudeDiaryRepository {
     return resModel;
   }
 
+  @override
   Future<ResModel<List<DiaryModel>>> getDiaryCal({
     required int year,
     required int month,
@@ -48,6 +51,7 @@ class DudeDiaryRepository {
 
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
+
     var resTmp = ResModel<List<DiaryModel>>(
       code: 1000,
       data: [
@@ -90,6 +94,7 @@ class DudeDiaryRepository {
     return res;
   }
 
+  @override
   Future<ResModel<void>> postDiary({
     required DiaryModel diary,
   }) async {
@@ -102,16 +107,15 @@ class DudeDiaryRepository {
 
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
-    var resTmp = ResModel<void>(
-      code: 1000,
-      // message: 'diary saving failed',
-    ).toJson((p0) => null);
+
+    var resTmp = ResModel<void>(code: 1000).toJson((p0) => null);
 
     var res = ResModel<void>.fromJson(resTmp, (json) {});
 
     return res;
   }
 
+  @override
   Future<ResModel<void>> patchDiary({
     required DiaryModel diary,
   }) async {
@@ -124,10 +128,8 @@ class DudeDiaryRepository {
 
     // TODO: connect api
     await Future.delayed(const Duration(seconds: 1));
-    var resTmp = ResModel<void>(
-      code: 1000,
-      // message: 'diary saving failed',
-    ).toJson((p0) => null);
+
+    var resTmp = ResModel<void>(code: 1000).toJson((p0) => null);
 
     var res = ResModel<void>.fromJson(resTmp, (json) {});
 

@@ -5,11 +5,11 @@ import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_http_method.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/mixins/dio_exception_handler_mixin.dart';
-import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_diary_repository.dart';
 
 class WriteDiaryBloc extends Bloc<WriteDiaryEvent, WriteDiaryState>
     with DioExceptionHandlerMixin {
-  final DudeDiaryRepository diaryRepository;
+  final IDudeDiaryRepository diaryRepository;
   final EHttpMethod httpMethod;
 
   WriteDiaryBloc({

@@ -6,11 +6,11 @@ import 'package:unknown_note_flutter/bloc/user_info/user_info_state.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/mixins/dio_exception_handler_mixin.dart';
 import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
-import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_user_repository.dart';
 
 class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState>
     with DioExceptionHandlerMixin {
-  final DudeUserRepository userRepository;
+  final IDudeUserRepository userRepository;
 
   UserInfoBloc({
     required this.userRepository,

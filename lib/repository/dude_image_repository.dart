@@ -3,9 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unknown_note_flutter/dio/auth_interceptor.dart';
 import 'package:unknown_note_flutter/models/res/res_model.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_image_repository.dart';
 import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
 
-class DudeImageRepository {
+class DudeImageRepository implements IDudeImageRepository {
+  @override
   Future<ResModel<String>> postImage({
     required XFile image,
     String? name,

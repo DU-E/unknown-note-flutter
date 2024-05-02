@@ -7,13 +7,13 @@ import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
 import 'package:unknown_note_flutter/mixins/dio_exception_handler_mixin.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
-import 'package:unknown_note_flutter/repository/dude_image_repository.dart';
-import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_image_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_user_repository.dart';
 
 class UserEditBloc extends Bloc<UserEditEvent, UserEditState>
     with DioExceptionHandlerMixin {
-  final DudeUserRepository dudeUserRepository;
-  final DudeImageRepository dudeImageRepository;
+  final IDudeUserRepository dudeUserRepository;
+  final IDudeImageRepository dudeImageRepository;
 
   UserEditBloc({
     required this.dudeUserRepository,
