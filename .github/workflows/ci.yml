@@ -51,17 +51,15 @@ jobs:
         run: |
           flutter config --no-analytics
           flutter precache
-          
-      - name: 📚 Git Checkout
-        uses: actions/checkout@v4
-        with:
-          path: code
 
       - name: 📦 Install dependencies
+        working-directory: code
         run: flutter pub get
 
       - name: 🔍 Analyze project source
+        working-directory: code
         run: flutter analyze lib test
 
       - name: 🧪 Run tests
+        working-directory: code
         run: flutter test
