@@ -2,20 +2,33 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart' as ft;
 import 'package:test/test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_bloc.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_event.dart';
 import 'package:unknown_note_flutter/bloc/diary/diary_state.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_emotion.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
+import 'package:unknown_note_flutter/models/user/user_model.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_authentication_repository.dart';
 import 'package:unknown_note_flutter/repository/mock/mock_dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_dude_user_repository.dart';
 
 void main() {
   ft.TestWidgetsFlutterBinding.ensureInitialized();
-  setUpAll(() {
+  setUpAll(() async {
     FlutterSecureStorage.setMockInitialValues({
       Strings.jwtToken: 'jwt_token',
     });
+
+    AuthBlocSingleton.initializer(
+      authRepository: MockAuthenticationRepository(delay: 10),
+      userRepository: MockDudeUserRepository(delay: 10),
+    );
+    AuthBlocSingleton.bloc.add(AuthSetUserEvnet(UserModel(nickName: 'tester')));
+
+    await Future.delayed(const Duration(milliseconds: 10));
   });
 
   /// ============================================
@@ -58,7 +71,7 @@ void main() {
               .having((state) => state.emotion, 'emotion', EEmotion.happy)
               .having((state) => state.page, 'page', 2),
         ],
-        wait: const Duration(milliseconds: 200),
+        wait: const Duration(milliseconds: 100),
       );
 
       blocTest<DiaryBloc, DiaryState>(
@@ -73,7 +86,7 @@ void main() {
               .having((state) => state.emotion, 'emotion', EEmotion.sad)
               .having((state) => state.page, 'page', 1),
         ],
-        wait: const Duration(milliseconds: 100),
+        wait: const Duration(milliseconds: 50),
       );
 
       tearDown(() {
@@ -115,7 +128,7 @@ void main() {
               .having((state) => state.message, 'message',
                   '[2000] ERROR WITH 2000'),
         ],
-        wait: const Duration(milliseconds: 100),
+        wait: const Duration(milliseconds: 50),
       );
 
       tearDown(() {
@@ -157,7 +170,7 @@ void main() {
               .having((state) => state.message, 'message',
                   '[4000] ERROR WITH 4000'),
         ],
-        wait: const Duration(milliseconds: 100),
+        wait: const Duration(milliseconds: 50),
       );
 
       tearDown(() {

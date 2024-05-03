@@ -4,17 +4,17 @@ import 'package:test/test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
 import 'package:unknown_note_flutter/bloc/authentication/auth_event.dart';
-import 'package:unknown_note_flutter/bloc/diary/write_diary_bloc.dart';
-import 'package:unknown_note_flutter/bloc/diary/write_diary_event.dart';
-import 'package:unknown_note_flutter/bloc/diary/write_diary_state.dart';
+import 'package:unknown_note_flutter/bloc/essay/write_essay_bloc.dart';
+import 'package:unknown_note_flutter/bloc/essay/write_essay_event.dart';
+import 'package:unknown_note_flutter/bloc/essay/write_essay_state.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
-import 'package:unknown_note_flutter/enums/enum_emotion.dart';
+import 'package:unknown_note_flutter/enums/enum_essay_category.dart';
 import 'package:unknown_note_flutter/enums/enum_http_method.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
-import 'package:unknown_note_flutter/models/diary/diary_model.dart';
+import 'package:unknown_note_flutter/models/essay/essay_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/repository/mock/mock_authentication_repository.dart';
-import 'package:unknown_note_flutter/repository/mock/mock_dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_dude_essay_repository.dart';
 import 'package:unknown_note_flutter/repository/mock/mock_dude_user_repository.dart';
 
 void main() {
@@ -37,45 +37,45 @@ void main() {
   /// POST SUCCESS CASE TEST
   /// ============================================
   group(
-    '[SUCCESS] [POST] $WriteDiaryBloc',
+    '[SUCCESS] [POST] $WriteEssayBloc',
     () {
-      late WriteDiaryBloc writeDiaryBloc;
+      late WriteEssayBloc writeEssayBloc;
 
       setUp(() {
-        writeDiaryBloc = WriteDiaryBloc(
-          diaryRepository: MockDudeDiaryRepository(delay: 10),
+        writeEssayBloc = WriteEssayBloc(
+          essayRepository: MockDudeEssayRepository(delay: 10),
           httpMethod: EHttpMethod.post,
         );
       });
 
       test('Initialize', () {
-        expect(writeDiaryBloc.state, const WriteDiaryState.init());
+        expect(writeEssayBloc.state, const WriteEssayState.init());
       });
 
-      blocTest<WriteDiaryBloc, WriteDiaryState>(
-        'Write Diary',
-        build: () => writeDiaryBloc,
-        act: (bloc) => bloc.add(WriteDiaryUpload(
-          DiaryModel(
+      blocTest<WriteEssayBloc, WriteEssayState>(
+        'Write Essay',
+        build: () => writeEssayBloc,
+        act: (bloc) => bloc.add(WriteEssayUpload(
+          EssayModel(
             id: 1,
+            category: EEssayCategory.poem,
             content: 'test content',
-            emotion: EEmotion.happy,
-            isOpen: false,
+            likes: 10,
             time: DateTime.now(),
-            userId: 1,
+            title: 'test title',
           ),
         )),
         expect: () => [
-          isA<WriteDiaryState>().having(
+          isA<WriteEssayState>().having(
               (state) => state.status, 'status', ELoadingStatus.loading),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.loaded),
         ],
         wait: const Duration(milliseconds: 50),
       );
 
       tearDown(() {
-        writeDiaryBloc.close();
+        writeEssayBloc.close();
       });
     },
   );
@@ -84,45 +84,45 @@ void main() {
   /// PATCH SUCCESS CASE TEST
   /// ============================================
   group(
-    '[SUCCESS] [PATCH] $WriteDiaryBloc',
+    '[SUCCESS] [PATCH] $WriteEssayBloc',
     () {
-      late WriteDiaryBloc writeDiaryBloc;
+      late WriteEssayBloc writeEssayBloc;
 
       setUp(() {
-        writeDiaryBloc = WriteDiaryBloc(
-          diaryRepository: MockDudeDiaryRepository(delay: 10),
+        writeEssayBloc = WriteEssayBloc(
+          essayRepository: MockDudeEssayRepository(delay: 10),
           httpMethod: EHttpMethod.patch,
         );
       });
 
       test('Initialize', () {
-        expect(writeDiaryBloc.state, const WriteDiaryState.init());
+        expect(writeEssayBloc.state, const WriteEssayState.init());
       });
 
-      blocTest<WriteDiaryBloc, WriteDiaryState>(
-        'Write Diary',
-        build: () => writeDiaryBloc,
-        act: (bloc) => bloc.add(WriteDiaryUpload(
-          DiaryModel(
+      blocTest<WriteEssayBloc, WriteEssayState>(
+        'Write Essay',
+        build: () => writeEssayBloc,
+        act: (bloc) => bloc.add(WriteEssayUpload(
+          EssayModel(
             id: 1,
+            category: EEssayCategory.poem,
             content: 'test content',
-            emotion: EEmotion.happy,
-            isOpen: false,
+            likes: 10,
             time: DateTime.now(),
-            userId: 1,
+            title: 'test title',
           ),
         )),
         expect: () => [
-          isA<WriteDiaryState>().having(
+          isA<WriteEssayState>().having(
               (state) => state.status, 'status', ELoadingStatus.loading),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.loaded),
         ],
         wait: const Duration(milliseconds: 50),
       );
 
       tearDown(() {
-        writeDiaryBloc.close();
+        writeEssayBloc.close();
       });
     },
   );
@@ -131,62 +131,80 @@ void main() {
   /// VALIDATION ERROR CASE TEST
   /// ============================================
   group(
-    '[ERROR] [VALIDATION] $WriteDiaryBloc',
+    '[ERROR] [VALIDATION] $WriteEssayBloc',
     () {
-      late WriteDiaryBloc writeDiaryBloc;
+      late WriteEssayBloc writeEssayBloc;
 
       setUp(() {
-        writeDiaryBloc = WriteDiaryBloc(
-          diaryRepository: MockDudeDiaryRepository(delay: 10),
+        writeEssayBloc = WriteEssayBloc(
+          essayRepository: MockDudeEssayRepository(delay: 10),
           httpMethod: EHttpMethod.post,
         );
       });
 
       test('Initialize', () {
-        expect(writeDiaryBloc.state, const WriteDiaryState.init());
+        expect(writeEssayBloc.state, const WriteEssayState.init());
       });
 
-      blocTest<WriteDiaryBloc, WriteDiaryState>(
-        'Write Diary',
-        build: () => writeDiaryBloc,
+      blocTest<WriteEssayBloc, WriteEssayState>(
+        'Write Essay',
+        build: () => writeEssayBloc,
         act: (bloc) async {
-          bloc.add(WriteDiaryUpload(
-            DiaryModel(
+          bloc.add(WriteEssayUpload(
+            EssayModel(
               id: 1,
+              // category: EEssayCategory.poem,
               content: 'test content',
-              isOpen: false,
+              likes: 10,
               time: DateTime.now(),
-              userId: 1,
+              title: 'test title',
             ),
           ));
           await Future.delayed(const Duration(milliseconds: 100));
-          bloc.add(WriteDiaryUpload(
-            DiaryModel(
+          bloc.add(WriteEssayUpload(
+            EssayModel(
               id: 1,
-              emotion: EEmotion.happy,
-              isOpen: false,
+              category: EEssayCategory.poem,
+              content: 'test content',
+              likes: 10,
               time: DateTime.now(),
-              userId: 1,
+              // title: 'test title',
+            ),
+          ));
+          await Future.delayed(const Duration(milliseconds: 100));
+          bloc.add(WriteEssayUpload(
+            EssayModel(
+              id: 1,
+              category: EEssayCategory.poem,
+              // content: 'test content',
+              likes: 10,
+              time: DateTime.now(),
+              title: 'test title',
             ),
           ));
         },
         expect: () => [
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.error)
-              .having((state) => state.message, 'message', '감정을 선택해주세요.'),
-          isA<WriteDiaryState>()
+              .having((state) => state.message, 'message', '카테고리를 선택해주세요.'),
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.init),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
+              .having((state) => state.status, 'status', ELoadingStatus.error)
+              .having((state) => state.message, 'message', '제목을 작성해주세요.'),
+          isA<WriteEssayState>()
+              .having((state) => state.status, 'status', ELoadingStatus.init),
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.error)
               .having((state) => state.message, 'message', '내용을 작성해주세요.'),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.init),
         ],
         wait: const Duration(milliseconds: 150),
       );
 
       tearDown(() {
-        writeDiaryBloc.close();
+        writeEssayBloc.close();
       });
     },
   );
@@ -195,13 +213,13 @@ void main() {
   /// AUTH ERROR CASE TEST
   /// ============================================
   group(
-    '[ERROR - 2000] $WriteDiaryBloc',
+    '[ERROR - 2000] $WriteEssayBloc',
     () {
-      late WriteDiaryBloc writeDiaryBloc;
+      late WriteEssayBloc writeEssayBloc;
 
       setUp(() {
-        writeDiaryBloc = WriteDiaryBloc(
-          diaryRepository: MockDudeDiaryRepository(
+        writeEssayBloc = WriteEssayBloc(
+          essayRepository: MockDudeEssayRepository(
             delay: 10,
             errorCode: 2000,
           ),
@@ -210,37 +228,37 @@ void main() {
       });
 
       test('Initialize', () {
-        expect(writeDiaryBloc.state, const WriteDiaryState.init());
+        expect(writeEssayBloc.state, const WriteEssayState.init());
       });
 
-      blocTest<WriteDiaryBloc, WriteDiaryState>(
-        'Write Diary',
-        build: () => writeDiaryBloc,
-        act: (bloc) => bloc.add(WriteDiaryUpload(
-          DiaryModel(
+      blocTest<WriteEssayBloc, WriteEssayState>(
+        'Write Essay',
+        build: () => writeEssayBloc,
+        act: (bloc) => bloc.add(WriteEssayUpload(
+          EssayModel(
             id: 1,
+            category: EEssayCategory.poem,
             content: 'test content',
-            emotion: EEmotion.happy,
-            isOpen: false,
+            likes: 10,
             time: DateTime.now(),
-            userId: 1,
+            title: 'test title',
           ),
         )),
         expect: () => [
-          isA<WriteDiaryState>().having(
+          isA<WriteEssayState>().having(
               (state) => state.status, 'status', ELoadingStatus.loading),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.error)
               .having((state) => state.message, 'message',
                   '[2000] ERROR WITH 2000'),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.init),
         ],
         wait: const Duration(milliseconds: 50),
       );
 
       tearDown(() {
-        writeDiaryBloc.close();
+        writeEssayBloc.close();
       });
     },
   );
@@ -249,13 +267,13 @@ void main() {
   /// OTHER ERROR CASE TEST
   /// ============================================
   group(
-    '[ERROR - 4000] $WriteDiaryBloc',
+    '[ERROR - 4000] $WriteEssayBloc',
     () {
-      late WriteDiaryBloc writeDiaryBloc;
+      late WriteEssayBloc writeEssayBloc;
 
       setUp(() {
-        writeDiaryBloc = WriteDiaryBloc(
-          diaryRepository: MockDudeDiaryRepository(
+        writeEssayBloc = WriteEssayBloc(
+          essayRepository: MockDudeEssayRepository(
             delay: 10,
             errorCode: 4000,
           ),
@@ -264,37 +282,37 @@ void main() {
       });
 
       test('Initialize', () {
-        expect(writeDiaryBloc.state, const WriteDiaryState.init());
+        expect(writeEssayBloc.state, const WriteEssayState.init());
       });
 
-      blocTest<WriteDiaryBloc, WriteDiaryState>(
-        'Write Diary',
-        build: () => writeDiaryBloc,
-        act: (bloc) => bloc.add(WriteDiaryUpload(
-          DiaryModel(
+      blocTest<WriteEssayBloc, WriteEssayState>(
+        'Write Essay',
+        build: () => writeEssayBloc,
+        act: (bloc) => bloc.add(WriteEssayUpload(
+          EssayModel(
             id: 1,
+            category: EEssayCategory.poem,
             content: 'test content',
-            emotion: EEmotion.happy,
-            isOpen: false,
+            likes: 10,
             time: DateTime.now(),
-            userId: 1,
+            title: 'test title',
           ),
         )),
         expect: () => [
-          isA<WriteDiaryState>().having(
+          isA<WriteEssayState>().having(
               (state) => state.status, 'status', ELoadingStatus.loading),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.error)
               .having((state) => state.message, 'message',
                   '[4000] ERROR WITH 4000'),
-          isA<WriteDiaryState>()
+          isA<WriteEssayState>()
               .having((state) => state.status, 'status', ELoadingStatus.init),
         ],
         wait: const Duration(milliseconds: 50),
       );
 
       tearDown(() {
-        writeDiaryBloc.close();
+        writeEssayBloc.close();
       });
     },
   );
