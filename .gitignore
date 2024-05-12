@@ -44,7 +44,9 @@ app.*.map.json
 /android/app/release
 
 # Privates
+android/pc-api-*
 android/app/google-services.json
 android/app/unknown_note.jks
+android/app/upload-keystore.jks
 ios/Runner/GoogleService-Info.plist
 lib/constants/secret.dart
