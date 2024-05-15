@@ -22,10 +22,11 @@ import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/pages/splash/splash_page.dart';
 import 'package:unknown_note_flutter/pages/user_edit/user_edit_page.dart';
 import 'package:unknown_note_flutter/pages/user_info/user_info_page.dart';
-import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
-import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
-import 'package:unknown_note_flutter/repository/dude_image_repository.dart';
-import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_authentication_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interface_dude_essay_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_image_repository.dart';
+import 'package:unknown_note_flutter/repository/interface/interfece_dude_user_repository.dart';
 import 'package:unknown_note_flutter/utils/my_transition_page.dart';
 import 'package:unknown_note_flutter/models/diary/diary_model.dart';
 import 'package:unknown_note_flutter/models/essay/essay_model.dart';
@@ -35,7 +36,6 @@ import 'package:unknown_note_flutter/pages/read_essay/read_essay_page.dart';
 import 'package:unknown_note_flutter/pages/signin/signin_page.dart';
 import 'package:unknown_note_flutter/pages/write_diary/write_diary_page.dart';
 import 'package:unknown_note_flutter/pages/write_essay/write_essay_page.dart';
-import 'package:unknown_note_flutter/repository/authentication_repository.dart';
 
 class AppRoutes extends StatefulWidget {
   const AppRoutes({super.key});
@@ -53,8 +53,8 @@ class _AppRoutesState extends State<AppRoutes> {
 
     // Initialize AuthBloc
     AuthBlocSingleton.initializer(
-      authRepository: context.read<AuthenticationRepository>(),
-      userRepository: context.read<DudeUserRepository>(),
+      authRepository: context.read<IAuthenticationRepository>(),
+      userRepository: context.read<IDudeUserRepository>(),
     );
 
     // Set routerConfig
@@ -110,22 +110,22 @@ class _AppRoutesState extends State<AppRoutes> {
                 ),
                 BlocProvider(
                   create: (context) => CalendarBloc(
-                    dudeDiaryRepository: context.read<DudeDiaryRepository>(),
+                    dudeDiaryRepository: context.read<IDudeDiaryRepository>(),
                   ),
                 ),
                 BlocProvider(
                   create: (context) => EssayListBloc(
-                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                    dudeEssayRepository: context.read<IDudeEssayRepository>(),
                   ),
                 ),
                 BlocProvider(
                   create: (context) => DiaryBloc(
-                    dudeDiaryRepository: context.read<DudeDiaryRepository>(),
+                    dudeDiaryRepository: context.read<IDudeDiaryRepository>(),
                   ),
                 ),
                 BlocProvider(
                   create: (context) => UserInfoBloc(
-                    userRepository: context.read<DudeUserRepository>(),
+                    userRepository: context.read<IDudeUserRepository>(),
                   ),
                 ),
                 BlocProvider(
@@ -133,7 +133,7 @@ class _AppRoutesState extends State<AppRoutes> {
                     userId: (AuthBlocSingleton.bloc.state as AuthAuthState)
                         .user
                         .userId!,
-                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                    dudeEssayRepository: context.read<IDudeEssayRepository>(),
                   ),
                 ),
               ],
@@ -147,7 +147,7 @@ class _AppRoutesState extends State<AppRoutes> {
             key: state.pageKey,
             child: BlocProvider(
               create: (context) => EssayLikeCubit(
-                essayRepository: context.read<DudeEssayRepository>(),
+                essayRepository: context.read<IDudeEssayRepository>(),
                 essayId: (state.extra as EssayModel).id ?? -1,
               ),
               child: ReadEssayPage(
@@ -162,7 +162,7 @@ class _AppRoutesState extends State<AppRoutes> {
             key: state.pageKey,
             child: BlocProvider(
               create: (context) => WriteEssayBloc(
-                essayRepository: context.read<DudeEssayRepository>(),
+                essayRepository: context.read<IDudeEssayRepository>(),
                 httpMethod:
                     state.extra == null ? EHttpMethod.post : EHttpMethod.patch,
               ),
@@ -187,7 +187,7 @@ class _AppRoutesState extends State<AppRoutes> {
             key: state.pageKey,
             child: BlocProvider(
               create: (context) => WriteDiaryBloc(
-                diaryRepository: context.read<DudeDiaryRepository>(),
+                diaryRepository: context.read<IDudeDiaryRepository>(),
                 httpMethod:
                     state.extra == null ? EHttpMethod.post : EHttpMethod.patch,
               ),
@@ -206,13 +206,13 @@ class _AppRoutesState extends State<AppRoutes> {
                 BlocProvider(
                   create: (context) => UserInfoBloc(
                     userId: int.parse(state.pathParameters['userId']!),
-                    userRepository: context.read<DudeUserRepository>(),
+                    userRepository: context.read<IDudeUserRepository>(),
                   ),
                 ),
                 BlocProvider(
                   create: (context) => UserEssayBloc(
                     userId: int.parse(state.pathParameters['userId']!),
-                    dudeEssayRepository: context.read<DudeEssayRepository>(),
+                    dudeEssayRepository: context.read<IDudeEssayRepository>(),
                   ),
                 ),
               ],
@@ -236,8 +236,8 @@ class _AppRoutesState extends State<AppRoutes> {
                   user = (AuthBlocSingleton.bloc.state as AuthAuthState).user;
                 }
                 return UserEditBloc(
-                  dudeUserRepository: context.read<DudeUserRepository>(),
-                  dudeImageRepository: context.read<DudeImageRepository>(),
+                  dudeUserRepository: context.read<IDudeUserRepository>(),
+                  dudeImageRepository: context.read<IDudeImageRepository>(),
                   user: user,
                 );
               },
