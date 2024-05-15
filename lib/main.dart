@@ -13,6 +13,11 @@ import 'package:unknown_note_flutter/repository/dude_diary_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_essay_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_image_repository.dart';
 import 'package:unknown_note_flutter/repository/dude_user_repository.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_authentication_repository.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_dude_diary_repository.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_dude_essay_repository.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_dude_image_repository.dart';
+import 'package:unknown_note_flutter/repository/mock/mock_dude_user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +36,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static const bool _isDev = true;
+
   const MyApp({super.key});
 
   @override
@@ -38,19 +45,25 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (context) => AuthenticationRepository(),
+          create: (context) => _isDev
+              ? MockAuthenticationRepository()
+              : AuthenticationRepository(),
         ),
         RepositoryProvider(
-          create: (context) => DudeUserRepository(),
+          create: (context) =>
+              _isDev ? MockDudeUserRepository() : DudeUserRepository(),
         ),
         RepositoryProvider(
-          create: (context) => DudeDiaryRepository(),
+          create: (context) =>
+              _isDev ? MockDudeDiaryRepository() : DudeDiaryRepository(),
         ),
         RepositoryProvider(
-          create: (context) => DudeEssayRepository(),
+          create: (context) =>
+              _isDev ? MockDudeEssayRepository() : DudeEssayRepository(),
         ),
         RepositoryProvider(
-          create: (context) => DudeImageRepository(),
+          create: (context) =>
+              _isDev ? MockDudeImageRepository() : DudeImageRepository(),
         ),
       ],
       child: MultiBlocProvider(

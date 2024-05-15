@@ -104,29 +104,21 @@ class AuthenticationRepository implements IAuthenticationRepository {
     required EAuthMethod method,
     required String accessToken,
   }) async {
-    // Dio dio = Dio();
-    // dio.interceptors.add(UnAuthInterceptor());
-    // var res = await dio.post(
-    //   '/signin',
-    //   data: {
-    //     'method': method.key.toLowerCase(),
-    //     'token': accessToken,
-    //   },
-    // );
+    Dio dio = Dio();
+    dio.interceptors.add(UnAuthInterceptor());
+    var res = await dio.post(
+      '/signin',
+      data: {
+        'method': method.key.toLowerCase(),
+        'token': accessToken,
+      },
+    );
 
-    // TODO: connect api
-    await Future.delayed(const Duration(seconds: 1));
-
-    var resTmp = ResModel<String>(
-      code: 1000,
-      data: 'test_jwt_token',
-    ).toJson((token) => token.toString());
-
-    var res = ResModel<String>.fromJson(
-      resTmp,
+    var resModel = ResModel<String>.fromJson(
+      res.data,
       (json) => json.toString(),
     );
 
-    return res;
+    return resModel;
   }
 }

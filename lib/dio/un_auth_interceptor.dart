@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
@@ -10,7 +11,7 @@ class UnAuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     // 기타 헤더 작성
-    options.headers['Content-Type'] = 'application/json';
+    options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
 
     // time-out 설정
     options.receiveTimeout = const Duration(seconds: 5);
@@ -30,6 +31,8 @@ class UnAuthInterceptor extends Interceptor {
     debugPrint(
       '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}',
     );
+
+    print(response.data);
 
     // Error handling
     var res = ResModel.fromJson(response.data, (json) => null);

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -20,19 +21,22 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     // jwt token 불러오기
-    final jwt = await _storage.read(key: Strings.jwtToken);
+    final jwt = (await _storage.readAll())[Strings.jwtToken];
+    print(jwt);
 
     // 기타 헤더 작성
-    options.headers['Content-Type'] = contentType;
+    options.headers[HttpHeaders.contentTypeHeader] = contentType;
 
     // time-out 설정
     options.receiveTimeout = const Duration(seconds: 5);
 
     // 매 요청마다 헤더에 token 포함
-    options.headers['Authorization'] = jwt;
+    options.headers[HttpHeaders.authorizationHeader] = jwt;
 
     // base url 설정
     options.baseUrl = Strings.baseUrl;
+
+    print(options.headers);
 
     return handler.next(options);
   }
@@ -46,6 +50,8 @@ class AuthInterceptor extends Interceptor {
     debugPrint(
       '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}',
     );
+
+    print(response.data);
 
     // Error handling
     var res = ResModel.fromJson(response.data, (json) => null);
