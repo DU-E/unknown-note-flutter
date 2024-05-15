@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_bloc_singleton.dart';
+import 'package:unknown_note_flutter/bloc/authentication/auth_event.dart';
 import 'package:unknown_note_flutter/bloc/user_edit/user_edit_bloc.dart';
 import 'package:unknown_note_flutter/bloc/user_edit/user_edit_event.dart';
 import 'package:unknown_note_flutter/bloc/user_edit/user_edit_state.dart';
@@ -11,6 +13,7 @@ import 'package:unknown_note_flutter/constants/gaps.dart';
 import 'package:unknown_note_flutter/constants/sizes.dart';
 import 'package:unknown_note_flutter/constants/strings.dart';
 import 'package:unknown_note_flutter/enums/enum_loading_status.dart';
+import 'package:unknown_note_flutter/pages/user_edit/widgets/signout_dialog.dart';
 import 'package:unknown_note_flutter/widgets/app_font.dart';
 import 'package:unknown_note_flutter/widgets/common_button.dart';
 import 'package:unknown_note_flutter/widgets/common_snackbar.dart';
@@ -53,6 +56,17 @@ class _UserEditPageState extends State<UserEditPage> {
     context.read<UserEditBloc>().add(UserEditSubmit());
   }
 
+  void _onSignout() async {
+    var res = await showDialog<bool?>(
+      context: context,
+      builder: (context) => const SignoutDialog(),
+    );
+
+    if (mounted && res == true) {
+      AuthBlocSingleton.bloc.add(AuthSignoutEvent());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserEditBloc, UserEditState>(
@@ -85,6 +99,23 @@ class _UserEditPageState extends State<UserEditPage> {
             weight: FontWeight.w700,
           ),
           leading: widget.popAble ? null : const SizedBox(),
+          actions: widget.popAble
+              ? [
+                  Container(
+                    width: Sizes.size56,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.size5,
+                    ),
+                    child: IconButton(
+                      onPressed: _onSignout,
+                      icon: const Icon(
+                        Icons.logout_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ]
+              : null,
         ),
         body: SingleChildScrollView(
           child: Padding(

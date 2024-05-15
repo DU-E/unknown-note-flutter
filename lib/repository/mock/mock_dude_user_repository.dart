@@ -6,6 +6,7 @@ import 'package:unknown_note_flutter/models/res/res_model.dart';
 import 'package:unknown_note_flutter/models/user/user_model.dart';
 import 'package:unknown_note_flutter/models/user/user_profile_model.dart';
 import 'package:unknown_note_flutter/repository/interface/interfece_dude_user_repository.dart';
+import 'package:unknown_note_flutter/utils/mock_dio_error.dart';
 
 class MockDudeUserRepository
     with MockThrowExceptionMixin
@@ -28,6 +29,12 @@ class MockDudeUserRepository
 
     return mockedResponse<ResModel<UserModel>>(
       () {
+        if (token == null) {
+          mockThrowDioError(
+            errorModel: ResModel(code: 2000, message: '로그인에 실패했습니다.'),
+          );
+        }
+
         var resTmp = ResModel<UserModel>(
           code: 1000,
           data: UserModel(
